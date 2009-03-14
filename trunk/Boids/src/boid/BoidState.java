@@ -1,4 +1,4 @@
-package engine;
+package boid;
 
 public final class BoidState extends ConstBoidState {
 	
