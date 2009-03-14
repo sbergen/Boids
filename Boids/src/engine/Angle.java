@@ -7,7 +7,9 @@ class Angle extends GenericVector {
 	/* Constructors */
 	
 	public Angle() {
-		super();
+		x = 0.0;
+		y = 0.0;
+		z = 1.0;
 	}
 	
 	public Angle(GenericVector other) {
@@ -23,8 +25,12 @@ class Angle extends GenericVector {
 	
 	/* Public methods */
 	
-	public double steradians() {
-		return Math.sqrt(Math.pow(azimuth(), 2) + Math.pow(zenith(), 2));
+	public double azimuth() {
+		return Math.atan2(y, x);
+	}
+	
+	public double zenith() {
+		return Math.atan2(Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)), z);
 	}
 	
 	public Angle difference(Angle other) {
@@ -37,12 +43,12 @@ class Angle extends GenericVector {
 		return this;
 	}
 	
-	public Angle limitTo(double steradians) {
-		assert (steradians <= (4 * Math.PI));
+	public Angle limitZenith(double radians) {
+		assert (radians <= Math.PI);
 		
-		if (steradians() > steradians) {
-			double factor = steradians / steradians();
-			Angle tmp = new Angle(factor * azimuth(), factor * zenith());
+		if (zenith() > radians) {
+			double factor = radians / zenith();
+			Angle tmp = new Angle(azimuth(), factor * zenith());
 			copyFrom(tmp);
 		}
 		
@@ -52,16 +58,12 @@ class Angle extends GenericVector {
 	/* Private helpers */
 	
 	private void normalize () {
-		if (absolute() != 0) {
+		if (absolute() != 0.0) {
 			scale (1.0 / absolute());
+		} else {
+			x = 0.0;
+			y = 0.0;
+			z = 1.0;
 		}
-	}
-	
-	private double azimuth() {
-		return Math.atan2(y, x);
-	}
-	
-	private double zenith() {
-		return Math.atan2(Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)), z);
 	}
 }
