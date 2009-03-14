@@ -7,7 +7,7 @@ import vector.Vector;
 
 public class ConstBoidState {
 
-	private Boid boid;
+	private BoidModel boid;
 	protected PhysState state;
 	protected PhysState nextState;
 	protected static BoidList list;

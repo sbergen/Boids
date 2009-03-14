@@ -6,7 +6,7 @@ public final class BoidState extends ConstBoidState {
 		list = newList;
 	}
 	
-	BoidState (Boid boid, PhysState state) {
+	BoidState (BoidModel boid, PhysState state) {
 		
 	}
 
