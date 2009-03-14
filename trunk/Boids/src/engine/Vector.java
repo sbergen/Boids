@@ -39,4 +39,8 @@ class Vector extends GenericVector {
 	public Angle angle() {
 		return new Angle(this);
 	}
+	
+	public Vector scale(double factor) {
+		return (Vector) super.scale(factor);
+	}
 }
