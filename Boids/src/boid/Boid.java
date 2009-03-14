@@ -1,5 +1,6 @@
-package engine;
+package boid;
 
+import engine.PhysLimits;
 import vector.Vector;
 
 final class Boid {

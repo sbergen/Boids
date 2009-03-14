@@ -1,4 +1,4 @@
-package engine;
+package boid;
 
 import vector.Angle;
 import vector.Vector;

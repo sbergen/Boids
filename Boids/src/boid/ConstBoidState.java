@@ -1,4 +1,4 @@
-package engine;
+package boid;
 
 import java.util.ArrayList;
 
