@@ -3,7 +3,7 @@ package boid;
 import engine.PhysLimits;
 import vector.Vector;
 
-final class Boid {
+final class BoidModel {
 	
 	/* Data members (default visibility for package) */
 	
@@ -11,7 +11,7 @@ final class Boid {
 	
 	/* Public interface */
 	
-	Boid (PhysLimits limits_) {
+	BoidModel (PhysLimits limits_) {
 		limits = limits_;
 	}
 	

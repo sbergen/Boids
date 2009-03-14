@@ -9,6 +9,7 @@ public final class BoidList {
 	
 	private ArrayList<BoidState> list;
 	
+	
 	/* Package methods (default visibility) */
 	
 	ArrayList<ConstBoidState> getBoidsWithinRange(Vector position, double range) {
