@@ -36,8 +36,8 @@ public class VectorTest {
 		Vector v2 = new Vector(v1);
 		v2.scale(3.0);
 		
-		assertEquals("Vector length", Math.sqrt(3.0), v1.length());
-		assertEquals("Vector length", 3.0 * v1.length(), v2.length());
+		assertEquals("Vector length (1)", Math.sqrt(3.0), v1.length());
+		assertEquals("Vector length (2)", 3.0 * v1.length(), v2.length());
 	}
 
 	@Test
@@ -46,13 +46,13 @@ public class VectorTest {
 		Vector v2 = new Vector(1, 0, 0);
 		Vector v3 = new Vector(-1, 1, 1);
 		
-		assertEquals("Vector zenith", 0.0, v1.angle().zenith());
-		assertEquals("Vector azimuth", 0.0, v1.angle().azimuth());
+		assertEquals("Vector zenith (1)", 0.0, v1.angle().zenith());
+		assertEquals("Vector azimuth (1)", 0.0, v1.angle().azimuth());
 		
-		assertEquals("Vector zenith", Math.PI / 2.0, v2.angle().zenith());
-		assertEquals("Vector azimuth", 0.0, v2.angle().azimuth());
+		assertEquals("Vector zenith (2)", Math.PI / 2.0, v2.angle().zenith());
+		assertEquals("Vector azimuth (2)", 0.0, v2.angle().azimuth());
 		
-		assertEquals("Vector zenith", Math.PI / 4.0, v3.angle().zenith());
-		assertEquals("Vector azimuth", 3.0 * Math.PI / 4.0, v3.angle().azimuth());
+		assertEquals("Vector zenith (3)", Math.PI / 4.0, v3.angle().zenith());
+		assertEquals("Vector azimuth (3)", 3.0 * Math.PI / 4.0, v3.angle().azimuth());
 	}
 }
