@@ -42,13 +42,17 @@ public final class Vector extends GenericVector {
 	}
 	
 	public Vector scale(double factor) {
-		return (Vector) super.scale(factor);
+		super.scale(factor);
+		return this;
 	}
 	
 	public Vector limitLength(double length) {
+		if (length < 0.001) {
+			reset();
+		}
 		if (absolute() > length) {
-			scale(absolute() / length);
-		}	
+			scale(length / absolute());
+		}
 		return this;
 	}
 	
@@ -60,5 +64,20 @@ public final class Vector extends GenericVector {
 	
 	public static double distance (Vector v1, Vector v2) {
 		return Math.sqrt(Math.pow(v1.x - v2.x, 2) + Math.pow(v1.y - v2.y, 2) + Math.pow(v1.z - v2.z, 2)); 
+	}
+	
+	public void print () {
+		System.out.println("X: " + x + ", Y: " + y + ", Z: " + z);
+	}
+	
+	public boolean isEmpty() {
+		return (x == 0.0 && y == 0.0 && z == 0.0);
+	}
+	
+	public void randomize(double limit) {
+		x = 2.0 * Math.random() * limit;
+		y = 2.0 * Math.random() * limit;
+		z = 2.0 * Math.random() * limit;
+		limitLength(limit);
 	}
 }

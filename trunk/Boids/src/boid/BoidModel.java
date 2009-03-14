@@ -23,12 +23,16 @@ final class BoidModel {
 		// Acceleration
 		accel.limitLength(limits.maxForce);
 		accel.scale(1.0 / limits.mass);
+		if (accel.length() < limits.maxForce / 5) {
+			accel.randomize(limits.maxForce / limits.mass);
+		}
+		
 		
 		// New speed
 		newState.speed.add(oldState.speed).add(accel);
 		newState.speed.limitLength(limits.maxSpeed);
 		if (newState.speed.length() < limits.minSpeed) {
-			newState.speed.scale(limits.minSpeed / newState.speed.length());
+			//newState.speed.scale(limits.minSpeed / newState.speed.length());
 		}
 		
 		// New position

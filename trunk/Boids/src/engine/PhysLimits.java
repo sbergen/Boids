@@ -3,11 +3,11 @@ package engine;
 public final class PhysLimits {
 	
 	public PhysLimits() {
-		mass = 1.0;
-		maxForce = 1.0;
-		minSpeed = 0.1;
-		maxSpeed = 5.0;
-		perceptionRange = 4.0;
+		mass = 2.0;
+		maxForce = 3.0;
+		minSpeed = 1.0;
+		maxSpeed = 50.0;
+		perceptionRange = 10.0;
 	}
 	
 	// Maximum and minimum speed (m/s)
