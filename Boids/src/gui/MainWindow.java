@@ -4,7 +4,7 @@
 package gui;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+
 
 import engine.Engine; 
 
@@ -13,18 +13,15 @@ import engine.Engine;
  *
  */
 public class MainWindow {
-
-	static private Engine engine;
 	
 	/**
 	 * @param args standard argument parameter
 	 */
 	public static void main(String[] args) {
-		engine = new Engine();
 		
 		JFrame frame = new JFrame("Boids");
-	    final JLabel label = new JLabel("Hello World");
-	    frame.getContentPane().add(label);
+	    View3D view = new View3D();
+	    frame.getContentPane().add(view);
 
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    frame.pack();

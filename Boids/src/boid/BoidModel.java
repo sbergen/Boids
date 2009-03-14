@@ -16,7 +16,7 @@ final class BoidModel {
 	}
 	
 	void attemptMove (PhysState oldState, PhysState newState, Vector force) {
-	
+		
 		Vector accel = new Vector(force);
 		newState.reset();
 		
