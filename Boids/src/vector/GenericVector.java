@@ -1,4 +1,4 @@
-package engine;
+package vector;
 
 import java.lang.Math;
 
@@ -40,11 +40,11 @@ abstract class GenericVector {
 		return z;
 	}
 	
-	public double absolute() {
+	/* Protected operations */
+	
+	protected double absolute() {
 		return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
 	}
-
-	/* Protected operations */
 	
 	protected GenericVector scale(double factor) {
 		x *= factor;
