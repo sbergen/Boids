@@ -41,7 +41,7 @@ public final class Engine {
 	}
 	
 	public void start() {
-		timer.scheduleAtFixedRate(runner, 3000, 500);
+		timer.scheduleAtFixedRate(runner, 1000, 100);
 		running = true;
 	}
 	

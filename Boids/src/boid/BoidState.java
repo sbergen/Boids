@@ -47,7 +47,16 @@ final class BoidState implements ThreadSafeBoidState {
 		ArrayList<ThreadSafeBoidState> neighbours = 
 			list.getBoidsWithinRange(state.position, boid.limits.perceptionRange);
 		
+		if (neighbours.size() <= 1) {
+			boid.attemptMove(state, nextState, force);
+			return;
+		}
+		
 		for (ThreadSafeBoidState neighbour : neighbours) {
+			
+			if (neighbour == this) {
+				continue;
+			}
 			
 			/* Separation */
 			
@@ -72,11 +81,25 @@ final class BoidState implements ThreadSafeBoidState {
 		alignment.scale(1.0 / neighbours.size());
 		alignment.subtract(state.speed);
 		
+		
+		// DEGUB 
+		
+//		System.out.println("separation: " + separation.length());
+//		separation.print();
+//		System.out.println("cohesion: " + cohesion.length());
+//		cohesion.print();
+//		System.out.println("alignment: " + alignment.length());
+//		alignment.print();
+//		System.out.print("force (" + force.length() + "): ");
+//		force.print();
+		
 		/* Force vector */
 		
-		force.add(separation.scale(0.2));
-		force.add(cohesion.scale(0.2));
-		force.add(alignment.scale(0.2));
+		force.add(separation);
+		force.add(cohesion.scale(0.1));
+		force.add(alignment.scale (2));
+		
+		force.scale(0.1);
 		
 		boid.attemptMove(state, nextState, force);
 	}

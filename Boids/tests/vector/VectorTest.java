@@ -56,4 +56,13 @@ public class VectorTest {
 		assertEquals("Vector zenith (3)", Math.PI / 4.0, v3.angle().zenith());
 		assertEquals("Vector azimuth (3)", 3.0 * Math.PI / 4.0, v3.angle().azimuth());
 	}
+	
+	@Test
+	public void testDistance() {
+		Vector v1 = new Vector(1, 2, 3);
+		Vector v2 = new Vector(2, 0, -2);
+		
+		assertEquals("Vector distance", Math.sqrt(30.0), Vector.distance(v1, v2));
+	}
+	
 }
