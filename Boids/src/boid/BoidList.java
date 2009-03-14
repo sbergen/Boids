@@ -7,7 +7,7 @@ import java.util.HashMap;
 import vector.Vector;
 import engine.PhysLimits;;
 
-final class BoidList implements ThreadSafeBoidList {
+public final class BoidList implements ThreadSafeBoidList {
 	
 	/* Data members */
 	
@@ -29,6 +29,13 @@ final class BoidList implements ThreadSafeBoidList {
 	}
 	
 	/* Public methods */
+	
+	public BoidList() {
+		list = new ArrayList<BoidState>();
+		models = new HashMap<PhysLimits, BoidModel>();
+		
+		BoidState.setList(this);
+	}
 	
 	public interface BoidReader {
 		public void readBoid(ThreadSafeBoidState boid);

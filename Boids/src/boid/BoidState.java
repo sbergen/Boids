@@ -19,6 +19,7 @@ final class BoidState implements ThreadSafeBoidState {
 	BoidState (BoidModel newBoid, PhysState newState) {
 		boid = newBoid;
 		state = newState;
+		nextState = new PhysState();
 	}
 
 	public Vector getPosition() {
