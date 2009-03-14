@@ -27,6 +27,9 @@ final class BoidModel {
 		// New speed
 		newState.speed.add(oldState.speed).add(accel);
 		newState.speed.limitLength(limits.maxSpeed);
+		if (newState.speed.length() < limits.minSpeed) {
+			newState.speed.scale(limits.minSpeed / newState.speed.length());
+		}
 		
 		// New position
 		newState.position.add(oldState.position).add(accel);
