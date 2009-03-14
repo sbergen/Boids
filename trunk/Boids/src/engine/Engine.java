@@ -38,17 +38,19 @@ public final class Engine {
 		boidList.addBoid(limits);
 		boidList.addBoid(limits);
 		boidList.addBoid(limits);
-		
-		start();
 	}
 	
 	public void start() {
-		timer.scheduleAtFixedRate(runner, 0, 50);
+		timer.scheduleAtFixedRate(runner, 3000, 500);
 		running = true;
 	}
 	
 	public void stop() {
 		timer.cancel();
 		running = false;
+	}
+	
+	public void readBoids (BoidList.BoidReader reader) {
+		boidList.readBoids(reader);
 	}
 }

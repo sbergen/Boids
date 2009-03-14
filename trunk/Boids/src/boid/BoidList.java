@@ -41,7 +41,7 @@ public final class BoidList implements ThreadSafeBoidList {
 		public void readBoid(ThreadSafeBoidState boid);
 	}
 	
-	public void readList (BoidReader operator) {
+	public void readBoids (BoidReader operator) {
 		synchronized (list) {
 			for (ThreadSafeBoidState boid : list) {
 				operator.readBoid(boid);
