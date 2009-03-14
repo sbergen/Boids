@@ -20,4 +20,8 @@ final class PhysState {
 		topAngle.reset();
 	}
 	
+	static PhysState random() {
+		return new PhysState();
+	}
+	
 }

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import vector.Angle;
 import vector.Vector;
 
-public final class BoidState implements ThreadSafeBoidState {
+final class BoidState implements ThreadSafeBoidState {
 	
 	private BoidModel boid;
 	private PhysState state;
@@ -16,8 +16,9 @@ public final class BoidState implements ThreadSafeBoidState {
 		list = newList;
 	}
 	
-	BoidState (BoidModel boid, PhysState state) {
-		
+	BoidState (BoidModel newBoid, PhysState newState) {
+		boid = newBoid;
+		state = newState;
 	}
 
 	public Vector getPosition() {
