@@ -3,8 +3,8 @@ import org.junit.runners.Suite;
  
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-  engine.VectorTest.class,
-  engine.AngleTest.class
+  vector.VectorTest.class,
+  vector.AngleTest.class
 })
 
 public class AllTests {

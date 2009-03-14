@@ -1,8 +1,11 @@
-package engine;
+package vector;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import vector.Vector;
+
 
 public class VectorTest {
 

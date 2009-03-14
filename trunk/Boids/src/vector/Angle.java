@@ -1,8 +1,9 @@
-package engine;
+package vector;
 
 import java.lang.Math;
 
-class Angle extends GenericVector {
+
+public final class Angle extends GenericVector {
 	
 	/* Constructors */
 	
@@ -51,15 +52,19 @@ class Angle extends GenericVector {
 		return this;
 	}
 	
+	public void reset() {
+		x = 0.0;
+		y = 0.0;
+		z = 1.0;
+	}
+	
 	/* Private helpers */
 	
 	private void normalize () {
 		if (absolute() != 0.0) {
 			scale (1.0 / absolute());
 		} else {
-			x = 0.0;
-			y = 0.0;
-			z = 1.0;
+			reset();
 		}
 	}
 }
