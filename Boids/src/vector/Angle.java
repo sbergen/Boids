@@ -1,6 +1,5 @@
 package vector;
 
-import java.lang.Math;
 
 
 public final class Angle extends GenericVector {

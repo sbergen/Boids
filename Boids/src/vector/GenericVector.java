@@ -1,6 +1,5 @@
 package vector;
 
-import java.lang.Math;
 
 abstract class GenericVector {
 	
