@@ -1,7 +1,7 @@
 package boid;
 
-import engine.PhysLimits;
 import vector.Vector;
+import engine.PhysLimits;
 
 final class BoidModel {
 	

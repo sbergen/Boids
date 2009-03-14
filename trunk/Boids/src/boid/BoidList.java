@@ -1,6 +1,7 @@
 package boid;
 
 import java.util.ArrayList;
+
 import vector.Vector;
 
 public final class BoidList {

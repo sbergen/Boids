@@ -1,10 +1,8 @@
 package vector;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-
-import vector.Angle;
 
 
 public class AngleTest {
