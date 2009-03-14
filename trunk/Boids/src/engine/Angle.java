@@ -33,10 +33,6 @@ class Angle extends GenericVector {
 		return Math.atan2(Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)), z);
 	}
 	
-	public Angle difference(Angle other) {
-		return new Angle (other.azimuth() - azimuth(), other.zenith() - zenith());
-	}
-	
 	public Angle turn(Angle other) {
 		Angle tmp = new Angle (azimuth() + other.azimuth(), zenith() + other.zenith());
 		copyFrom(tmp);
