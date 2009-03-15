@@ -6,6 +6,7 @@ import vector.Vector;
 final class PhysState {
 	
 	private static final double RAND_MAX_POS = 100.0;
+	private static final double RAND_AVG = 250.0;
 	private static final double RAND_MAX_SPEED = 1.0;
 	
 	/// Position in world
@@ -33,9 +34,9 @@ final class PhysState {
 		PhysState state = new PhysState();
 		
 		state.position = new Vector(
-				RAND_MAX_POS * Math.random(),
-				RAND_MAX_POS * Math.random(),
-				RAND_MAX_POS * Math.random());
+				RAND_MAX_POS * Math.random() + RAND_AVG,
+				RAND_MAX_POS * Math.random() + RAND_AVG,
+				RAND_MAX_POS * Math.random() + RAND_AVG);
 		
 		state.speed = new Vector(
 				RAND_MAX_SPEED * Math.random(),
