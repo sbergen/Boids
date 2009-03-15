@@ -1,6 +1,7 @@
 package gui;
 
 import processing.core.*;
+import processing.opengl.*;
 
 import engine.Engine;
 import vector.Vector;
@@ -15,8 +16,9 @@ public final class View3D extends PApplet implements BoidList.BoidReader {
 		engine = new Engine();
 		
         // original setup code here ...
-        size(1400, 800, P3D);
+        size(1400, 800, OPENGL);
         noStroke();
+        sphereDetail(1);
         
         engine.start();
     }
