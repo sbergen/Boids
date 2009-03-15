@@ -5,5 +5,16 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="/home/sbergen/Desktop/java/processing-1.0.3/lib/core.jar"/>
+	<classpathentry kind="lib" path="/home/sbergen/Desktop/java/processing-1.0.3/libraries/opengl/library/opengl.jar"/>
+	<classpathentry kind="lib" path="/home/sbergen/Desktop/java/processing-1.0.3/libraries/opengl/library/gluegen-rt.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/home/sbergen/Desktop/java/processing-1.0.3/libraries/opengl/library"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/home/sbergen/Desktop/java/processing-1.0.3/libraries/opengl/library/jogl.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/home/sbergen/Desktop/java/processing-1.0.3/libraries/opengl/library"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
