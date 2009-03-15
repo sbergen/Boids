@@ -62,16 +62,8 @@ public final class Vector extends GenericVector {
 		z = 0.0;
 	}
 	
-	public static double distance (Vector v1, Vector v2) {
-		return Math.sqrt(Math.pow(v1.x - v2.x, 2) + Math.pow(v1.y - v2.y, 2) + Math.pow(v1.z - v2.z, 2)); 
-	}
-	
 	public void print () {
 		System.out.println("X: " + x + ", Y: " + y + ", Z: " + z);
-	}
-	
-	public boolean isEmpty() {
-		return (x == 0.0 && y == 0.0 && z == 0.0);
 	}
 	
 	public void randomize(double limit) {
@@ -81,5 +73,15 @@ public final class Vector extends GenericVector {
 		y = ((Math.random() > 0.5) ? -1.0 : 1.0) * 2.0 * Math.random() * limit;
 		z = ((Math.random() > 0.5) ? -1.0 : 1.0) * 2.0 * Math.random() * limit;
 		limitLength(limit);
+	}
+	
+	/* Static methods */
+	
+	public static double distance (Vector v1, Vector v2) {
+		return Math.sqrt(Math.pow(v1.x - v2.x, 2) + Math.pow(v1.y - v2.y, 2) + Math.pow(v1.z - v2.z, 2)); 
+	}
+	
+	public static double dotProduct (Vector v1, Vector v2) {
+		return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z);
 	}
 }

@@ -4,7 +4,8 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
   vector.VectorTest.class,
-  vector.AngleTest.class
+  vector.AngleTest.class,
+  vector.VectorBaseTest.class
 })
 
 public class AllTests {
