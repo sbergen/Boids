@@ -50,6 +50,7 @@ public final class BoidList implements ThreadSafeBoidList {
 	}
 	
 	public void updateBoidStates() {
+		
 		for (ThreadSafeBoidState boid : list) {
 			boid.calculateNextMove();
 		}

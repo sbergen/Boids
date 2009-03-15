@@ -9,7 +9,7 @@ public final class PhysLimits {
 		maxTurn = 1.5;
 		minSpeed = 3;
 		maxSpeed = 10;
-		perceptionRange = 100.0;
+		perceptionRange = 200.0;
 	}
 	
 	// Maximum and minimum speed (m/s)
