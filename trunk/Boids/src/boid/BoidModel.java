@@ -18,37 +18,61 @@ final class BoidModel {
 	
 	void attemptMove (PhysState oldState, PhysState newState, Vector force) {
 		
-		Vector accel = new Vector(force);
 		newState.reset();
-		
-		// Acceleration
-		accel.limitLength(limits.maxForce);
-		accel.scale(1.0 / limits.mass);
-		if (accel.length() < limits.maxForce / 100) {
-			//accel.randomize(limits.maxForce / (limits.mass * 10));
-		}
-		
-		// New speed
+		Vector accel = forceToAccel(force);
+		limitAngle(oldState, accel);
 		newState.speed.add(oldState.speed).add(accel);
 		
-		// Limit turn
-		Vector newSpeed = new Vector(newState.speed);
-		newSpeed.subtract(oldState.speed);
-		Angle turn = new Angle (newSpeed);
-		turn.turn(new Angle(oldState.speed));
-		
 		// Limit speed
-		newState.speed.limitLength(limits.maxSpeed);
-		if (newState.speed.length() < limits.minSpeed) {
-			newState.speed.scale(limits.minSpeed / newState.speed.length());
-		}
-		if (newState.speed.length() == 0.0) {
-			newState.speed.randomize(0.5);
-		}
+		newState.speed.clamp(limits.minSpeed, limits.maxSpeed);
+		
+		// FOO
+		
 		
 		// New position
-		newState.position.add(oldState.position).add(accel);
+		newState.position.add(oldState.position).add(newState.speed);
 		
+		newState.base.set(newState.speed, new Vector (0, 0, 1));
 		// TODO: top angle
+		
+		System.out.print("Old speed: ");
+		oldState.speed.print();
+		System.out.print("New speed: ");
+		newState.speed.print();
+		System.out.println();
+	}
+	
+	/* private helpers */
+	
+	private Vector forceToAccel (Vector force) {
+		force.clamp(limits.minForce, limits.maxForce);
+		force.scale(1.0 / limits.mass);
+		return force;
+	}
+	
+	private void limitAngle(PhysState state, Vector accel) {
+		Vector local = state.base.localize(accel);
+		Angle turnAngle = new Angle(local);
+		
+		double magnitude = accel.length();
+		if (turnAngle.limitZenith(limits.maxTurn)) {
+			// Zenith was limited. Project vector.
+			magnitude = Vector.dotProduct(local, 
+					// Unit vector with same azimuth, and maximum zenith
+					new Vector(1.0, new Angle(turnAngle.azimuth(), limits.maxTurn)));
+			magnitude = Math.abs(magnitude);
+		}
+		
+		Vector localAccel = new Vector(magnitude, turnAngle);
+		//localAccel.print();
+		Angle locA = new Angle(localAccel);
+		if (locA.zenith() > limits.maxTurn + 0.001) {
+			System.out.println("Angle zenith: " + locA.zenith());
+			System.out.println("Vector length: " + localAccel.length());
+			System.out.println();
+		}
+		
+		accel = state.base.globalize(localAccel);
+		
 	}
 }

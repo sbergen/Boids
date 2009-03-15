@@ -23,10 +23,8 @@ public final class VectorBase {
 		fwd.copyFrom(newFwd);
 		up.copyFrom(newUp);
 		
-		// Cross-product
-		left.x = fwd.y * up.z - fwd.z * up.y;
-		left.y = fwd.x * up.z - fwd.z * up.x;
-		left.z = fwd.x * up.y - fwd.y * up.x;
+		Vector.crossProduct(up, fwd, left);		
+		Vector.crossProduct(fwd, left, up);
 		
 		fwd.normalize();
 		up.normalize();
@@ -64,6 +62,4 @@ public final class VectorBase {
 		
 		return ret;
 	}
-
-	
 }
