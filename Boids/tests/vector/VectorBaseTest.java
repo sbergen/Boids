@@ -40,6 +40,14 @@ public class VectorBaseTest {
 		assertTrue("localize + globalize = original", dEquals(5.0, vt.x));
 		assertTrue("localize + globalize = original", dEquals(-14.0, vt.y));
 		assertTrue("localize + globalize = original", dEquals(45.0, vt.z));
+		
+		vt = b.localize(v);
+		vt.scale(0.5);
+		vt = b.globalize(vt);
+		vt.scale(2.0);
+		assertTrue("localize + globalize + double scaling = original", dEquals(5.0, vt.x));
+		assertTrue("localize + globalize + double scaling = original", dEquals(-14.0, vt.y));
+		assertTrue("localize + globalize + double scaling = original", dEquals(45.0, vt.z));
 	}
 	
 	private boolean dEquals(double a, double b) {

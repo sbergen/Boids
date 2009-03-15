@@ -39,6 +39,14 @@ abstract class GenericVector {
 		return z;
 	}
 	
+	/* Public copyer */
+	
+	public void copyFrom (GenericVector other) {
+		x = other.x;
+		y = other.y;
+		z = other.z;
+	}
+	
 	/* Protected operations */
 	
 	protected abstract void reset();
@@ -77,12 +85,6 @@ abstract class GenericVector {
 		z = -z;
 		
 		return this;
-	}
-	
-	protected void copyFrom (GenericVector other) {
-		x = other.x;
-		y = other.y;
-		z = other.z;
 	}
 	
 	protected void normalize () {

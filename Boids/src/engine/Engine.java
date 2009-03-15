@@ -63,11 +63,57 @@ public final class Engine {
 		
 		// 20
 		
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		
+		// 10
+		
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		
 	}
 	
 	public void start() {
 		startedAt = new Date();
-		timer.scheduleAtFixedRate(runner, 1000, 1000);
+		timer.scheduleAtFixedRate(runner, 1000, 60);
 		running = true;
 	}
 	
