@@ -2,6 +2,7 @@ package boid;
 
 import vector.Angle;
 import vector.Vector;
+import vector.VectorBase;
 
 final class PhysState {
 	
@@ -12,22 +13,21 @@ final class PhysState {
 	/// Position in world
 	Vector position;
 	
-	/// Speed as vector, also forward heading
+	/// Speed
 	Vector speed;
 	
-	/// Angle that points "up" from the POV of the object
-	Angle topAngle;
+	/// Vector base
+	VectorBase base;
 	
 	PhysState() {
 		position = new Vector();
 		speed = new Vector();
-		// TODO topAngle not in use yet...
+		base = new VectorBase();
 	}
 	
 	void reset() {
 		position.reset();
 		speed.reset();
-		//topAngle.reset();
 	}
 	
 	static PhysState random() {
@@ -39,9 +39,11 @@ final class PhysState {
 				RAND_MAX_POS * Math.random() + RAND_AVG);
 		
 		state.speed = new Vector(
-				RAND_MAX_SPEED * Math.random(),
-				RAND_MAX_SPEED * Math.random(),
-				RAND_MAX_SPEED * Math.random());
+				((Math.random() > 0.5) ? -1.0 : 1.0) * RAND_MAX_SPEED * Math.random(),
+				((Math.random() > 0.5) ? -1.0 : 1.0) * RAND_MAX_SPEED * Math.random(),
+				((Math.random() > 0.5) ? -1.0 : 1.0) * RAND_MAX_SPEED * Math.random());
+		
+		state.base = new VectorBase(state.speed, new Vector(0, 0, 1));
 		
 		return state;
 	}

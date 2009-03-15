@@ -41,6 +41,8 @@ abstract class GenericVector {
 	
 	/* Protected operations */
 	
+	protected abstract void reset();
+	
 	protected double absolute() {
 		return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
 	}
@@ -81,5 +83,13 @@ abstract class GenericVector {
 		x = other.x;
 		y = other.y;
 		z = other.z;
+	}
+	
+	protected void normalize () {
+		if (absolute() != 0.0) {
+			scale (1.0 / absolute());
+		} else {
+			reset();
+		}
 	}
 }

@@ -1,6 +1,7 @@
 package boid;
 
 import vector.Vector;
+import vector.Angle;
 import engine.PhysLimits;
 
 final class BoidModel {
@@ -23,16 +24,26 @@ final class BoidModel {
 		// Acceleration
 		accel.limitLength(limits.maxForce);
 		accel.scale(1.0 / limits.mass);
-		if (accel.length() < limits.maxForce / 10) {
-			accel.randomize(limits.maxForce / limits.mass);
+		if (accel.length() < limits.maxForce / 100) {
+			//accel.randomize(limits.maxForce / (limits.mass * 10));
 		}
-		
 		
 		// New speed
 		newState.speed.add(oldState.speed).add(accel);
+		
+		// Limit turn
+		Vector newSpeed = new Vector(newState.speed);
+		newSpeed.subtract(oldState.speed);
+		Angle turn = new Angle (newSpeed);
+		turn.turn(new Angle(oldState.speed));
+		
+		// Limit speed
 		newState.speed.limitLength(limits.maxSpeed);
 		if (newState.speed.length() < limits.minSpeed) {
 			newState.speed.scale(limits.minSpeed / newState.speed.length());
+		}
+		if (newState.speed.length() == 0.0) {
+			newState.speed.randomize(0.5);
 		}
 		
 		// New position

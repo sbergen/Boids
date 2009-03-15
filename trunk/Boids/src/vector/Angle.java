@@ -56,14 +56,4 @@ public final class Angle extends GenericVector {
 		y = 0.0;
 		z = 1.0;
 	}
-	
-	/* Private helpers */
-	
-	private void normalize () {
-		if (absolute() != 0.0) {
-			scale (1.0 / absolute());
-		} else {
-			reset();
-		}
-	}
 }
