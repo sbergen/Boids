@@ -47,7 +47,7 @@ final class BoidModel {
 		
 		double magnitude = accel.length();
 		if (turnAngle.limitZenith(limits.maxTurn)) {
-			// Zenith was limited. Project vector.
+			// Zenith was limited. Project vector onto the cone forming the zenith limit
 			magnitude = Vector.dotProduct(local, 
 					// Unit vector with same azimuth, and maximum zenith
 					new Vector(1.0, new Angle(turnAngle.azimuth(), limits.maxTurn)));

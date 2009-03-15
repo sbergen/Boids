@@ -18,13 +18,16 @@ public class MainWindow {
 	public static void main(String[] args) {
 		
 		JFrame frame = new JFrame("Boids");
-	    //View3D view = new View3D();
-	   // frame.getContentPane().add(view);
-
+	    SimpleView3D view = new SimpleView3D();
+	    frame.getContentPane().add(view);
+	    
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    frame.pack();
-	    frame.setSize(300, 200);
+	    frame.setSize(1200, 800);
 	    frame.setVisible(true);
+	    
+	    view.init();
+	    view.start();
 	}
 
 }
