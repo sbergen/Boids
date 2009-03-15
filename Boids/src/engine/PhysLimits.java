@@ -4,10 +4,10 @@ public final class PhysLimits {
 	
 	public PhysLimits() {
 		mass = 2.0;
-		maxForce = 3.0;
+		maxForce = 10.0;
 		minSpeed = 1.0;
 		maxSpeed = 50.0;
-		perceptionRange = 10.0;
+		perceptionRange = 100.0;
 	}
 	
 	// Maximum and minimum speed (m/s)

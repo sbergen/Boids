@@ -22,7 +22,7 @@ public final class Engine {
 			Date start = new Date();
 			boidList.updateBoidStates();
 			Date end = new Date();
-			System.out.println("Simulation run took " + (end.getTime() - start.getTime()) + "ms");
+			//System.out.println("Simulation run took " + (end.getTime() - start.getTime()) + "ms");
 			if ((end.getTime() - start.getTime()) > 100) {
 				System.out.println("Calculation starting at " + (start.getTime() - startedAt.getTime()) + " took too long!");
 			}

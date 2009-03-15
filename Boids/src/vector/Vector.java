@@ -75,9 +75,11 @@ public final class Vector extends GenericVector {
 	}
 	
 	public void randomize(double limit) {
-		x = 2.0 * Math.random() * limit;
-		y = 2.0 * Math.random() * limit;
-		z = 2.0 * Math.random() * limit;
+		System.out.println ("doing random");
+		
+		x = ((Math.random() > 0.5) ? -1.0 : 1.0) * 2.0 * Math.random() * limit;
+		y = ((Math.random() > 0.5) ? -1.0 : 1.0) * 2.0 * Math.random() * limit;
+		z = ((Math.random() > 0.5) ? -1.0 : 1.0) * 2.0 * Math.random() * limit;
 		limitLength(limit);
 	}
 }
