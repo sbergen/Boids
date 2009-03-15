@@ -26,20 +26,11 @@ final class BoidModel {
 		// Limit speed
 		newState.speed.clamp(limits.minSpeed, limits.maxSpeed);
 		
-		// FOO
-		
-		
 		// New position
 		newState.position.add(oldState.position).add(newState.speed);
 		
 		newState.base.set(newState.speed, new Vector (0, 0, 1));
 		// TODO: top angle
-		
-		System.out.print("Old speed: ");
-		oldState.speed.print();
-		System.out.print("New speed: ");
-		newState.speed.print();
-		System.out.println();
 	}
 	
 	/* private helpers */
@@ -72,7 +63,7 @@ final class BoidModel {
 			System.out.println();
 		}
 		
-		accel = state.base.globalize(localAccel);
+		accel.copyFrom(state.base.globalize(localAccel));
 		
 	}
 }

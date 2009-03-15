@@ -3,13 +3,13 @@ package engine;
 public final class PhysLimits {
 	
 	public PhysLimits() {
-		mass = 2.0;
-		minForce = 0.5;
-		maxForce = 100.0;
-		maxTurn = 0.0;
-		minSpeed = 10;
-		maxSpeed = 20;
-		perceptionRange = 150.0;
+		mass = 5;
+		minForce = 0.0;
+		maxForce = 20.0;
+		maxTurn = 1.5;
+		minSpeed = 3;
+		maxSpeed = 10;
+		perceptionRange = 100.0;
 	}
 	
 	// Maximum and minimum speed (m/s)
