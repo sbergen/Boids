@@ -26,11 +26,11 @@ public final class Angle extends GenericVector {
 	/* Public methods */
 	
 	public double azimuth() {
-		return Math.atan2(y, x);
+		return atan2(y, x);
 	}
 	
 	public double zenith() {
-		return Math.atan2(Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)), z);
+		return atan2(Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)), z);
 	}
 	
 	public Angle turn(Angle other) {
@@ -39,21 +39,45 @@ public final class Angle extends GenericVector {
 		return this;
 	}
 	
-	public Angle limitZenith(double radians) {
+	/**
+	 * Limits zenith of angle
+	 * @param radians limit zenith to this 
+	 * @return true if angle was limited
+	 */
+	public boolean limitZenith(double radians) {
 		assert (radians <= Math.PI);
 		
 		if (zenith() > radians) {
+			if (x == 0.0 && y == 0.0) { // Special case...
+				z = 1.0;
+				return true;
+			}
 			double factor = radians / zenith();
 			Angle tmp = new Angle(azimuth(), factor * zenith());
 			copyFrom(tmp);
+			
+			return true;
 		}
 		
-		return this;
+		return false;
 	}
 	
 	public void reset() {
 		x = 0.0;
 		y = 0.0;
 		z = 1.0;
+	}
+	
+	/* Private helpers */
+	
+	/**
+	 * atan, that return in the range [0, 2Pi]
+	 */
+	double atan2(double y, double x) {
+		double angle = Math.atan2(y, x);
+		if (angle < 0) {
+			angle += 2.0 * Math.PI;
+		}
+		return angle;
 	}
 }

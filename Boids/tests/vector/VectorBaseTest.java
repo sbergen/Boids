@@ -28,4 +28,21 @@ public class VectorBaseTest {
 		assertEquals("localize + globalize = original", 3.0, vt.y);
 		assertEquals("localize + globalize = original", 2.0, vt.z);
 	}
+	
+	@Test
+	public void testComplexTranslations() {
+		VectorBase b = new VectorBase(new Vector(3, 5, -2), new Vector(3, -5, 12));
+		Vector v = new Vector (5, -14, 45);
+		
+		Vector vt = b.localize(v);
+		vt = b.globalize(vt);
+		
+		assertTrue("localize + globalize = original", dEquals(5.0, vt.x));
+		assertTrue("localize + globalize = original", dEquals(-14.0, vt.y));
+		assertTrue("localize + globalize = original", dEquals(45.0, vt.z));
+	}
+	
+	private boolean dEquals(double a, double b) {
+		return (Math.abs(a - b) < 0.00001);
+	}
 }

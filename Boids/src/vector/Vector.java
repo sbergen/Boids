@@ -46,13 +46,15 @@ public final class Vector extends GenericVector {
 		return this;
 	}
 	
-	public Vector limitLength(double length) {
-		if (length < 0.001) {
-			reset();
+	public Vector clamp(double min, double max) {
+		if (absolute() == 0.0) {
+			// Do nothing TODO
+		} else if (absolute() < min) {
+			scale(min / absolute());
+		} else if (absolute() > max) {
+			scale(max / absolute());
 		}
-		if (absolute() > length) {
-			scale(length / absolute());
-		}
+		
 		return this;
 	}
 	
@@ -72,7 +74,7 @@ public final class Vector extends GenericVector {
 		x = ((Math.random() > 0.5) ? -1.0 : 1.0) * 2.0 * Math.random() * limit;
 		y = ((Math.random() > 0.5) ? -1.0 : 1.0) * 2.0 * Math.random() * limit;
 		z = ((Math.random() > 0.5) ? -1.0 : 1.0) * 2.0 * Math.random() * limit;
-		limitLength(limit);
+		clamp(limit, limit);
 	}
 	
 	/* Static methods */
@@ -83,5 +85,11 @@ public final class Vector extends GenericVector {
 	
 	public static double dotProduct (Vector v1, Vector v2) {
 		return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z);
+	}
+	
+	public static void crossProduct (Vector v1, Vector v2, Vector result) {
+		result.x = v1.y * v2.z - v1.z * v2.y;
+		result.y = v1.z * v2.x - v1.x * v2.z;
+		result.z = v1.x * v2.y - v1.y * v2.x;
 	}
 }

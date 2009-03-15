@@ -30,7 +30,7 @@ public final class SimpleView3D extends View3D {
     	rotZ += Math.PI / 2.0;
     	
     	rotateZ((float) rotZ);
-    	rotateY((float) (angle.zenith() - Math.PI / 2.0));
+    	rotateX((float) (angle.zenith() - Math.PI / 2.0));
 	}
 	
 	private void drawObject() {
