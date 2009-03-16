@@ -34,10 +34,30 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
 
     @Override
 	public void readBoid(ThreadSafeBoidState boid) {
-    	drawBoid (boid.getPosition(), boid.getAngle());
+    	pushMatrix();
+    	translate(boid.getPosition(), boid.getAngle());
+    	drawBoid ();
+    	popMatrix();
 	}
 
-    protected abstract void drawBoid(Vector position, Angle angle); 
+    private void translate(Vector position, Angle angle) {
+		final double scale = 2.0;
+    	translate(
+    			(float) (position.getX() * scale),
+    			(float) (position.getY() * scale),
+    			(float) (position.getZ() * -scale));
+    	
+    	double rotZ = angle.azimuth();
+    	if (rotZ < 0) {
+    		rotZ += 2.0 * Math.PI;
+    	}
+    	rotZ += Math.PI / 2.0;
+    	
+    	rotateZ((float) rotZ);
+    	rotateX((float) (angle.zenith() - Math.PI / 2.0));
+	}
+    
+    protected abstract void drawBoid(); 
     
     // Suppress warnings...
 	private static final long serialVersionUID = 1880066128256612928L;
