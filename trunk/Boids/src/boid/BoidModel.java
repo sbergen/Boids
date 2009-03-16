@@ -21,14 +21,15 @@ final class BoidModel {
 		newState.reset();
 		Vector accel = forceToAccel(force);
 		limitAngle(oldState, accel);
-		newState.speed.add(oldState.speed).add(accel);
+		newState.speed.add(oldState.speed);
+		newState.speed.add(accel);
 		
 		// Limit speed
 		newState.speed.clamp(limits.minSpeed, limits.maxSpeed);
 		
 		// New position
-		newState.position.add(oldState.position).add(newState.speed);
-		
+		newState.position.add(oldState.position);
+		newState.position.add(newState.speed);
 		newState.base.set(newState.speed, new Vector (0, 0, 1));
 		// TODO: top angle
 	}

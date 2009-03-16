@@ -25,12 +25,12 @@ public final class Vector extends GenericVector {
 	
 	/* Public operations */
 	
-	public Vector add(Vector other) {
-		return (Vector) plus(other);
+	public void add(Vector other) {
+		plus(other);
 	}
 	
-	public Vector subtract(Vector other) {
-		return (Vector) minus(other);
+	public void subtract(Vector other) {
+		minus(other);
 	}
 	
 	public double length() {
@@ -41,12 +41,11 @@ public final class Vector extends GenericVector {
 		return new Angle(this);
 	}
 	
-	public Vector scale(double factor) {
+	public void scale(double factor) {
 		super.scale(factor);
-		return this;
 	}
 	
-	public Vector clamp(double min, double max) {
+	public void clamp(double min, double max) {
 		if (absolute() == 0.0) {
 			// Do nothing TODO
 		} else if (absolute() < min) {
@@ -54,8 +53,6 @@ public final class Vector extends GenericVector {
 		} else if (absolute() > max) {
 			scale(max / absolute());
 		}
-		
-		return this;
 	}
 	
 	public void reset() {

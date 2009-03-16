@@ -55,36 +55,28 @@ abstract class GenericVector {
 		return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
 	}
 	
-	protected GenericVector scale(double factor) {
+	protected void scale(double factor) {
 		x *= factor;
 		y *= factor;
 		z *= factor;
-		
-		return this;
 	}
 	
-	protected GenericVector plus(GenericVector other) {
+	protected void plus(GenericVector other) {
 		x += other.x;
 		y += other.y;
 		z += other.z;
-		
-		return this;
 	}
 	
-	protected GenericVector minus(GenericVector other) {
+	protected void minus(GenericVector other) {
 		x -= other.x;
 		y -= other.y;
 		z -= other.z;
-		
-		return this;
 	}
 	
-	protected GenericVector negate() {
+	protected void negate() {
 		x = -x;
 		y = -y;
 		z = -z;
-		
-		return this;
 	}
 	
 	protected void normalize () {
