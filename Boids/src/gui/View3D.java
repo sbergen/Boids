@@ -17,8 +17,8 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
 		engine = new Engine();
 		
         // original setup code here ...
-        //size(1200, 800, OPENGL);
-        size(1200, 800, P3D);
+        size(1200, 800, OPENGL);
+        //size(1200, 800, P3D);
         noStroke();
         sphereDetail(1);
         

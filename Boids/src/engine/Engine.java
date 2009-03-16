@@ -109,6 +109,39 @@ public final class Engine {
 		boidList.addBoid(limits);
 		boidList.addBoid(limits);
 		
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		boidList.addBoid(limits);
+		
 	}
 	
 	public void start() {

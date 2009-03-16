@@ -82,11 +82,17 @@ final class BoidState implements ThreadSafeBoidState {
 		alignment.scale(1.0 / (neighbours.size() - 1));
 		alignment.subtract(state.speed);
 		
+		/* Scale */
+		
+		separation.scale(7.0);
+		cohesion.scale(3.5);
+		alignment.scale (1.0);
+		
 		/* Force vector */
 		
-		force.add(separation.scale(7.0));
-		force.add(cohesion.scale(3.5));
-		force.add(alignment.scale (1.0));
+		force.add(separation);
+		force.add(cohesion);
+		force.add(alignment);
 		
 		force.scale(0.4);
 		

@@ -6,7 +6,7 @@ import vector.VectorBase;
 
 final class PhysState {
 	
-	private static final double RAND_MAX_POS = 100.0;
+	private static final double RAND_MAX_POS = 200.0;
 	private static final double RAND_AVG = 250.0;
 	private static final double RAND_MAX_SPEED = 1.0;
 	
