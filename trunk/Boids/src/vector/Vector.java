@@ -69,28 +69,18 @@ public final class Vector extends GenericVector {
 		System.out.println("X: " + x + ", Y: " + y + ", Z: " + z);
 	}
 	
-	public void randomize(double limit) {
-		System.out.println ("doing random");
-		
-		x = ((Math.random() > 0.5) ? -1.0 : 1.0) * 2.0 * Math.random() * limit;
-		y = ((Math.random() > 0.5) ? -1.0 : 1.0) * 2.0 * Math.random() * limit;
-		z = ((Math.random() > 0.5) ? -1.0 : 1.0) * 2.0 * Math.random() * limit;
-		clamp(limit, limit);
+	
+	public double distance (Vector other) {
+		return Math.sqrt(Math.pow(x - other.x, 2) + Math.pow(y - other.y, 2) + Math.pow(z - other.z, 2)); 
 	}
 	
-	/* Static methods */
-	
-	public static double distance (Vector v1, Vector v2) {
-		return Math.sqrt(Math.pow(v1.x - v2.x, 2) + Math.pow(v1.y - v2.y, 2) + Math.pow(v1.z - v2.z, 2)); 
+	public double dotProduct (Vector other) {
+		return (x * other.x + y * other.y + z * other.z);
 	}
 	
-	public static double dotProduct (Vector v1, Vector v2) {
-		return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z);
-	}
-	
-	public static void crossProduct (Vector v1, Vector v2, Vector result) {
-		result.x = v1.y * v2.z - v1.z * v2.y;
-		result.y = v1.z * v2.x - v1.x * v2.z;
-		result.z = v1.x * v2.y - v1.y * v2.x;
+	public void crossProduct (Vector v1, Vector v2) {
+		x = v1.y * v2.z - v1.z * v2.y;
+		y = v1.z * v2.x - v1.x * v2.z;
+		z = v1.x * v2.y - v1.y * v2.x;
 	}
 }
