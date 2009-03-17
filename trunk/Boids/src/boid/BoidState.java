@@ -7,6 +7,9 @@ import vector.Vector;
 
 final class BoidState implements ThreadSafeBoidState {
 	
+	static final double WALL_LIMITS = 250;
+	static final double WALL_DISTANCE = 40;
+	
 	private BoidModel boid;
 	private PhysState state;
 	private PhysState nextState;
@@ -86,7 +89,7 @@ final class BoidState implements ThreadSafeBoidState {
 		
 		separation.scale(7.0);
 		cohesion.scale(3.5);
-		alignment.scale (1.0);
+		alignment.scale (0.5);
 		
 		/* Force vector */
 		
@@ -94,7 +97,8 @@ final class BoidState implements ThreadSafeBoidState {
 		force.add(cohesion);
 		force.add(alignment);
 		
-		force.scale(4.0);
+		force.scale(1.0);
+		addWallForce (force);
 		
 		boid.attemptMove(state, nextState, force);
 	}
@@ -103,6 +107,34 @@ final class BoidState implements ThreadSafeBoidState {
 		PhysState tmp = state;
 		state = nextState;
 		nextState = tmp;
+	}
+	
+	/* private helpers */
+	
+	private void addWallForce (Vector force) {
+		
+		double xForce = calculateWallForceComponent(state.position.getX());
+		double yForce = calculateWallForceComponent(state.position.getY());
+		double zForce = calculateWallForceComponent(state.position.getZ());
+		
+		force.add(new Vector(xForce, yForce, zForce));
+	}
+	
+	private double calculateWallForceComponent (double coord) {
+		
+		boolean negative = (coord < 0.0);
+		double distance = Math.abs(coord);
+		double force;
+		
+		if (distance < (WALL_LIMITS - WALL_DISTANCE)) {
+			force = 0.0;
+		} else if (distance >= WALL_LIMITS ) {
+			force = 1000.0;
+		} else {
+			force = 50.0 / (Math.abs(distance - WALL_LIMITS) / WALL_DISTANCE);
+		}
+		
+		return (negative ? 1.0 : -1.0) * force;
 	}
 	
 }

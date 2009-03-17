@@ -46,9 +46,9 @@ public final class Engine {
 	
 	public void start() {
 		lastExecTime = System.nanoTime();
-		timer.scheduleAtFixedRate(runner, 0, 20);
+		timer.scheduleAtFixedRate(runner, 0, 30);
 		running = true;
-		speed = 2.5;
+		speed = 4.5;
 	}
 	
 	public void stop() {
