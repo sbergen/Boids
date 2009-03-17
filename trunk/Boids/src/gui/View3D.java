@@ -145,5 +145,4 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
     
     // Suppress warnings...
 	private static final long serialVersionUID = 1880066128256612928L;
-	
 }

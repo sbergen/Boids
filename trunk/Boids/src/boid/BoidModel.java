@@ -42,29 +42,20 @@ final class BoidModel {
 	}
 	
 	private void limitAngle(PhysState state, Vector accel) {
-		Vector local = state.base.localize(accel);
-		Angle turnAngle = new Angle(local);
+		state.base.localize(accel);
+		Angle turnAngle = new Angle(accel);
 		
 		double magnitude = accel.length();
 		if (turnAngle.limitZenith(limits.maxTurn)) {
 			// Zenith was limited. Project vector onto the cone forming the zenith limit
-			magnitude = Vector.dotProduct(local, 
+			magnitude = Vector.dotProduct(accel, 
 					// Unit vector with same azimuth, and maximum zenith
 					new Vector(1.0, new Angle(turnAngle.azimuth(), limits.maxTurn)));
 			magnitude = Math.abs(magnitude);
 		}
 		
-		Vector localAccel = new Vector(magnitude, turnAngle);
-		//localAccel.print();
-		Angle locA = new Angle(localAccel);
-		if (locA.zenith() > limits.maxTurn + 0.001) {
-			System.out.println("Angle zenith: " + locA.zenith());
-			System.out.println("Vector length: " + localAccel.length());
-			System.out.println();
-		}
-		
-		accel.copyFrom(state.base.globalize(localAccel));
-		
+		accel.fromSphericCoords(magnitude, turnAngle);
+		state.base.globalize(accel);
 	}
 	
 	private void applyAccel (PhysState oldState, PhysState newState, Vector accel) {
