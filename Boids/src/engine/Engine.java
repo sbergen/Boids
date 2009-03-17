@@ -1,7 +1,6 @@
 package engine;
 
 import java.util.Timer;
-import java.util.Date;
 import java.util.TimerTask;
 
 import boid.BoidList;
@@ -14,9 +13,10 @@ public final class Engine {
 	private BoidList   boidList;
 	private SimulationRunner runner;
 	private Timer timer;
-	private boolean running;
 	private long lastExecTime;
 	private double speed;
+	
+	private boolean running;
 	
 	private class SimulationRunner extends TimerTask {
 		public void run() { 

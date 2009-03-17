@@ -49,6 +49,18 @@ public final class Vector extends GenericVector {
 		super.scale(factor);
 	}
 	
+	public void negate() {
+		super.negate();
+	}
+	
+	public void normalize() {
+		super.normalize();
+	}
+	
+	public void to2D () {
+		z = 0.0;
+	}
+	
 	public void clamp(double min, double max) {
 		if (absolute() == 0.0) {
 			// Do nothing TODO
@@ -74,11 +86,11 @@ public final class Vector extends GenericVector {
 		return Math.sqrt(Math.pow(x - other.x, 2) + Math.pow(y - other.y, 2) + Math.pow(z - other.z, 2)); 
 	}
 	
-	public double dotProduct (Vector other) {
+	public double dotProduct (GenericVector other) {
 		return (x * other.x + y * other.y + z * other.z);
 	}
 	
-	public void crossProduct (Vector v1, Vector v2) {
+	public void crossProduct (GenericVector v1, GenericVector v2) {
 		x = v1.y * v2.z - v1.z * v2.y;
 		y = v1.z * v2.x - v1.x * v2.z;
 		z = v1.x * v2.y - v1.y * v2.x;

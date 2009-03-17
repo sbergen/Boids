@@ -12,5 +12,16 @@ public final class SimpleView3D extends View3D {
     	vertex(10, 0);
     	vertex(-10, -5);
     	endShape();
+    	
+    	pushMatrix();
+    	translate(0,0,1);
+    	fill(0,255,0);
+    	beginShape(TRIANGLES);
+    	vertex(-10, 5);
+    	vertex(10, 0);
+    	vertex(-10, -5);
+    	endShape();
+    	fill(255);
+    	popMatrix();
 	}
 }
