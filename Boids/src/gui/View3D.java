@@ -12,52 +12,98 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
 
 	private Engine engine;
 	
-	public void setup() {
-		
-		engine = new Engine();
-		
-        // original setup code here ...
-        size(1200, 800, OPENGL);
-        //size(1200, 800, P3D);
-        noStroke();
-        sphereDetail(1);
-        
-        engine.start();
-    }
-
-    public void draw() {
-    	background(0);
-    	lights();
-    	
-        engine.readBoids(this);
-    }
-
-    @Override
+	/* BoidReader implementation */
+	
+	@Override
 	public void readBoid(ThreadSafeBoidState boid) {
     	pushMatrix();
     	translate(boid.getPosition(), boid.getAngle());
     	drawBoid ();
     	popMatrix();
 	}
+	
+	/**
+     * Draw boid facing right
+     */
+    protected abstract void drawBoid(); 
+	
+	/* setup and draw */
+	
+	public void setup() {
+		
+		size(1200, 800, OPENGL);
+        //size(1200, 800, P3D);
+		
+		engine = new Engine();
+        engine.start();
+    }
 
-    private void translate(Vector position, Angle angle) {
-		final double scale = 2.0;
+    public void draw() {
+    	background(0);
+    	lights();
+    	setCamera();
+    	drawIndicator();
+    	
+    	/* Draw box */
+    	
+    	noFill();
+    	stroke(255);
+    	box(500);
+    	
+    	/* Draw boids */
+    	
+    	fill(255);
+    	noStroke();
+        engine.readBoids(this);
+    }
+
+    /* Helpers */
+
+    private void translate(Vector position, Angle angle) {    	
     	translate(
-    			(float) (position.getX() * scale),
-    			(float) (position.getY() * scale),
-    			(float) (position.getZ() * -scale));
+    			(float) position.getX(),
+    			(float) position.getY(),
+    			(float) position.getZ());
     	
-    	double rotZ = angle.azimuth();
-    	if (rotZ < 0) {
-    		rotZ += 2.0 * Math.PI;
-    	}
-    	rotZ += Math.PI / 2.0;
-    	
-    	rotateZ((float) rotZ);
-    	rotateX((float) (angle.zenith() - Math.PI / 2.0));
+    	rotateZ((float) angle.azimuth());
+    	//rotateX((float) (HALF_PI));
+    	rotateY((float) (angle.zenith() - HALF_PI));
 	}
     
-    protected abstract void drawBoid(); 
+    private void setCamera() {
+    	
+    	double azimuth = TWO_PI * (1.0 - ((float)mouseX / width));
+    	double zenith = PI * ((float)mouseY / height);  
+    	
+    	Vector eye = new Vector(800.0, new Angle(azimuth, zenith));
+    	
+    	camera(
+    			(float)eye.getX(), (float)eye.getY(), (float)eye.getZ(),
+    			(float)0.0, (float)0.0, (float)0.0, 
+    			(float)0.0, (float)0.0, (float)1.0);
+    }
+    
+    private void drawIndicator() {
+    	fill(255, 0, 0);
+    	pushMatrix();
+    	rotateX(-HALF_PI);
+    	beginShape(TRIANGLES);
+    	vertex(-20, 0);
+    	vertex(0, 250);
+    	vertex(20, 0);
+    	endShape();
+    	popMatrix();
+    	
+    	fill(0, 255, 0);
+    	pushMatrix();
+    	rotateY(HALF_PI);
+    	beginShape(TRIANGLES);
+    	vertex(0, -20);
+    	vertex(250, 0);
+    	vertex(0, 20);
+    	endShape();
+    	popMatrix();
+    }
     
     // Suppress warnings...
 	private static final long serialVersionUID = 1880066128256612928L;
