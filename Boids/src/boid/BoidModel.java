@@ -3,6 +3,7 @@ package boid;
 import vector.Vector;
 import vector.Angle;
 import engine.PhysLimits;
+import java.util.concurrent.TimeUnit;
 
 final class BoidModel {
 	
@@ -10,6 +11,9 @@ final class BoidModel {
 	
 	PhysLimits limits;
 	private static long currentTimeDelta;
+	private static double simulationSpeed;
+	private static final double SECONDS_IN_NANOSECOND = 1.0 / TimeUnit.NANOSECONDS.convert(1, TimeUnit.SECONDS);
+	private static final double DISTANCE_FACTOR = 1.0; // How many units in the model equals one meter
 	
 	/* Public interface */
 	
@@ -31,6 +35,10 @@ final class BoidModel {
 	
 	static void setTimeDelta (long delta) {
 		currentTimeDelta = delta;
+	}
+	
+	static void setSimulationSpeed (double speed) {
+		simulationSpeed = speed;
 	}
 	
 	/* private helpers */
@@ -72,14 +80,14 @@ final class BoidModel {
 		// New position
 		Vector posDelta = new Vector (newState.speed);
 		scaleToTime(posDelta);
+		posDelta.scale(DISTANCE_FACTOR);
 		
 		newState.position.add(oldState.position);
 		newState.position.add(posDelta);
 		newState.base.set(newState.speed, new Vector (0, 0, 1));
 	}
 	
-	/* This is the only method aware of time */
 	private void scaleToTime (Vector v) {
-		v.scale((double) currentTimeDelta / 100000000);
+		v.scale(SECONDS_IN_NANOSECOND * currentTimeDelta * simulationSpeed);
 	}
 }

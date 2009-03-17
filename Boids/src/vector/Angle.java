@@ -33,10 +33,9 @@ public final class Angle extends GenericVector {
 		return atan2(Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)), z);
 	}
 	
-	public Angle turn(Angle other) {
+	public void turn(Angle other) {
 		Angle tmp = new Angle (azimuth() + other.azimuth(), zenith() + other.zenith());
 		copyFrom(tmp);
-		return this;
 	}
 	
 	/**
@@ -71,7 +70,7 @@ public final class Angle extends GenericVector {
 	/* Private helpers */
 	
 	/**
-	 * atan, that return in the range [0, 2Pi]
+	 * atan, that returns in the range [0, 2Pi]
 	 */
 	double atan2(double y, double x) {
 		double angle = Math.atan2(y, x);
