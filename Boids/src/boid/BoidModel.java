@@ -55,10 +55,10 @@ final class BoidModel {
 		
 		double magnitude = accel.length();
 		if (turnAngle.limitZenith(limits.maxTurn)) {
-			// Zenith was limited. Project vector onto the cone forming the zenith limit
-			// Unit vector with same azimuth, and maximum zenith
-			magnitude = accel.dotProduct(new Vector(1.0, new Angle(turnAngle.azimuth(), limits.maxTurn))); 
-			magnitude = Math.abs(magnitude);
+//			// Zenith was limited. Project vector onto the cone forming the zenith limit,
+//			// but adjust magnitude to be average of projected and and original. 
+//			magnitude = (accel.dotProduct(new Vector(1.0, new Angle(turnAngle.azimuth(), limits.maxTurn))) + 4.0 * magnitude) / 5.0; 
+//			magnitude = Math.abs(magnitude);
 		}
 		
 		accel.fromSphericCoords(magnitude, turnAngle);
