@@ -146,7 +146,7 @@ public final class Engine {
 	
 	public void start() {
 		startedAt = new Date();
-		timer.scheduleAtFixedRate(runner, 1000, 60);
+		timer.scheduleAtFixedRate(runner, 1000, 70);
 		running = true;
 	}
 	

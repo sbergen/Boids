@@ -8,9 +8,9 @@ public final class SimpleView3D extends View3D {
 	@Override
 	protected void drawBoid() {
 		beginShape(TRIANGLES);
-    	vertex(0, 55);
+    	vertex(-10, 5);
     	vertex(10, 0);
-    	vertex(20, 55);
+    	vertex(-10, -5);
     	endShape();
 	}
 }
