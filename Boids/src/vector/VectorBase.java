@@ -37,14 +37,14 @@ public final class VectorBase {
 	 * @param vec vector to translate
 	 * @return vec in local coordinates
 	 */
-	public Vector globalize(Vector vec) {
-		Vector ret = new Vector();
+	public void globalize(Vector vec) {
+		double newX = vec.x * left.x + vec.y * up.x + vec.z * fwd.x;
+		double newY = vec.x * left.y + vec.y * up.y + vec.z * fwd.y;
+		double newZ = vec.x * left.z + vec.y * up.z + vec.z * fwd.z;
 		
-		ret.x = vec.x * left.x + vec.y * up.x + vec.z * fwd.x;
-		ret.y = vec.x * left.y + vec.y * up.y + vec.z * fwd.y;
-		ret.z = vec.x * left.z + vec.y * up.z + vec.z * fwd.z;
-		
-		return ret;
+		vec.x = newX;
+		vec.y = newY;
+		vec.z = newZ;
 	}
 	
 	/**
@@ -53,13 +53,13 @@ public final class VectorBase {
 	 * @param vec vector to translate
 	 * @return vec in local coordinates
 	 */
-	public Vector localize(Vector vec) {
-		Vector ret = new Vector();
+	public void localize(Vector vec) {
+		double newX = Vector.dotProduct(vec, left);
+		double newY = Vector.dotProduct(vec, up);
+		double newZ = Vector.dotProduct(vec, fwd);
 		
-		ret.x = Vector.dotProduct(vec, left);
-		ret.y = Vector.dotProduct(vec, up);
-		ret.z = Vector.dotProduct(vec, fwd);
-		
-		return ret;
+		vec.x = newX;
+		vec.y = newY;
+		vec.z = newZ;
 	}
 }

@@ -18,12 +18,16 @@ public final class Vector extends GenericVector {
 	}
 	
 	public Vector(double length, Angle angle) {
-		Angle tmp = new Angle(angle); // Take temporary copy
-		tmp.scale(length);
-		copyFrom(tmp);
+		fromSphericCoords(length, angle);
 	}
 	
 	/* Public operations */
+	
+	public void fromSphericCoords(double length, Angle angle) {
+		Vector tmp = new Vector(angle); // Take temporary copy
+		tmp.scale(length);
+		copyFrom(tmp);
+	}
 	
 	public void add(Vector other) {
 		plus(other);
