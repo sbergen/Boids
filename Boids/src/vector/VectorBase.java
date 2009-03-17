@@ -23,8 +23,8 @@ public final class VectorBase {
 		fwd.copyFrom(newFwd);
 		up.copyFrom(newUp);
 		
-		Vector.crossProduct(up, fwd, left);		
-		Vector.crossProduct(fwd, left, up);
+		left.crossProduct(up, fwd);		
+		up.crossProduct(fwd, left);
 		
 		fwd.normalize();
 		up.normalize();
@@ -54,9 +54,9 @@ public final class VectorBase {
 	 * @return vec in local coordinates
 	 */
 	public void localize(Vector vec) {
-		double newX = Vector.dotProduct(vec, left);
-		double newY = Vector.dotProduct(vec, up);
-		double newZ = Vector.dotProduct(vec, fwd);
+		double newX = vec.dotProduct(left);
+		double newY = vec.dotProduct(up);
+		double newZ = vec.dotProduct(fwd);
 		
 		vec.x = newX;
 		vec.y = newY;

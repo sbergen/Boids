@@ -62,7 +62,7 @@ public class VectorTest {
 		Vector v1 = new Vector(1, 2, 3);
 		Vector v2 = new Vector(2, 0, -2);
 		
-		assertEquals("Vector distance", Math.sqrt(30.0), Vector.distance(v1, v2));
+		assertEquals("Vector distance", Math.sqrt(30.0), v1.distance(v2));
 	}
 	
 }

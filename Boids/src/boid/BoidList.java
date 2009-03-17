@@ -20,7 +20,7 @@ public final class BoidList implements ThreadSafeBoidList {
 		ArrayList<ThreadSafeBoidState> neighbours = new ArrayList<ThreadSafeBoidState>();
 		
 		for (ThreadSafeBoidState boid : list) {
-			if (Vector.distance(position, boid.getPosition()) <= range) {
+			if (position.distance(boid.getPosition()) <= range) {
 				neighbours.add(boid);
 			}
 		}
