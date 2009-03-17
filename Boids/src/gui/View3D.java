@@ -1,5 +1,10 @@
 package gui;
 
+import java.util.TreeSet;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.awt.event.KeyEvent;
+
 import processing.core.*;
 import processing.opengl.*;
 
@@ -10,7 +15,11 @@ import boid.*;
 
 public abstract class View3D extends PApplet implements BoidList.BoidReader {
 
+	private static final float ZOOM_STEP = (float) 5.0;
+	
 	private Engine engine;
+	private TreeSet<Integer> keysDown;
+	private float cameraDistance;
 	
 	/* BoidReader implementation */
 	
@@ -34,6 +43,9 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
 		size(1200, 800, OPENGL);
         //size(1200, 800, P3D);
 		
+		keysDown = new TreeSet<Integer>();
+		cameraDistance = 800;
+		
 		engine = new Engine();
         engine.start();
     }
@@ -41,6 +53,8 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
     public void draw() {
     	
     	//System.out.println("draw");
+    	
+    	handleKeys();
     	
     	background(0);
     	lights();
@@ -78,7 +92,7 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
     	double azimuth = TWO_PI * (1.0 - ((float)mouseX / width));
     	double zenith = PI * ((float)mouseY / height);  
     	
-    	Vector eye = new Vector(800.0, new Angle(azimuth, zenith));
+    	Vector eye = new Vector(cameraDistance, new Angle(azimuth, zenith));
     	
     	camera(
     			(float)eye.getX(), (float)eye.getY(), (float)eye.getZ(),
@@ -106,6 +120,29 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
     	vertex(0, 20);
     	endShape();
     	popMatrix();
+    }
+    
+    /* Key listening and repeating */
+    
+    public void keyPressed() {
+    	keysDown.add(new Integer(keyCode));
+    }
+    
+    public void keyReleased() {
+    	keysDown.remove(new Integer(keyCode));
+    }
+    
+    private void handleKeys() {
+    	for (Integer keyCode : keysDown) {
+    		switch(keyCode) {
+    		  case KeyEvent.VK_UP:
+    			cameraDistance -= ZOOM_STEP;
+    			break;
+    		  case KeyEvent.VK_DOWN:
+    			cameraDistance += ZOOM_STEP;
+    			break;
+    		}
+    	}
     }
     
     // Suppress warnings...
