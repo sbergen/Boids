@@ -6,9 +6,10 @@ import engine.PhysLimits;
 
 final class BoidModel {
 	
-	/* Data members (default visibility for package) */
+	/* Data members */
 	
 	PhysLimits limits;
+	private static long currentTimeDelta;
 	
 	/* Public interface */
 	
@@ -19,19 +20,17 @@ final class BoidModel {
 	void attemptMove (PhysState oldState, PhysState newState, Vector force) {
 		
 		newState.reset();
+		
 		Vector accel = forceToAccel(force);
 		limitAngle(oldState, accel);
-		newState.speed.add(oldState.speed);
-		newState.speed.add(accel);
+		applyAccel(oldState, newState, accel);
+		updatePosition(oldState, newState);
 		
-		// Limit speed
-		newState.speed.clamp(limits.minSpeed, limits.maxSpeed);
-		
-		// New position
-		newState.position.add(oldState.position);
-		newState.position.add(newState.speed);
-		newState.base.set(newState.speed, new Vector (0, 0, 1));
 		// TODO: top angle
+	}
+	
+	static void setTimeDelta (long delta) {
+		currentTimeDelta = delta;
 	}
 	
 	/* private helpers */
@@ -66,5 +65,31 @@ final class BoidModel {
 		
 		accel.copyFrom(state.base.globalize(localAccel));
 		
+	}
+	
+	private void applyAccel (PhysState oldState, PhysState newState, Vector accel) {
+		
+		// v = v0 + a * t
+		newState.speed.add(oldState.speed);
+		scaleToTime(accel); 
+		newState.speed.add(accel);
+		
+		// Limit speed
+		newState.speed.clamp(limits.minSpeed, limits.maxSpeed);
+	}
+	
+	private void updatePosition (PhysState oldState, PhysState newState) {
+		// New position
+		Vector posDelta = new Vector (newState.speed);
+		scaleToTime(posDelta);
+		
+		newState.position.add(oldState.position);
+		newState.position.add(posDelta);
+		newState.base.set(newState.speed, new Vector (0, 0, 1));
+	}
+	
+	/* This is the only method aware of time */
+	private void scaleToTime (Vector v) {
+		v.scale((double) currentTimeDelta / 100000000);
 	}
 }

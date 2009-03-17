@@ -39,6 +39,9 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
     }
 
     public void draw() {
+    	
+    	//System.out.println("draw");
+    	
     	background(0);
     	lights();
     	setCamera();
