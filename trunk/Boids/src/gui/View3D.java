@@ -1,8 +1,6 @@
 package gui;
 
 import java.util.TreeSet;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.awt.event.KeyEvent;
 
 import processing.core.*;
