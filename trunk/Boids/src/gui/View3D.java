@@ -14,6 +14,7 @@ import boid.*;
 public abstract class View3D extends PApplet implements BoidList.BoidReader {
 
 	private static final float ZOOM_STEP = (float) 5.0;
+	private static final double SPEED_STEP = 0.2;
 	
 	private Engine engine;
 	private TreeSet<Integer> keysDown;
@@ -139,6 +140,12 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
     		  case KeyEvent.VK_DOWN:
     			cameraDistance += ZOOM_STEP;
     			break;
+    		  case KeyEvent.VK_LEFT:
+    			engine.changeSpeed(-SPEED_STEP);
+    			break;
+    		  case KeyEvent.VK_RIGHT:
+      			engine.changeSpeed(SPEED_STEP);
+      			break;
     		}
     	}
     }

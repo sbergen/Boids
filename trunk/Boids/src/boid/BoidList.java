@@ -49,8 +49,9 @@ public final class BoidList implements ThreadSafeBoidList {
 		}
 	}
 	
-	public void updateBoidStates(long timeDelta) {
+	public void updateBoidStates(long timeDelta, double simulationSpeed) {
 		
+		BoidModel.setSimulationSpeed(simulationSpeed);
 		BoidModel.setTimeDelta (timeDelta);
 		
 		for (ThreadSafeBoidState boid : list) {

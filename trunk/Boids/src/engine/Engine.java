@@ -16,6 +16,7 @@ public final class Engine {
 	private Timer timer;
 	private boolean running;
 	private long lastExecTime;
+	private double speed;
 	
 	private class SimulationRunner extends TimerTask {
 		public void run() { 
@@ -26,7 +27,7 @@ public final class Engine {
 			long delta = currentTime - lastExecTime;
 			lastExecTime = currentTime;
 			
-			boidList.updateBoidStates(delta);
+			boidList.updateBoidStates(delta, speed);
 		}
 	}
 	
@@ -38,117 +39,16 @@ public final class Engine {
 		runner = new SimulationRunner();
 		timer = new Timer();
 		
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		
-		// 10
-		
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		
-		// 20
-		
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		
-		// 10
-		
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		boidList.addBoid(limits);
-		
+		for (int i = 0; i < 80; i++) {
+			boidList.addBoid(limits);
+		}
 	}
 	
 	public void start() {
 		lastExecTime = System.nanoTime();
 		timer.scheduleAtFixedRate(runner, 0, 20);
 		running = true;
+		speed = 2.5;
 	}
 	
 	public void stop() {
@@ -158,5 +58,9 @@ public final class Engine {
 	
 	public void readBoids (BoidList.BoidReader reader) {
 		boidList.readBoids(reader);
+	}
+	
+	public void changeSpeed (double speedDelta) {
+		speed += speedDelta;
 	}
 }

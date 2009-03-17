@@ -5,10 +5,10 @@ public final class PhysLimits {
 	public PhysLimits() {
 		mass = 5;
 		minForce = 0.0;
-		maxForce = 20.0;
+		maxForce = 40.0;
 		maxTurn = 1.5;
-		minSpeed = 3;
-		maxSpeed = 10;
+		minSpeed = 5;
+		maxSpeed = 20;
 		perceptionRange = 200.0;
 	}
 	
