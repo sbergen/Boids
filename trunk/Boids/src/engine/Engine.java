@@ -15,17 +15,18 @@ public final class Engine {
 	private SimulationRunner runner;
 	private Timer timer;
 	private boolean running;
-	private Date startedAt;
+	private long lastExecTime;
 	
 	private class SimulationRunner extends TimerTask {
-		public void run() {
-			Date start = new Date();
-			boidList.updateBoidStates();
-			Date end = new Date();
-//			System.out.println("Simulation run took " + (end.getTime() - start.getTime()) + "ms");
-//			if ((end.getTime() - start.getTime()) > 100) {
-//				System.out.println("Calculation starting at " + (start.getTime() - startedAt.getTime()) + " took too long!");
-//			}
+		public void run() { 
+			
+			//System.out.println("update");
+			
+			long currentTime = System.nanoTime();
+			long delta = currentTime - lastExecTime;
+			lastExecTime = currentTime;
+			
+			boidList.updateBoidStates(delta);
 		}
 	}
 	
@@ -145,8 +146,8 @@ public final class Engine {
 	}
 	
 	public void start() {
-		startedAt = new Date();
-		timer.scheduleAtFixedRate(runner, 1000, 70);
+		lastExecTime = System.nanoTime();
+		timer.scheduleAtFixedRate(runner, 0, 20);
 		running = true;
 	}
 	

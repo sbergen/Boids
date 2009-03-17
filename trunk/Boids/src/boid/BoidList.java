@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.HashMap;
 
 import vector.Vector;
-import engine.PhysLimits;;
+import engine.PhysLimits;
 
 public final class BoidList implements ThreadSafeBoidList {
 	
@@ -49,7 +49,9 @@ public final class BoidList implements ThreadSafeBoidList {
 		}
 	}
 	
-	public void updateBoidStates() {
+	public void updateBoidStates(long timeDelta) {
+		
+		BoidModel.setTimeDelta (timeDelta);
 		
 		for (ThreadSafeBoidState boid : list) {
 			boid.calculateNextMove();
@@ -82,5 +84,4 @@ public final class BoidList implements ThreadSafeBoidList {
 			}
 		}
 	}
-
 }
