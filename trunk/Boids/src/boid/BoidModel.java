@@ -29,8 +29,7 @@ final class BoidModel {
 		limitAngle(oldState, accel);
 		applyAccel(oldState, newState, accel);
 		updatePosition(oldState, newState);
-		
-		// TODO: top angle
+		updateBase(oldState, newState, accel);
 	}
 	
 	static void setTimeDelta (long delta) {
@@ -55,10 +54,10 @@ final class BoidModel {
 		
 		double magnitude = accel.length();
 		if (turnAngle.limitZenith(limits.maxTurn)) {
-//			// Zenith was limited. Project vector onto the cone forming the zenith limit,
-//			// but adjust magnitude to be average of projected and and original. 
-//			magnitude = (accel.dotProduct(new Vector(1.0, new Angle(turnAngle.azimuth(), limits.maxTurn))) + 4.0 * magnitude) / 5.0; 
-//			magnitude = Math.abs(magnitude);
+			// Zenith was limited. Project vector onto the cone forming the zenith limit,
+			// but adjust magnitude to be average of projected and and original. 
+			magnitude = (accel.dotProduct(new Vector(1.0, new Angle(turnAngle.azimuth(), limits.maxTurn))) + 2.0 * magnitude) / 3.0; 
+			magnitude = Math.abs(magnitude);
 		}
 		
 		accel.fromSphericCoords(magnitude, turnAngle);
@@ -84,7 +83,24 @@ final class BoidModel {
 		
 		newState.position.add(oldState.position);
 		newState.position.add(posDelta);
-		newState.base.set(newState.speed, new Vector (0, 0, 1));
+	}
+	
+	private void updateBase (PhysState oldState, PhysState newState, Vector accel) {
+		Vector newUp = new Vector(oldState.base.getUp());
+		Vector gravity = new Vector (0.0, 0.0, 1.0);
+		
+		// Comments here TODO
+		Vector centrifugal = new Vector(newState.speed);
+		centrifugal.subtract(newState.speed);
+		
+		newUp.scale(3.0);
+		centrifugal.scale(5.0);
+		gravity.scale(3.0);
+		
+		newUp.add(gravity);
+		newUp.add(centrifugal);
+		
+		newState.base.set(newState.speed, newUp);
 	}
 	
 	private void scaleToTime (Vector v) {

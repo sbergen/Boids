@@ -3,14 +3,16 @@ package gui;
 import java.util.TreeSet;
 import java.awt.event.KeyEvent;
 
-import processing.core.*;
 import processing.opengl.*;
+import processing.core.*;
 
 import engine.Engine;
 import vector.Vector;
+import vector.VectorBase;
 import vector.Angle;
 import boid.*;
 
+@SuppressWarnings("unused") // processing.opengl is not used, but needed...
 public abstract class View3D extends PApplet implements BoidList.BoidReader {
 
 	private static final float ZOOM_STEP = (float) 5.0;
@@ -25,7 +27,7 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
 	@Override
 	public void readBoid(ThreadSafeBoidState boid) {
     	pushMatrix();
-    	translate(boid.getPosition(), boid.getAngle());
+    	translate(boid.getPosition(), boid.getBase());
     	drawBoid ();
     	popMatrix();
 	}
@@ -58,7 +60,7 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
     	background(0);
     	lights();
     	setCamera();
-    	drawIndicator();
+    	//drawIndicator();
     	
     	/* Draw box */
     	
@@ -75,21 +77,41 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
 
     /* Helpers */
 
-    private void translate(Vector position, Angle angle) {    	
+    private void translate(Vector position, VectorBase base) {    	
     	translate(
     			(float) position.getX(),
     			(float) position.getY(),
     			(float) position.getZ());
     	
-    	rotateZ((float) angle.azimuth());
-    	//rotateX((float) (HALF_PI));
-    	rotateY((float) (angle.zenith() - HALF_PI));
+    	Angle fwdAngle = new Angle(base.getFwd());
+    	
+    	/* calculating roll need some wizardry... */
+    	
+    	/* Localize 3d up vector */
+    	Vector up = new Vector(0.0, 1.0, 0.0);
+    	base.localize(up);
+    	
+    	/* Cross product of up and forward is the "straight" left */
+    	Vector left = new Vector();
+    	left.crossProduct(up, base.getFwd());
+    	
+    	/* project up to the "straight" left to get roll */
+    	double roll = left.dotProduct(base.getUp()) * HALF_PI;
+    	
+    	/* Translate values to the range [0, 2Pi] */
+    	if (roll < 0.0) {
+    		roll = TWO_PI - roll;
+    	}
+    	
+    	rotateZ((float) fwdAngle.azimuth());
+    	rotateY((float) (fwdAngle.zenith() - HALF_PI));
+    	rotateX((float) roll);
 	}
     
     private void setCamera() {
     	
     	double azimuth = TWO_PI * (1.0 - ((float)mouseX / width));
-    	double zenith = PI * ((float)mouseY / height);  
+    	double zenith = PI * ((float)(mouseY + 1) / height);  
     	
     	Vector eye = new Vector(cameraDistance, new Angle(azimuth, zenith));
     	

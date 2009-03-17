@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import vector.Angle;
 import vector.Vector;
+import vector.VectorBase;
 
 final class BoidState implements ThreadSafeBoidState {
 	
@@ -29,8 +30,8 @@ final class BoidState implements ThreadSafeBoidState {
 		return state.position;
 	}
 
-	public Angle getAngle() {
-		return new Angle(state.speed);
+	public VectorBase getBase() {
+		return state.base;
 	}
 
 	public Vector getSpeed() {
@@ -51,7 +52,7 @@ final class BoidState implements ThreadSafeBoidState {
 			list.getBoidsWithinRange(state.position, boid.limits.perceptionRange);
 		
 		if (neighbours.size() <= 1) {
-			System.out.println("no neighbours");
+			addWallForce(force);
 			boid.attemptMove(state, nextState, force);
 			return;
 		}
@@ -138,3 +139,4 @@ final class BoidState implements ThreadSafeBoidState {
 	}
 	
 }
+

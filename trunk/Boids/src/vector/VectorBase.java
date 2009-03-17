@@ -19,6 +19,18 @@ public final class VectorBase {
 		set(newUp, newFwd);
 	}
 	
+	public Vector getLeft() {
+		return left;
+	}
+
+	public Vector getUp() {
+		return up;
+	}
+
+	public Vector getFwd() {
+		return fwd;
+	}
+	
 	public void set (Vector newFwd, Vector newUp) {
 		fwd.copyFrom(newFwd);
 		up.copyFrom(newUp);
