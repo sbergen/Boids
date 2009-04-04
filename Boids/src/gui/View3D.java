@@ -18,10 +18,20 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
 	private static final float ZOOM_STEP = (float) 5.0;
 	private static final double SPEED_STEP = 0.2;
 	
+	int height;
+	int width;
+	
 	private Engine engine;
 	private TreeSet<Integer> keysDown;
 	private float cameraDistance;
 	private boolean followBoid;
+	
+	/* Constructor */
+	
+	View3D (int _width, int _height) {
+		width = _width;
+		height = _height;
+	}
 	
 	/* BoidReader implementation */
 	
@@ -47,8 +57,8 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
 	
 	public void setup() {
 		
-		size(1200, 800, OPENGL);
-        //size(1200, 800, P3D);
+		size(width, height, OPENGL);
+        //size(width, height, P3D);
 		
 		keysDown = new TreeSet<Integer>();
 		cameraDistance = 800;
