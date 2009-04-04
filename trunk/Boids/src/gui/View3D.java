@@ -21,15 +21,21 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
 	private Engine engine;
 	private TreeSet<Integer> keysDown;
 	private float cameraDistance;
+	private boolean followBoid;
 	
 	/* BoidReader implementation */
 	
 	@Override
 	public void readBoid(ThreadSafeBoidState boid) {
-    	pushMatrix();
-    	translate(boid.getPosition(), boid.getBase());
-    	drawBoid ();
-    	popMatrix();
+		if (followBoid) {
+    		setCameraFollowBoid(boid);
+    		followBoid = false;
+    	} else {
+	    	pushMatrix();
+	    	translate(boid.getPosition(), boid.getBase());
+	    	drawBoid ();
+	    	popMatrix();
+    	}
 	}
 	
 	/**
@@ -59,7 +65,13 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
     	
     	background(0);
     	lights();
+    	
+    	// uncomment for regular mode
     	setCamera();
+    	
+    	// uncomment for following mode
+    	//followBoid = true;
+    	
     	//drawIndicator();
     	
     	/* Draw box */
@@ -85,27 +97,9 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
     	
     	Angle fwdAngle = new Angle(base.getFwd());
     	
-    	/* calculating roll need some wizardry... */
-    	
-    	/* Localize 3d up vector */
-    	Vector up = new Vector(0.0, 1.0, 0.0);
-    	base.localize(up);
-    	
-    	/* Cross product of up and forward is the "straight" left */
-    	Vector left = new Vector();
-    	left.crossProduct(up, base.getFwd());
-    	
-    	/* project up to the "straight" left to get roll */
-    	double roll = left.dotProduct(base.getUp()) * HALF_PI;
-    	
-    	/* Translate values to the range [0, 2Pi] */
-    	if (roll < 0.0) {
-    		roll = TWO_PI - roll;
-    	}
-    	
     	rotateZ((float) fwdAngle.azimuth());
     	rotateY((float) (fwdAngle.zenith() - HALF_PI));
-    	rotateX((float) roll);
+    	rotateX((float) calculateRoll(base));
 	}
     
     private void setCamera() {
@@ -119,6 +113,21 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
     			(float)eye.getX(), (float)eye.getY(), (float)eye.getZ(),
     			(float)0.0, (float)0.0, (float)0.0, 
     			(float)0.0, (float)0.0, (float)1.0);
+    }
+    
+    private void setCameraFollowBoid(ThreadSafeBoidState state) {
+    	
+    	Vector position = state.getPosition();
+    	Vector up = state.getBase().getUp();
+    	Vector fwd = new Vector (state.getBase().getFwd());
+    	fwd.scale(2.0);
+    	fwd.add(position);
+    	
+    	camera(
+    			(float)position.getX(), (float)position.getY(), (float)position.getZ(),
+    			(float)fwd.getX(), (float)fwd.getY(), (float)fwd.getZ(), 
+    			(float)up.getX(), (float)up.getY(), (float)up.getZ());
+    			//(float)0.0, (float)0.0, (float)1.0);
     }
     
     private void drawIndicator() {
@@ -170,6 +179,35 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
       			break;
     		}
     	}
+    }
+    
+    /* Private helpers */
+    
+    private double calculateRoll (VectorBase base) {
+    	
+    	Vector up;
+    	Vector left;
+    	double roll;
+    	
+    	/* calculating roll need some wizardry... */
+    	
+    	/* Localize 3d up vector */
+    	up = new Vector(0.0, 1.0, 0.0);
+    	base.localize(up);
+    	
+    	/* Cross product of up and forward is the "straight" left */
+    	left = new Vector();
+    	left.crossProduct(up, base.getFwd());
+    	
+    	/* project up to the "straight" left to get roll */
+    	roll = left.dotProduct(base.getUp()) * HALF_PI;
+    	
+    	/* Translate values to the range [0, 2Pi] */
+    	if (roll < 0.0) {
+    		roll = TWO_PI - roll;
+    	}
+    	
+    	return roll;
     }
     
     // Suppress warnings...
