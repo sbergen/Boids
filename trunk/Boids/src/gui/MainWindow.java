@@ -17,13 +17,25 @@ public class MainWindow {
 	 */
 	public static void main(String[] args) {
 		
+		int width = 1200;
+		int height = 800;
+		
+		if (args.length >= 2) {
+			try {
+				width = Integer.parseInt(args[0]);
+				height = Integer.parseInt(args[1]);
+			} catch (NumberFormatException e) {
+				// Do nothing
+			}
+		}
+		
 		JFrame frame = new JFrame("Boids");
-	    SimpleView3D view = new SimpleView3D();
+	    SimpleView3D view = new SimpleView3D(width, height);
 	    frame.getContentPane().add(view);
 	    
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    frame.pack();
-	    frame.setSize(1200, 800);
+	    frame.setSize(width, height);
 	    frame.setVisible(true);
 	    
 	    view.init();

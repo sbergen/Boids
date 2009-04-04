@@ -2,9 +2,10 @@ package gui;
 
 public final class SimpleView3D extends View3D {
 
-	// Suppress warnings...
-	private static final long serialVersionUID = 2428240699286020508L;
-
+	public SimpleView3D (int width, int height) {
+		super (width, height);
+	}
+	
 	@Override
 	protected void drawBoid() {
 		beginShape(TRIANGLES);
@@ -24,4 +25,7 @@ public final class SimpleView3D extends View3D {
     	fill(255);
     	popMatrix();
 	}
+	
+	// Suppress warnings...
+	private static final long serialVersionUID = 2428240699286020508L;
 }
