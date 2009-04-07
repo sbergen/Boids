@@ -3,8 +3,7 @@
  */
 package gui;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
 
 
 /**
@@ -31,46 +30,15 @@ public class MainWindow {
 		}
 		
 		JFrame frame = new JFrame("Boids");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLayout(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
-		
-		// Sizes
-		
-		int scrollerBarSize = 100;
-		int scrollerWidth = 50;   
-		int viewWidth = width - scrollerWidth;
-		int viewHeight = height - scrollerWidth;
-		
-		HScroller scroller = new HScroller(viewWidth, scrollerWidth, scrollerBarSize);
-	    SimpleView3D view = new SimpleView3D(viewWidth, viewHeight);
+	    SimpleView3D view = new SimpleView3D(width, height);
+	    frame.getContentPane().add(view);
 	    
-	    c.fill = GridBagConstraints.BOTH;
-	    c.ipadx = 0;
-	    c.ipady = 0;
-	    
-	    c.gridx = 0;
-	    c.gridy = 0;
-	    frame.getContentPane().add(view, c);
-	    
-	    c.gridx = 0;
-	    c.gridy = 1;
-	    frame.getContentPane().add(scroller, c);
-
-	    /*try {
-	    	Thread.sleep(2000);
-	    } catch(InterruptedException e) {
-	    	// Do nothing
-	    }*/
-	    
+	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    frame.pack();
-	    frame.setSize(width, height);
+	    frame.setSize(width + frame.getWidth(), height + frame.getHeight());
 	    frame.setVisible(true);
 	    
 	    view.init();
-	    scroller.init();
-	    
-	    scroller.start();
 	    view.start();
 	}
 
