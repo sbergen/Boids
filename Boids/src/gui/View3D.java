@@ -23,14 +23,19 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
 	
 	private Engine engine;
 	private TreeSet<Integer> keysDown;
-	private boolean followBoid;
 	
+	// Camera
+	
+	private boolean followBoid;
 	private float cameraDistance;
 	private double azimuth;
 	private double zenith;
 	
+	// Scrollers & controls
+	
 	private Scroller hScroller;
 	private Scroller vScroller;
+	private ControlPane controls;
 	
 	/* Constructor */
 	
@@ -46,11 +51,24 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
 		final int scrollerWidth = 50;
 		final int scrollBarWidth = 100;
 		
-		Rectangle hScrollRect = new Rectangle(1, height - scrollerWidth, width - scrollerWidth, scrollerWidth);
+		Rectangle hScrollRect = new Rectangle(1, height - scrollerWidth, width - scrollerWidth - 2, scrollerWidth);
 		hScroller = new Scroller(this, hScrollRect, Scroller.Direction.Horizontal, scrollBarWidth);
 		
-		Rectangle vScrollRect = new Rectangle(width - scrollerWidth, 1, scrollerWidth, height - scrollerWidth);
+		Rectangle vScrollRect = new Rectangle(width - scrollerWidth, 1, scrollerWidth, height - scrollerWidth - 2);
 		vScroller = new Scroller(this, vScrollRect, Scroller.Direction.Vertical, scrollBarWidth);
+		
+		// Contorls
+		
+		final int controlsWidth = 300;
+		
+		Rectangle controlMainRect = new Rectangle(
+				width - scrollerWidth - controlsWidth - 4, // x
+				1, // y
+				controlsWidth, // width
+				height - scrollerWidth - 4 // height
+				);
+		Rectangle controlToggleRect = new Rectangle(width - scrollerWidth, height - scrollerWidth, scrollerWidth, scrollerWidth);
+		controls = new ControlPane(this, controlMainRect, controlToggleRect);
 	}
 	
 	/* BoidReader implementation */
@@ -132,6 +150,7 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
     	
     	hScroller.draw();
     	vScroller.draw();
+    	controls.draw();
     	
     	hint(ENABLE_DEPTH_TEST);
     }
@@ -205,10 +224,12 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
     
     /* Key listening and repeating */
     
+    @Override
     public void keyPressed() {
     	keysDown.add(new Integer(keyCode));
     }
     
+    @Override
     public void keyReleased() {
     	keysDown.remove(new Integer(keyCode));
     }
@@ -230,6 +251,13 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
       			break;
     		}
     	}
+    }
+    
+    /* Mouse */
+    
+    @Override
+    public void mousePressed() {
+    	controls.mousePressed();
     }
     
     /* Private helpers */

@@ -46,4 +46,11 @@ final class Rectangle {
 		return brx;
 	}
 	
+	public int centerX() {
+		return (tlx + brx) / 2;
+	}
+	
+	public int centerY() {
+		return (tly + bry) / 2;
+	}
 }
