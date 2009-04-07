@@ -3,17 +3,18 @@ package gui;
 import processing.core.*;
 import java.util.ArrayList;
 
-abstract class Scroller extends PApplet {
-
-	/* Actions */
+class Scroller {
 	
-	public interface ScrollActionListener {
-		void handleSrollAction(double newPosition);
-	}
-	
-	private ArrayList<ScrollActionListener> listeners;
+	public enum Direction {
+		Vertical,
+		Horizontal
+	};
 	
 	/* Data */
+	
+	private PApplet parent;
+	private Rectangle rect;
+	private Direction dir;
 	
 	private double position;
 	private int min;
@@ -21,62 +22,82 @@ abstract class Scroller extends PApplet {
 	private int bWidth;
 	private boolean active;
 	
-	/* Interface */
-	
-	public abstract void actualDraw();
-	
 	/* Constructor */
 	
-	public Scroller(int minCoordinate, int maxCoordinate, int barWidth) {
+	public Scroller(PApplet parentApplet, Rectangle rectangle, Direction direction, int barWidth) {
+		parent = parentApplet;
+		rect = rectangle;
+		dir = direction;
 		bWidth = barWidth;
-		min = minCoordinate + barWidth / 2;
-		max = maxCoordinate - barWidth / 2;
 		active = false;
-		listeners = new ArrayList<ScrollActionListener>();
-	}
-	
-	/* Protected stuff */
-	
-	protected int getBarStart() {
-		return (int) (getCenter() - bWidth / 2);
-	}
-	
-	protected int getBarEnd() {
-		return (int) (getCenter() + bWidth / 2);
-	}
-	
-	protected void setPosition(int coordinate) {
 		
-		if (!(active && mousePressed)) { return; }
-		
-		position = ((double)(coordinate - min) / max);
-		position = Math.max(position, 0.0);
-		position = Math.min(position, 100.0);
-		
-		if (active) {
-			for (ScrollActionListener listener : listeners) {
-				listener.handleSrollAction(position);
-			}
+		switch (dir) {
+		  case Horizontal:
+			min = rect.left() + barWidth / 2;
+			max = rect.right() - barWidth / 2;
+			break;
+		  case Vertical:
+			min = rect.top() + barWidth / 2;
+			max = rect.bottom() - barWidth / 2;
+			break;
 		}
 	}
 	
-	/* PApplet overrides */
+	/* Public stuff */
 	
-	@Override
 	public void draw() {
-		if (mouseX >= 0 && mouseX < width && mouseY >= 0 && mouseY < height) {
+		if (rect.isInside(parent.mouseX, parent.mouseY) && parent.mousePressed) {
+			active = true;
+		} else if (active && parent.mousePressed) {
 			active = true;
 		} else {
 			active = false;
 		}
 		
-		actualDraw();
+		if (active) {
+			setPosition();
+		}
+		
+		parent.noFill();
+		parent.stroke(255);
+		parent.rect(rect.left(), rect.top(), rect.width() - 1, rect.height() - 1);
+		
+		parent.fill(100, 100);
+		switch (dir) {
+		  case Horizontal:
+			parent.rect(getBarStart(), rect.top() + 1, bWidth - 3, rect.bottom() - 1);
+			break;
+		  case Vertical:
+			  parent.rect(rect.left(), getBarStart(), rect.width() - 2, bWidth - 3);
+			break;
+		}
+	}
+	
+	public double getPosition() {
+		return position;
 	}
 	
 	/* Private stuff */
 	
-	private double getCenter() {
-		return min + position * (max - min);
+	private int getBarStart() {
+		return (int) ((min + position * (max - min)) - bWidth / 2);
+	}
+	
+	private void setPosition() {
+		int coordinate = 0;
+		
+		switch (dir) {
+		  case Horizontal:
+			coordinate = parent.mouseX;
+			break;
+		  case Vertical:
+			coordinate = parent.mouseY;
+			break;
+		}
+		
+		position = ((double)(coordinate - min) / (max - min));
+		position = Math.max(position, 0.0);
+		position = Math.min(position, 1.0);
 	}
 	
 	// Suppress warnings...

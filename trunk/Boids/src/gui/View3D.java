@@ -29,6 +29,9 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
 	private double azimuth;
 	private double zenith;
 	
+	private Scroller hScroller;
+	private Scroller vScroller;
+	
 	/* Constructor */
 	
 	View3D (int _width, int _height) {
@@ -37,6 +40,17 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
 		
 		azimuth = PI;
 		zenith = HALF_PI;
+		
+		// Scrollers
+		
+		final int scrollerWidth = 50;
+		final int scrollBarWidth = 100;
+		
+		Rectangle hScrollRect = new Rectangle(1, height - scrollerWidth, width - scrollerWidth, scrollerWidth);
+		hScroller = new Scroller(this, hScrollRect, Scroller.Direction.Horizontal, scrollBarWidth);
+		
+		Rectangle vScrollRect = new Rectangle(width - scrollerWidth, 1, scrollerWidth, height - scrollerWidth);
+		vScroller = new Scroller(this, vScrollRect, Scroller.Direction.Vertical, scrollBarWidth);
 	}
 	
 	/* BoidReader implementation */
@@ -70,6 +84,8 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
 		keysDown = new TreeSet<Integer>();
 		cameraDistance = 800;
 		
+		// Engine 
+		
 		engine = new Engine();
         engine.start();
     }
@@ -88,6 +104,9 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
     	
     	//drawIndicator();
     	
+    	// uncomment for regular mode
+    	setCamera();
+    	
     	/* Draw box */
     	
     	noFill();
@@ -96,16 +115,27 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
     	
     	/* Draw boids */
     	
-    	fill(255);
+    	//fill(255);
     	noStroke();
         engine.readBoids(this);
-        
-        // uncomment for regular mode
-    	setCamera();
+		
+        drawControls();
     }
 
     /* Helpers */
 
+    private void drawControls() {
+    	
+    	hint(DISABLE_DEPTH_TEST);
+    	camera();
+    	perspective();
+    	
+    	hScroller.draw();
+    	vScroller.draw();
+    	
+    	hint(ENABLE_DEPTH_TEST);
+    }
+    
     private void translate(Vector position, VectorBase base) {    	
     	translate(
     			(float) position.getX(),
@@ -121,11 +151,12 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
     
     private void setCamera() {
     	
-    	if (mouseY > 0.9 * height) {
-    		azimuth = TWO_PI * (1.0 - ((float)mouseX / width));
-    	} else if (mouseX > 0.9 * width) {
-    		zenith = PI * ((float)(mouseY + 1) / height);
-    	}
+    	azimuth = TWO_PI * (1.0 - hScroller.getPosition());
+    	
+    	double zPos = vScroller.getPosition();
+    	zPos = Math.min(zPos, 0.9999999);
+    	zPos = Math.max(zPos, 0.0000001);
+    	zenith = PI * zPos;
     	
     	Vector eye = new Vector(cameraDistance, new Angle(azimuth, zenith));
     	
@@ -133,23 +164,6 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
     			(float)eye.getX(), (float)eye.getY(), (float)eye.getZ(),
     			(float)0.0, (float)0.0, (float)0.0, 
     			(float)0.0, (float)0.0, (float)1.0);
-    	
-    	
-    	
-    	/* Transform to screen coordinates 
-    	
-    	pushMatrix();
-    	noLights();
-    	
-    	rotateZ((float)azimuth + PI);
-    	rotateY((float)-zenith);
-    	rotateX(PI);
-    	translate(-50, -50, -(cameraDistance - 100));
-    	
-    	lights();
-    	popMatrix();
-    	
-    	*/
     }
     
     private void setCameraFollowBoid(ThreadSafeBoidState state) {
