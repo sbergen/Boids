@@ -18,19 +18,25 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
 	private static final float ZOOM_STEP = (float) 5.0;
 	private static final double SPEED_STEP = 0.2;
 	
-	int height;
-	int width;
+	protected int height;
+	protected int width;
 	
 	private Engine engine;
 	private TreeSet<Integer> keysDown;
-	private float cameraDistance;
 	private boolean followBoid;
+	
+	private float cameraDistance;
+	private double azimuth;
+	private double zenith;
 	
 	/* Constructor */
 	
 	View3D (int _width, int _height) {
 		width = _width;
 		height = _height;
+		
+		azimuth = PI;
+		zenith = HALF_PI;
 	}
 	
 	/* BoidReader implementation */
@@ -55,6 +61,7 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
 	
 	/* setup and draw */
 	
+    @Override
 	public void setup() {
 		
 		size(width, height, OPENGL);
@@ -76,9 +83,6 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
     	background(0);
     	lights();
     	
-    	// uncomment for regular mode
-    	setCamera();
-    	
     	// uncomment for following mode
     	//followBoid = true;
     	
@@ -95,6 +99,9 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
     	fill(255);
     	noStroke();
         engine.readBoids(this);
+        
+        // uncomment for regular mode
+    	setCamera();
     }
 
     /* Helpers */
@@ -114,8 +121,11 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
     
     private void setCamera() {
     	
-    	double azimuth = TWO_PI * (1.0 - ((float)mouseX / width));
-    	double zenith = PI * ((float)(mouseY + 1) / height);  
+    	if (mouseY > 0.9 * height) {
+    		azimuth = TWO_PI * (1.0 - ((float)mouseX / width));
+    	} else if (mouseX > 0.9 * width) {
+    		zenith = PI * ((float)(mouseY + 1) / height);
+    	}
     	
     	Vector eye = new Vector(cameraDistance, new Angle(azimuth, zenith));
     	
@@ -123,6 +133,23 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
     			(float)eye.getX(), (float)eye.getY(), (float)eye.getZ(),
     			(float)0.0, (float)0.0, (float)0.0, 
     			(float)0.0, (float)0.0, (float)1.0);
+    	
+    	
+    	
+    	/* Transform to screen coordinates 
+    	
+    	pushMatrix();
+    	noLights();
+    	
+    	rotateZ((float)azimuth + PI);
+    	rotateY((float)-zenith);
+    	rotateX(PI);
+    	translate(-50, -50, -(cameraDistance - 100));
+    	
+    	lights();
+    	popMatrix();
+    	
+    	*/
     }
     
     private void setCameraFollowBoid(ThreadSafeBoidState state) {
