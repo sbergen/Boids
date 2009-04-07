@@ -40,6 +40,9 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
 	/* Constructor */
 	
 	View3D (int _width, int _height) {
+		
+		engine = new Engine();
+		
 		width = _width;
 		height = _height;
 		
@@ -68,7 +71,7 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
 				height - scrollerWidth - 4 // height
 				);
 		Rectangle controlToggleRect = new Rectangle(width - scrollerWidth, height - scrollerWidth, scrollerWidth, scrollerWidth);
-		controls = new ControlPane(this, controlMainRect, controlToggleRect);
+		controls = new ControlPane(this, engine, controlMainRect, controlToggleRect);
 	}
 	
 	/* BoidReader implementation */
@@ -96,15 +99,13 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
     @Override
 	public void setup() {
 		
-		size(width, height, OPENGL);
-        //size(width, height, P3D);
+		//size(width, height, OPENGL);
+        size(width, height, P3D);
 		
 		keysDown = new TreeSet<Integer>();
 		cameraDistance = 800;
 		
 		// Engine 
-		
-		engine = new Engine();
         engine.start();
     }
 
@@ -268,7 +269,7 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
     	Vector left;
     	double roll;
     	
-    	/* calculating roll need some wizardry... */
+    	/* calculating roll needs some wizardry... */
     	
     	/* Localize 3d up vector */
     	up = new Vector(0.0, 1.0, 0.0);
