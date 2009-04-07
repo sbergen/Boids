@@ -63,4 +63,8 @@ public final class Engine {
 	public void changeSpeed (double speedDelta) {
 		speed += speedDelta;
 	}
+	
+	public void setPerceptionRange(double val) {
+		limits.perceptionRange = val * 200.0;
+	}
 }

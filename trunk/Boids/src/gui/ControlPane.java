@@ -1,6 +1,7 @@
 package gui;
 
 import processing.core.*;
+import engine.Engine;
 
 final class ControlPane {
 	
@@ -11,6 +12,7 @@ final class ControlPane {
 	private float controlHeight;
 	
 	private PApplet parent;
+	private Engine engine;
 	private Rectangle togglerRect;
 	private Rectangle mainRect;
 	private PFont font;
@@ -21,8 +23,10 @@ final class ControlPane {
 	
 	private Scroller perceptionRangeScroll;
 	
-	public ControlPane (PApplet parentApplet, Rectangle mainRectangle, Rectangle togglerRectangle) {
+	public ControlPane (PApplet parentApplet,  Engine physEngine,
+			            Rectangle mainRectangle, Rectangle togglerRectangle) {
 		parent = parentApplet;
+		engine = physEngine;
 		mainRect = mainRectangle;
 		togglerRect = togglerRectangle;
 		
@@ -82,7 +86,7 @@ final class ControlPane {
 		rect = getLabelRect(0);
 		parent.text("Perception Range", rect.left(), rect.bottom());
 		perceptionRangeScroll.draw();
-		
+		engine.setPerceptionRange(perceptionRangeScroll.getPosition());
 		
 	}
 	
