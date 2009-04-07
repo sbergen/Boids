@@ -1,7 +1,6 @@
 package gui;
 
 import processing.core.*;
-import java.util.ArrayList;
 
 class Scroller {
 	
@@ -30,6 +29,7 @@ class Scroller {
 		dir = direction;
 		bWidth = barWidth;
 		active = false;
+		position = 0.5;
 		
 		switch (dir) {
 		  case Horizontal:
@@ -59,13 +59,13 @@ class Scroller {
 		}
 		
 		parent.noFill();
-		parent.stroke(255);
+		parent.stroke(255, 100);
 		parent.rect(rect.left(), rect.top(), rect.width() - 1, rect.height() - 1);
 		
 		parent.fill(100, 100);
 		switch (dir) {
 		  case Horizontal:
-			parent.rect(getBarStart(), rect.top() + 1, bWidth - 3, rect.bottom() - 1);
+			parent.rect(getBarStart(), rect.top() + 1, bWidth - 2, rect.height() - 3);
 			break;
 		  case Vertical:
 			  parent.rect(rect.left(), getBarStart(), rect.width() - 2, bWidth - 3);
