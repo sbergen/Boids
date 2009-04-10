@@ -9,7 +9,7 @@ public final class Engine {
 	
 	/* Private stuff */
 	
-	private PhysLimits limits;
+	private SimulationRules rules;
 	private BoidList   boidList;
 	private SimulationRunner runner;
 	private Timer timer;
@@ -34,14 +34,12 @@ public final class Engine {
 	/* Public stuff */
 	
 	public Engine () {
-		limits = new PhysLimits();
+		rules = new SimulationRules();
 		boidList = new BoidList();
 		runner = new SimulationRunner();
 		timer = new Timer();
 		
-		for (int i = 0; i < 80; i++) {
-			boidList.addBoid(limits);
-		}
+		boidList.setBoidCount(rules, 80);
 	}
 	
 	public void start() {
@@ -64,7 +62,7 @@ public final class Engine {
 		speed += speedDelta;
 	}
 	
-	public void setPerceptionRange(double val) {
-		limits.perceptionRange = val * 200.0;
+	public SimulationRules getRules() {
+		return rules;
 	}
 }

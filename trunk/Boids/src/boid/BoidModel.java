@@ -2,14 +2,14 @@ package boid;
 
 import vector.Vector;
 import vector.Angle;
-import engine.PhysLimits;
+import engine.SimulationRules;
 import java.util.concurrent.TimeUnit;
 
 final class BoidModel {
 	
 	/* Data members */
 	
-	PhysLimits limits;
+	SimulationRules rules;
 	private static long currentTimeDelta;
 	private static double simulationSpeed;
 	private static final double SECONDS_IN_NANOSECOND = 1.0 / TimeUnit.NANOSECONDS.convert(1, TimeUnit.SECONDS);
@@ -17,8 +17,8 @@ final class BoidModel {
 	
 	/* Public interface */
 	
-	BoidModel (PhysLimits limits_) {
-		limits = limits_;
+	BoidModel (SimulationRules rules_) {
+		rules = rules_;
 	}
 	
 	void attemptMove (PhysState oldState, PhysState newState, Vector force) {
@@ -43,23 +43,25 @@ final class BoidModel {
 	/* private helpers */
 	
 	private Vector forceToAccel (Vector force) {
-		force.clamp(limits.minForce, limits.maxForce);
-		force.scale(1.0 / limits.mass);
+		force.clamp(rules.getMinForce(), rules.getMaxForce());
+		force.scale(1.0 / rules.getMass());
 		return force;
 	}
 	
 	private void limitAngle(PhysState state, Vector accel) {
 		state.base.localize(accel);
 		Angle turnAngle = new Angle(accel);
-		
+
 		double magnitude = accel.length();
-		if (turnAngle.limitZenith(limits.maxTurn)) {
-			// Zenith was limited. Project vector onto the cone forming the zenith limit,
-			// but adjust magnitude to be average of projected and and original. 
-			magnitude = (accel.dotProduct(new Vector(1.0, new Angle(turnAngle.azimuth(), limits.maxTurn))) + 2.0 * magnitude) / 3.0; 
+		if (turnAngle.limitZenith(scaleToTime(rules.getMaxTurn()))) {
+			// Zenith was limited. Project vector onto the cone forming the
+			// zenith limit,
+			// but adjust magnitude to be average of projected and and original.
+			magnitude = (accel.dotProduct(new Vector(1.0, new Angle(turnAngle
+					.azimuth(), rules.getMaxTurn()))) + 2.0 * magnitude) / 3.0;
 			magnitude = Math.abs(magnitude);
 		}
-		
+
 		accel.fromSphericCoords(magnitude, turnAngle);
 		state.base.globalize(accel);
 	}
@@ -72,7 +74,7 @@ final class BoidModel {
 		newState.speed.add(accel);
 		
 		// Limit speed
-		newState.speed.clamp(limits.minSpeed, limits.maxSpeed);
+		newState.speed.clamp(rules.getMinSpeed(), rules.getMaxSpeed());
 	}
 	
 	private void updatePosition (PhysState oldState, PhysState newState) {
@@ -105,5 +107,9 @@ final class BoidModel {
 	
 	private void scaleToTime (Vector v) {
 		v.scale(SECONDS_IN_NANOSECOND * currentTimeDelta * simulationSpeed);
+	}
+	
+	private double scaleToTime (double d) {
+		return d * (SECONDS_IN_NANOSECOND * currentTimeDelta * simulationSpeed);
 	}
 }

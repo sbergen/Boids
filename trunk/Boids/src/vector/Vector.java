@@ -77,6 +77,12 @@ public final class Vector extends GenericVector {
 		z = 0.0;
 	}
 	
+	public static Vector random(double length) {
+		Vector v = new Vector(Math.random(), Math.random(), Math.random());
+		v.clamp(length, length);
+		return v;
+	}
+	
 	public void print () {
 		System.out.println("X: " + x + ", Y: " + y + ", Z: " + z);
 	}

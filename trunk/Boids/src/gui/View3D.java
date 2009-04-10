@@ -7,6 +7,7 @@ import processing.opengl.*;
 import processing.core.*;
 
 import engine.Engine;
+import engine.SimulationRules;
 import vector.Vector;
 import vector.VectorBase;
 import vector.Angle;
@@ -99,8 +100,8 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
     @Override
 	public void setup() {
 		
-		//size(width, height, OPENGL);
-        size(width, height, P3D);
+		size(width, height, OPENGL);
+        //size(width, height, P3D);
 		
 		keysDown = new TreeSet<Integer>();
 		cameraDistance = 800;

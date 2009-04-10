@@ -13,6 +13,6 @@ public interface ThreadSafeBoidState {
 	public Vector getPosition();
 	public VectorBase getBase();
 	public Vector getSpeed();
-	public boolean hasLimits(engine.PhysLimits limits);
+	public boolean hasRules(engine.SimulationRules rules);
 	void calculateNextMove();
 }
