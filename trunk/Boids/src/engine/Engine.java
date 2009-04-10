@@ -33,13 +33,15 @@ public final class Engine {
 	
 	/* Public stuff */
 	
+	public static final int defaultBoidCount = 100;
+	
 	public Engine () {
 		rules = new SimulationRules();
 		boidList = new BoidList();
 		runner = new SimulationRunner();
 		timer = new Timer();
 		
-		boidList.setBoidCount(rules, 80);
+		boidList.setBoidCount(rules, defaultBoidCount);
 	}
 	
 	public void start() {
@@ -60,6 +62,10 @@ public final class Engine {
 	
 	public void changeSpeed (double speedDelta) {
 		speed += speedDelta;
+	}
+	
+	public void setBoidCount(int count) {
+		boidList.setBoidCount(rules, count);
 	}
 	
 	public SimulationRules getRules() {

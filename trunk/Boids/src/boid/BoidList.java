@@ -78,6 +78,12 @@ public final class BoidList implements ThreadSafeBoidList {
 				boid.commitNextMove();
 			}
 			
+			/*
+			 * Boid count is updated here because
+			 * a) it has to be synced to the list
+			 * b) doing it before committing next moves causes the current state to get destroyed
+			 */
+			
 			updateBoidCounts();
 		}
 	}

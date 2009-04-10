@@ -15,11 +15,12 @@ class Scroller {
 	private Rectangle rect;
 	private Direction dir;
 	
-	private double position;
+	static boolean globalActive = false;
+	private boolean active = false;
+	private double position = 0.5;
 	private int min;
 	private int max;
 	private int bWidth;
-	private boolean active;
 	
 	/* Constructor */
 	
@@ -28,8 +29,6 @@ class Scroller {
 		rect = rectangle;
 		dir = direction;
 		bWidth = barWidth;
-		active = false;
-		position = 0.5;
 		
 		switch (dir) {
 		  case Horizontal:
@@ -46,12 +45,13 @@ class Scroller {
 	/* Public stuff */
 	
 	public void draw() {
-		if (rect.isInside(parent.mouseX, parent.mouseY) && parent.mousePressed) {
-			active = true;
+		if (rect.isInside(parent.mouseX, parent.mouseY) && 
+			parent.mousePressed && !globalActive) {
+			active = globalActive = true;
 		} else if (active && parent.mousePressed) {
 			active = true;
-		} else {
-			active = false;
+		} else if (active) {
+			active = globalActive = false;
 		}
 		
 		if (active) {
