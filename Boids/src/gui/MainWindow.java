@@ -30,12 +30,14 @@ public class MainWindow {
 		}
 		
 		JFrame frame = new JFrame("Boids");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setUndecorated(true);
+		
 	    SimpleView3D view = new SimpleView3D(width, height);
 	    frame.getContentPane().add(view);
-	    
-	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    frame.pack();
-	    frame.setSize(width + frame.getWidth(), height + frame.getHeight());
+	    frame.setSize(width, height);
+	    frame.setResizable(false);
 	    frame.setVisible(true);
 	    
 	    view.init();

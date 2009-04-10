@@ -3,16 +3,19 @@ package boid;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.HashMap;
+import java.util.Set;
 
 import vector.Vector;
-import engine.PhysLimits;
+import engine.SimulationRules;
 
 public final class BoidList implements ThreadSafeBoidList {
 	
 	/* Data members */
 	
 	private ArrayList<BoidState> list;
-	private HashMap<PhysLimits, BoidModel> models;
+	private HashMap<SimulationRules, BoidModel> models;
+	private HashMap<SimulationRules, Integer> boidCounts;
+	private HashMap<SimulationRules, Integer> requestedBoidCounts; 
 	
 	/* Package methods (default visibility) */
 	
@@ -32,10 +35,17 @@ public final class BoidList implements ThreadSafeBoidList {
 	
 	public BoidList() {
 		list = new ArrayList<BoidState>();
-		models = new HashMap<PhysLimits, BoidModel>();
-		
+		models = new HashMap<SimulationRules, BoidModel>();
+		boidCounts = new HashMap<SimulationRules, Integer>();
+		requestedBoidCounts = new HashMap<SimulationRules, Integer>();		
 		BoidState.setList(this);
 	}
+	
+	/** 
+	 * The BoidReader interface is a thread safe
+	 * interface to be used with the visitor pattern
+	 * to read Boids in the list.
+	 */
 	
 	public interface BoidReader {
 		public void readBoid(ThreadSafeBoidState boid);
@@ -49,6 +59,11 @@ public final class BoidList implements ThreadSafeBoidList {
 		}
 	}
 	
+	/**
+	 * Updates Boid states in two stages.
+	 * 1. new states are calculates (this does not need to be synchronized)
+	 * 2. new states are committed (this is synchronized to the list)
+	 */
 	public void updateBoidStates(long timeDelta, double simulationSpeed) {
 		
 		BoidModel.setSimulationSpeed(simulationSpeed);
@@ -62,26 +77,75 @@ public final class BoidList implements ThreadSafeBoidList {
 			for (BoidState boid : list) {
 				boid.commitNextMove();
 			}
+			
+			updateBoidCounts();
 		}
 	}
 	
-	public void addBoid(PhysLimits limits) {
+	public void setBoidCount(SimulationRules rules, int count) {
+		synchronized (requestedBoidCounts) {
+			if (!requestedBoidCounts.containsKey(rules)) {
+				requestedBoidCounts.put(rules, count);
+			} else {
+				requestedBoidCounts.remove(rules);
+				requestedBoidCounts.put(rules, count);
+			}
+		}
+	}
+	
+	/* Private stuff */
+	
+	private void updateBoidCounts() {
+		synchronized (requestedBoidCounts) {
+			Set<SimulationRules> keys = requestedBoidCounts.keySet();
+			for(SimulationRules key : keys) {
+				
+				// Add key if it doesn't exist
+				if(!boidCounts.containsKey(key)) {
+					boidCounts.put(key, 0);
+				}
+				
+				// Add/remove boids to simulation
+				int requested = requestedBoidCounts.get(key);
+				int actual = boidCounts.get(key);
+				
+				while (requested > actual) {
+					addBoid(key);
+					actual++;
+				}
+				
+				while (requested < actual) {
+					removeBoid(key);
+					actual--;
+				}
+				
+				boidCounts.remove(key);
+				boidCounts.put(key, actual);
+			}
+		}
+	}
+	
+	private void addBoid(SimulationRules rules) {
 		BoidModel model;
-		if (models.containsKey(limits)) {
-			model = models.get(limits);
+		if (models.containsKey(rules)) {
+			model = models.get(rules);
 		} else {
-			model = new BoidModel(limits);
-			models.put(limits, model);
+			model = new BoidModel(rules);
+			models.put(rules, model);
 		}
-		list.add(new BoidState (model, PhysState.random()));
+		synchronized (list) {
+			list.add(new BoidState (model, PhysState.random(), rules));
+		}
 	}
 	
-	public void removeBoid(PhysLimits limits) {
-		Iterator<BoidState> it = list.iterator();
-		while (it.hasNext()) {
-			if (it.next().hasLimits(limits)) {
-				it.remove();
-				return;
+	private void removeBoid(SimulationRules rules) {
+		synchronized(list) {
+			Iterator<BoidState> it = list.iterator();
+			while (it.hasNext()) {
+				if (it.next().hasRules(rules)) {
+					it.remove();
+					return;
+				}
 			}
 		}
 	}

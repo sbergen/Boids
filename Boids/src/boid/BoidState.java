@@ -2,15 +2,19 @@ package boid;
 
 import java.util.ArrayList;
 
+import engine.SimulationRules;
+
 import vector.Angle;
 import vector.Vector;
 import vector.VectorBase;
+import engine.SimulationRules;
 
 final class BoidState implements ThreadSafeBoidState {
 	
 	static final double WALL_LIMITS = 250;
 	static final double WALL_DISTANCE = 40;
 	
+	private SimulationRules rules;
 	private BoidModel boid;
 	private PhysState state;
 	private PhysState nextState;
@@ -20,7 +24,8 @@ final class BoidState implements ThreadSafeBoidState {
 		list = newList;
 	}
 	
-	BoidState (BoidModel newBoid, PhysState newState) {
+	BoidState (BoidModel newBoid, PhysState newState,  SimulationRules newRules) {
+		rules = newRules;
 		boid = newBoid;
 		state = newState;
 		nextState = new PhysState();
@@ -38,8 +43,8 @@ final class BoidState implements ThreadSafeBoidState {
 		return state.speed;
 	}
 	
-	public boolean hasLimits(engine.PhysLimits limits) {
-		return (boid.limits == limits);
+	public boolean hasRules(SimulationRules rules) {
+		return (boid.rules == rules);
 	}
 
 	public void calculateNextMove() {
@@ -49,7 +54,7 @@ final class BoidState implements ThreadSafeBoidState {
 		Vector alignment = new Vector();
 		
 		ArrayList<ThreadSafeBoidState> neighbours = 
-			list.getBoidsWithinRange(state.position, boid.limits.perceptionRange);
+			list.getBoidsWithinRange(state.position, rules.getPerceptionRange());
 		
 		if (neighbours.size() <= 1) {
 			addWallForce(force);
@@ -67,7 +72,7 @@ final class BoidState implements ThreadSafeBoidState {
 			
 			Vector diff = new Vector(state.position);
 			diff.subtract(neighbour.getPosition());
-			diff.scale(1.0 / diff.length());
+			diff.normalize();
 			separation.add(diff);
 			
 			/* Cohesion and Alignment */
@@ -87,10 +92,9 @@ final class BoidState implements ThreadSafeBoidState {
 		alignment.subtract(state.speed);
 		
 		/* Scale */
-		
-		separation.scale(7.0);
-		cohesion.scale(3.5);
-		alignment.scale (0.5);
+		separation.scale(rules.getSeparationFactor());
+		cohesion.scale(rules.getCohesionFactor());
+		alignment.scale (rules.getAlignmentFactor());
 		
 		/* Force vector */
 		

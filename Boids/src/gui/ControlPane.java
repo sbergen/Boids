@@ -2,6 +2,7 @@ package gui;
 
 import processing.core.*;
 import engine.Engine;
+import engine.SimulationRules;
 
 final class ControlPane {
 	
@@ -13,6 +14,7 @@ final class ControlPane {
 	
 	private PApplet parent;
 	private Engine engine;
+	private SimulationRules rules;
 	private Rectangle togglerRect;
 	private Rectangle mainRect;
 	private PFont font;
@@ -22,11 +24,15 @@ final class ControlPane {
 	// Scrollers
 	
 	private Scroller perceptionRangeScroll;
+	private Scroller cohesionScroll;
+	private Scroller separationScroll;
+	private Scroller alignmentScroll;
 	
 	public ControlPane (PApplet parentApplet,  Engine physEngine,
 			            Rectangle mainRectangle, Rectangle togglerRectangle) {
 		parent = parentApplet;
 		engine = physEngine;
+		rules = engine.getRules();
 		mainRect = mainRectangle;
 		togglerRect = togglerRectangle;
 		
@@ -41,6 +47,9 @@ final class ControlPane {
 		int barWidth = mainRect.width() / 10;
 		
 		perceptionRangeScroll = new Scroller(parent, getControlRect(0), Scroller.Direction.Horizontal, barWidth);
+		cohesionScroll = new Scroller(parent, getControlRect(1), Scroller.Direction.Horizontal, barWidth);
+		separationScroll = new Scroller(parent, getControlRect(2), Scroller.Direction.Horizontal, barWidth);
+		alignmentScroll = new Scroller(parent, getControlRect(3), Scroller.Direction.Horizontal, barWidth);
 	}
 	
 	public void draw() {
@@ -77,25 +86,45 @@ final class ControlPane {
 		parent.stroke(0, 200, 0, 100);
 		parent.rect(mainRect.left(), mainRect.top(), mainRect.width(), mainRect.height());
 		
-		// Controls
-		parent.rectMode(PGraphics.CORNER);
-		parent.fill(255, 200);
-		parent.textFont(font, labelHeight);
-		Rectangle rect;
+		/* Controls */
 		
-		rect = getLabelRect(0);
-		parent.text("Perception Range", rect.left(), rect.bottom());
+		parent.rectMode(PGraphics.CORNER);
+		parent.textFont(font, labelHeight);
+		
+		// Perception range
+		drawLabel(0, "Perception Range");
 		perceptionRangeScroll.draw();
-		engine.setPerceptionRange(perceptionRangeScroll.getPosition());
+		rules.setPerceptionRange(perceptionRangeScroll.getPosition() * 2 * SimulationRules.defaultPerceptionRange);
+		
+		// cohesion
+		drawLabel(1, "Cohesion");
+		cohesionScroll.draw();
+		rules.setCohesionFactor(cohesionScroll.getPosition() * 2 * SimulationRules.defaultCohesionFactor);
+		
+		// separation
+		drawLabel(2, "Separation");
+		separationScroll.draw();
+		rules.setSeparationFactor(separationScroll.getPosition() * 2 * SimulationRules.defaultSeparationFactor);
+		
+		// alignment
+		drawLabel(3, "Alignment");
+		alignmentScroll.draw();
+		rules.setAlignmentFactor(alignmentScroll.getPosition() * 2 * SimulationRules.defaultAlignmentFactor);
 		
 	}
 	
-	Rectangle getLabelRect(int n) {
+	private void drawLabel (int number, final String text) {
+		Rectangle rect = getLabelRect(number);
+		parent.fill(255, 200);
+		parent.text(text, rect.left(), rect.bottom());
+	}
+	
+	private Rectangle getLabelRect(int n) {
 		int offset = (int) (SPACING + n * (3 * SPACING + labelHeight + controlHeight));
 		return new Rectangle(mainRect.left() + SPACING, mainRect.top() + offset, mainRect.width() - 2 * SPACING, (int) controlHeight);
 	}
 	
-	Rectangle getControlRect(int n) {
+	private Rectangle getControlRect(int n) {
 		int offset = (int) (2 * SPACING + labelHeight + n * (3 * SPACING + labelHeight + controlHeight));
 		return new Rectangle(mainRect.left() + SPACING, mainRect.top() + offset, mainRect.width() - 2 * SPACING, (int) controlHeight);
 	}
