@@ -27,6 +27,7 @@ final class ControlPane {
 	private Scroller cohesionScroll;
 	private Scroller separationScroll;
 	private Scroller alignmentScroll;
+	private Scroller amountScroll;
 	
 	public ControlPane (PApplet parentApplet,  Engine physEngine,
 			            Rectangle mainRectangle, Rectangle togglerRectangle) {
@@ -50,6 +51,7 @@ final class ControlPane {
 		cohesionScroll = new Scroller(parent, getControlRect(1), Scroller.Direction.Horizontal, barWidth);
 		separationScroll = new Scroller(parent, getControlRect(2), Scroller.Direction.Horizontal, barWidth);
 		alignmentScroll = new Scroller(parent, getControlRect(3), Scroller.Direction.Horizontal, barWidth);
+		amountScroll = new Scroller(parent, getControlRect(4), Scroller.Direction.Horizontal, barWidth);
 	}
 	
 	public void draw() {
@@ -111,6 +113,10 @@ final class ControlPane {
 		alignmentScroll.draw();
 		rules.setAlignmentFactor(alignmentScroll.getPosition() * 2 * SimulationRules.defaultAlignmentFactor);
 		
+		// amount
+		drawLabel(4, "Number of Boids");
+		amountScroll.draw();
+		engine.setBoidCount((int) (amountScroll.getPosition() * 2 * Engine.defaultBoidCount));
 	}
 	
 	private void drawLabel (int number, final String text) {
