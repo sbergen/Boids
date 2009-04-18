@@ -1,16 +1,13 @@
 package gui;
 
 import engine.Property;
-import processing.core.PApplet;
 
 public final class PropertyScroller extends Scroller {
 
 	private Property property;
 	
-	public PropertyScroller(PApplet parentApplet,
-			Rectangle rectangle, Direction direction, int barWidth,
-			Property property) {
-		super(parentApplet, rectangle, direction, barWidth);
+	public PropertyScroller( Rectangle rectangle, Direction direction, int barWidth, Property property) {
+		super(rectangle, direction, barWidth);
 		this.property = property;
 		
 	}

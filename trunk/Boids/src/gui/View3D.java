@@ -42,6 +42,8 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
 	
 	View3D (int _width, int _height) {
 		
+		Widget.setApplet(this);
+		
 		engine = new Engine();
 		
 		width = _width;
@@ -56,10 +58,10 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
 		final int scrollBarWidth = 100;
 		
 		Rectangle hScrollRect = new Rectangle(1, height - scrollerWidth, width - scrollerWidth - 2, scrollerWidth);
-		hScroller = new Scroller(this, hScrollRect, Scroller.Direction.Horizontal, scrollBarWidth);
+		hScroller = new Scroller(hScrollRect, Scroller.Direction.Horizontal, scrollBarWidth);
 		
 		Rectangle vScrollRect = new Rectangle(width - scrollerWidth, 1, scrollerWidth, height - scrollerWidth - 2);
-		vScroller = new Scroller(this, vScrollRect, Scroller.Direction.Vertical, scrollBarWidth);
+		vScroller = new Scroller(vScrollRect, Scroller.Direction.Vertical, scrollBarWidth);
 		
 		// Contorls
 		
@@ -72,7 +74,7 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
 				height - scrollerWidth - 4 // height
 				);
 		Rectangle controlToggleRect = new Rectangle(width - scrollerWidth, height - scrollerWidth, scrollerWidth, scrollerWidth);
-		controls = new ControlPane(this, engine, controlMainRect, controlToggleRect);
+		controls = new ControlPane(engine, controlMainRect, controlToggleRect);
 	}
 	
 	/* BoidReader implementation */
@@ -259,7 +261,7 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
     
     @Override
     public void mousePressed() {
-    	controls.mousePressed();
+    	Widget.globalMousePressed();
     }
     
     /* Private helpers */
