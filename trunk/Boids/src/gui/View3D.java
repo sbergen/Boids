@@ -54,8 +54,8 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
 		
 		// Scrollers
 		
-		final int scrollerWidth = 50;
-		final int scrollBarWidth = 100;
+		final int scrollerWidth = (int)(0.03 * width);
+		final int scrollBarWidth = scrollerWidth * 4;
 		
 		Rectangle hScrollRect = new Rectangle(1, height - scrollerWidth, width - scrollerWidth - 2, scrollerWidth);
 		hScroller = new Scroller(hScrollRect, Scroller.Direction.Horizontal, scrollBarWidth);
