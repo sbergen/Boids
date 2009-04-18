@@ -7,7 +7,7 @@ final class PhysState {
 	
 	private static final double RAND_MAX_POS = 300.0;
 	private static final double RAND_AVG = -150.0;
-	private static final double RAND_MAX_SPEED = 1.0;
+	private static final double RAND_MAX_SPEED = 10.0;
 	
 	/// Position in world
 	Vector position;

@@ -21,12 +21,11 @@ public final class Engine {
 	private class SimulationRunner extends TimerTask {
 		public void run() { 
 			
-			//System.out.println("update");
-			
 			long currentTime = System.nanoTime();
 			long delta = currentTime - lastExecTime;
 			lastExecTime = currentTime;
 			
+			boidList.setBoidCount(rules, (int)boidCount.value());
 			boidList.updateBoidStates(delta, speed);
 		}
 	}
@@ -41,7 +40,14 @@ public final class Engine {
 		runner = new SimulationRunner();
 		timer = new Timer();
 		
-		boidList.setBoidCount(rules, defaultBoidCount);
+		boidCount = new Property("BoidCount", defaultBoidCount);
+		boidList.setBoidCount(rules, (int) boidCount.defaultValue());
+		
+		rules.loadFromFile("rules");
+	}
+	
+	public void save() {
+		rules.saveToFile("rules");
 	}
 	
 	public void start() {
@@ -64,9 +70,7 @@ public final class Engine {
 		speed += speedDelta;
 	}
 	
-	public void setBoidCount(int count) {
-		boidList.setBoidCount(rules, count);
-	}
+	public Property boidCount;
 	
 	public SimulationRules getRules() {
 		return rules;

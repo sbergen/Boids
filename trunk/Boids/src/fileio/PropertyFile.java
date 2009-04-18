@@ -23,10 +23,20 @@ public final class PropertyFile {
 	/* Public stuff */
 	
 	public PropertyFile() {
+		dataMap = new HashMap<String, String>();
+		
 		basePath = System.getProperty("user.home");
-		basePath += File.pathSeparator;
+		basePath += File.separator;
 		basePath += ".boids";
-		basePath += File.pathSeparator;
+		
+		File dir = new File(basePath);
+		if(!dir.exists()) {
+			if (!dir.mkdir()) {
+				throw new Error("foo");
+			}
+		}
+		
+		basePath += File.separator;
 	}
 	
 	@Override
@@ -60,8 +70,8 @@ public final class PropertyFile {
 	}
 	
 	public void save(String filename) throws IOException {
-		close();
 		if(!open(Mode.Output, filename)) {
+			close();
 			throw new IOException();
 		}
 		
@@ -70,11 +80,14 @@ public final class PropertyFile {
 			String data = key + DELIMITER + dataMap.get(key) + '\n';
 			oBuf.write(data);
 		}
+		close();
 	}
 	
 	public void load(String filename) throws IOException {
-		close();
+		dataMap.clear();
+		
 		if(!open(Mode.Input, filename)) {
+			close();
 			throw new IOException();
 		}
 		
@@ -83,6 +96,7 @@ public final class PropertyFile {
 			String data[] = line.split(DELIMITER);
 			dataMap.put(data[0], data[1]);
 		}
+		close();
 	}
 	
 	/* Private stuff */
@@ -131,8 +145,6 @@ public final class PropertyFile {
 	
 	private boolean close() {
 		boolean ret = true;
-		
-		dataMap.clear();
 		
 		if (oBuf != null) {
 			try {

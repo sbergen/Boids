@@ -18,36 +18,6 @@ public final class SimulationRules {
 	private static final double defaultAlignmentFactor = 0.5;
 	private static final double defaultPerceptionRange = 100.0;
 	
-	public class Property {
-		
-		private final String identifier;
-		private final double defaultValue;
-		private double value;
-		
-		public Property(String identifier, double defaultValue) {
-			this.defaultValue = defaultValue;
-			this.identifier = identifier;
-			value = defaultValue;
-		}
-		
-		public synchronized double value() {
-			return value;
-		}
-		
-		public synchronized void setValue(double value) {
-			this.value = value;
-		}
-		
-		public String identifier() {
-			return identifier;
-		}
-		
-		public double defaultValue() {
-			return defaultValue;
-		}
-		
-	}
-	
 	// Maximum and minimum speed (m/s)
 	public Property minSpeed;
 	public Property maxSpeed;
@@ -84,4 +54,42 @@ public final class SimulationRules {
 		properties.add(perceptionRange = new Property("perceptionRange", defaultPerceptionRange));
 	}
 	
+	public boolean saveToFile(String filename) {
+		PropertyFile file = new PropertyFile();
+		
+		for (Property p : properties) {
+			try {
+				file.addData(p.identifier(), Double.toString(p.value()));
+			} catch (PropertyFile.InvalidDataException e) {
+				throw new Error("Programming error: Invalid identifier in SimulationRules property");
+			}
+		}
+		
+		try {
+			file.save(filename);
+		} catch (java.io.IOException e) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public boolean loadFromFile(String filename) {
+		PropertyFile file = new PropertyFile();
+		try {
+			file.load(filename);
+		} catch (java.io.IOException e) {
+			return false;
+		}
+		
+		for (Property p : properties) {
+			try {
+				p.setValue(Double.parseDouble(file.getData(p.identifier())));
+			} catch (PropertyFile.NotFoundException e) {
+				p.setValue(p.defaultValue());
+			}
+		}
+		
+		return true;
+	}
 }
