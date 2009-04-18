@@ -43,8 +43,8 @@ final class BoidModel {
 	/* private helpers */
 	
 	private Vector forceToAccel (Vector force) {
-		force.clamp(rules.getMinForce(), rules.getMaxForce());
-		force.scale(1.0 / rules.getMass());
+		force.clamp(rules.minForce.value(), rules.maxForce.value());
+		force.scale(1.0 / rules.mass.value());
 		return force;
 	}
 	
@@ -53,12 +53,12 @@ final class BoidModel {
 		Angle turnAngle = new Angle(accel);
 
 		double magnitude = accel.length();
-		if (turnAngle.limitZenith(scaleToTime(rules.getMaxTurn()))) {
+		if (turnAngle.limitZenith(scaleToTime(rules.maxTurn.value()))) {
 			// Zenith was limited. Project vector onto the cone forming the
 			// zenith limit,
 			// but adjust magnitude to be average of projected and and original.
 			magnitude = (accel.dotProduct(new Vector(1.0, new Angle(turnAngle
-					.azimuth(), rules.getMaxTurn()))) + 2.0 * magnitude) / 3.0;
+					.azimuth(), rules.maxTurn.value()))) + 2.0 * magnitude) / 3.0;
 			magnitude = Math.abs(magnitude);
 		}
 
@@ -74,7 +74,7 @@ final class BoidModel {
 		newState.speed.add(accel);
 		
 		// Limit speed
-		newState.speed.clamp(rules.getMinSpeed(), rules.getMaxSpeed());
+		newState.speed.clamp(rules.minSpeed.value(), rules.maxSpeed.value());
 	}
 	
 	private void updatePosition (PhysState oldState, PhysState newState) {

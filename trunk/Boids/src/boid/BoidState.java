@@ -54,7 +54,7 @@ final class BoidState implements ThreadSafeBoidState {
 		Vector alignment = new Vector();
 		
 		ArrayList<ThreadSafeBoidState> neighbours = 
-			list.getBoidsWithinRange(state.position, rules.getPerceptionRange());
+			list.getBoidsWithinRange(state.position, rules.perceptionRange.value());
 		
 		if (neighbours.size() <= 1) {
 			addWallForce(force);
@@ -92,9 +92,9 @@ final class BoidState implements ThreadSafeBoidState {
 		alignment.subtract(state.speed);
 		
 		/* Scale */
-		separation.scale(rules.getSeparationFactor());
-		cohesion.scale(rules.getCohesionFactor());
-		alignment.scale (rules.getAlignmentFactor());
+		separation.scale(rules.separationFactor.value());
+		cohesion.scale(rules.cohesionFactor.value());
+		alignment.scale (rules.alignmentFactor.value());
 		
 		/* Force vector */
 		

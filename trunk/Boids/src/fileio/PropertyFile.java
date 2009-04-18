@@ -10,7 +10,6 @@ public final class PropertyFile {
 	// File stuff
 	
 	private String basePath;
-	private String filename;
 	private File file;
 	
 	BufferedReader iBuf;
@@ -94,7 +93,6 @@ public final class PropertyFile {
 	}
 	
 	private boolean open(Mode mode, String filename) {
-		this.filename = filename;
 		if(!close()) {
 			return false;
 		}

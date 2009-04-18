@@ -1,116 +1,87 @@
 package engine;
 
+import fileio.PropertyFile;
+import java.util.LinkedList;
+
 public final class SimulationRules {
 	
-	public static final double defaultMinSpeed = 2.0;
-	public static final double defaultMaxSpeed = 20.0;
-	public static final double defaultMinForce = 0.2;
-	public static final double defaultMaxForce = 35.0;
-	public static final double defaultMaxTurn = 13.0;
-	public static final double defaultMass = 5.0;
-	public static final double defaultSeparationFactor = 7.0;
-	public static final double defaultCohesionFactor = 3.5;
-	public static final double defaultAlignmentFactor = 0.5;
-	public static final double defaultPerceptionRange = 100.0;
+	private LinkedList<Property> properties;
 	
-	public synchronized double getMinSpeed() {
-		return minSpeed;
-	}
+	private static final double defaultMinSpeed = 2.0;
+	private static final double defaultMaxSpeed = 20.0;
+	private static final double defaultMinForce = 0.2;
+	private static final double defaultMaxForce = 35.0;
+	private static final double defaultMaxTurn = 13.0;
+	private static final double defaultMass = 5.0;
+	private static final double defaultSeparationFactor = 7.0;
+	private static final double defaultCohesionFactor = 3.5;
+	private static final double defaultAlignmentFactor = 0.5;
+	private static final double defaultPerceptionRange = 100.0;
 	
-	public synchronized void setMinSpeed(double minSpeed) {
-		this.minSpeed = minSpeed;
-	}
-	
-	public synchronized double getMaxSpeed() {
-		return maxSpeed;
-	}
-	
-	public synchronized void setMaxSpeed(double maxSpeed) {
-		this.maxSpeed = maxSpeed;
-	}
-	
-	public synchronized double getMinForce() {
-		return minForce;
-	}
-	
-	public synchronized void setMinForce(double minForce) {
-		this.minForce = minForce;
-	}
-	
-	public synchronized double getMaxForce() {
-		return maxForce;
-	}
-	
-	public synchronized void setMaxForce(double maxForce) {
-		this.maxForce = maxForce;
-	}
-	
-	public synchronized double getMaxTurn() {
-		return maxTurn;
-	}
-	
-	public synchronized void setMaxTurn(double maxTurn) {
-		this.maxTurn = maxTurn;
-	}
-	
-	public synchronized double getMass() {
-		return mass;
-	}
-	
-	public synchronized void setMass(double mass) {
-		this.mass = mass;
-	}
-	
-	public synchronized double getSeparationFactor() {
-		return separationFactor;
-	}
-	
-	public synchronized void setSeparationFactor(double separationFactor) {
-		this.separationFactor = separationFactor;
-	}
-	
-	public synchronized double getCohesionFactor() {
-		return cohesionFactor;
-	}
-	
-	public synchronized void setCohesionFactor(double cohesionFactor) {
-		this.cohesionFactor = cohesionFactor;
-	}
-	
-	public synchronized double getAlignmentFactor() {
-		return alignmentFactor;
-	}
-	
-	public synchronized void setAlignmentFactor(double alignmentFactor) {
-		this.alignmentFactor = alignmentFactor;
-	}
-	
-	public synchronized double getPerceptionRange() {
-		return perceptionRange;
-	}
-	
-	public synchronized void setPerceptionRange(double perceptionRange) {
-		this.perceptionRange = perceptionRange;
+	public class Property {
+		
+		private final String identifier;
+		private final double defaultValue;
+		private double value;
+		
+		public Property(String identifier, double defaultValue) {
+			this.defaultValue = defaultValue;
+			this.identifier = identifier;
+			value = defaultValue;
+		}
+		
+		public synchronized double value() {
+			return value;
+		}
+		
+		public synchronized void setValue(double value) {
+			this.value = value;
+		}
+		
+		public String identifier() {
+			return identifier;
+		}
+		
+		public double defaultValue() {
+			return defaultValue;
+		}
+		
 	}
 	
 	// Maximum and minimum speed (m/s)
-	private double minSpeed = defaultMinSpeed;
-	private double maxSpeed = defaultMaxSpeed;
+	public Property minSpeed;
+	public Property maxSpeed;
 	
-	// Maximum and mimimum force (N)
-	private double minForce = defaultMinForce;	
-	private double maxForce = defaultMaxForce;
+	// Maximum and minimum force (N)
+	public Property minForce;
+	public Property maxForce;
 	
 	// Maximum turn (radians/s)
-	private double maxTurn = defaultMaxTurn;
+	public Property maxTurn;
 	
 	// Mass (kg)
-	private double mass = defaultMass;
+	public Property mass;
 	
 	// Simulation parameters
-	private double separationFactor = defaultSeparationFactor;
-	private double cohesionFactor = defaultCohesionFactor;
-	private double alignmentFactor = defaultAlignmentFactor;
+	public Property separationFactor;
+	public Property cohesionFactor;
+	public Property alignmentFactor;
 	
-	private double perceptionRange = defaultPerceptionRange;
+	public Property perceptionRange;
+	
+	public SimulationRules() {
+		properties = new LinkedList<Property>();
+		
+		properties.add(minSpeed = new Property("minSpeed", defaultMinSpeed));
+		properties.add(maxSpeed = new Property("maxSpeed", defaultMaxSpeed));
+		properties.add(minForce = new Property("minForce", defaultMinForce));
+		properties.add(maxForce = new Property("maxForce", defaultMaxForce));
+		properties.add(maxTurn = new Property("maxTurn", defaultMaxTurn));
+		properties.add(mass = new Property("mass", defaultMass));
+		properties.add(separationFactor = new Property("separationFactor", defaultSeparationFactor));
+		properties.add(cohesionFactor = new Property("cohesionFactor", defaultCohesionFactor));
+		properties.add(alignmentFactor = new Property("alignmentFactor", defaultAlignmentFactor));
+		properties.add(perceptionRange = new Property("perceptionRange", defaultPerceptionRange));
+	}
+	
 }
