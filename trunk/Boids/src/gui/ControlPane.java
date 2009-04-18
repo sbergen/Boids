@@ -28,6 +28,11 @@ final class ControlPane {
 	private PropertyScroller separationScroll;
 	private PropertyScroller alignmentScroll;
 	private PropertyScroller amountScroll;
+	private PropertyScroller maxTurnScroll;
+	private PropertyScroller minForceScroll;
+	private PropertyScroller maxForceScroll;
+	private PropertyScroller minSpeedScroll;
+	private PropertyScroller maxSpeedScroll;
 	
 	public ControlPane (PApplet parentApplet,  Engine physEngine,
 			            Rectangle mainRectangle, Rectangle togglerRectangle) {
@@ -57,6 +62,16 @@ final class ControlPane {
 				Scroller.Direction.Horizontal, barWidth, rules.alignmentFactor);
 		amountScroll = new PropertyScroller(parent, getControlRect(4),
 				Scroller.Direction.Horizontal, barWidth, engine.boidCount);
+		maxTurnScroll = new PropertyScroller(parent, getControlRect(5),
+				Scroller.Direction.Horizontal, barWidth, rules.maxTurn);
+		minForceScroll = new PropertyScroller(parent, getControlRect(6),
+				Scroller.Direction.Horizontal, barWidth, rules.minForce);
+		maxForceScroll = new PropertyScroller(parent, getControlRect(7),
+				Scroller.Direction.Horizontal, barWidth, rules.maxForce);
+		minSpeedScroll = new PropertyScroller(parent, getControlRect(8),
+				Scroller.Direction.Horizontal, barWidth, rules.minSpeed);
+		maxSpeedScroll = new PropertyScroller(parent, getControlRect(9),
+				Scroller.Direction.Horizontal, barWidth, rules.maxSpeed);
 	}
 	
 	public void draw() {
@@ -98,25 +113,35 @@ final class ControlPane {
 		parent.rectMode(PGraphics.CORNER);
 		parent.textFont(font, labelHeight);
 		
-		// Perception range
 		drawLabel(0, "Perception Range");
 		perceptionRangeScroll.draw();
 		
-		// cohesion
 		drawLabel(1, "Cohesion");
 		cohesionScroll.draw();
 		
-		// separation
 		drawLabel(2, "Separation");
 		separationScroll.draw();
 		
-		// alignment
 		drawLabel(3, "Alignment");
 		alignmentScroll.draw();
 		
-		// amount
 		drawLabel(4, "Number of Boids");
 		amountScroll.draw();
+		
+		drawLabel(5, "Maximum Turn");
+		maxTurnScroll.draw();
+		
+		drawLabel(6, "Minimum Force");
+		minForceScroll.draw();
+		
+		drawLabel(7, "Maximum Force");
+		maxForceScroll.draw();
+		
+		drawLabel(8, "Minimum Speed");
+		minSpeedScroll.draw();
+		
+		drawLabel(9, "Maximum Speed");
+		maxSpeedScroll.draw();
 		
 		commitValues();
 	}
@@ -143,6 +168,11 @@ final class ControlPane {
 		separationScroll.commitValue();
 		alignmentScroll.commitValue();
 		amountScroll.commitValue();
+		maxTurnScroll.commitValue();
+		minForceScroll.commitValue();
+		maxForceScroll.commitValue();
+		minSpeedScroll.commitValue();
+		maxSpeedScroll.commitValue();
 	}
 
 }

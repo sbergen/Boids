@@ -16,8 +16,6 @@ public final class Engine {
 	private long lastExecTime;
 	private double speed;
 	
-	private boolean running;
-	
 	private class SimulationRunner extends TimerTask {
 		public void run() { 
 			
@@ -53,13 +51,11 @@ public final class Engine {
 	public void start() {
 		lastExecTime = System.nanoTime();
 		timer.scheduleAtFixedRate(runner, 0, 30);
-		running = true;
 		speed = 4.5;
 	}
 	
 	public void stop() {
 		timer.cancel();
-		running = false;
 	}
 	
 	public void readBoids (BoidList.BoidReader reader) {

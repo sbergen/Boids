@@ -7,7 +7,7 @@ public final class SimulationRules {
 	
 	private LinkedList<Property> properties;
 	
-	private static final double defaultMinSpeed = 2.0;
+	private static final double defaultMinSpeed = 5.0;
 	private static final double defaultMaxSpeed = 20.0;
 	private static final double defaultMinForce = 0.2;
 	private static final double defaultMaxForce = 35.0;
