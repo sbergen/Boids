@@ -63,7 +63,7 @@ public final class Vector extends GenericVector {
 	
 	public void clamp(double min, double max) {
 		if (absolute() == 0.0) {
-			// Do nothing TODO
+			copyFrom(random(min));
 		} else if (absolute() < min) {
 			scale(min / absolute());
 		} else if (absolute() > max) {

@@ -91,14 +91,16 @@ final class BoidModel {
 		Vector newUp = new Vector(oldState.base.getUp());
 		Vector gravity = new Vector (0.0, 0.0, 1.0);
 		
-		// Comments here TODO
+		// Centrifugal force is equal to acceleration
 		Vector centrifugal = new Vector(newState.speed);
-		centrifugal.subtract(newState.speed);
+		centrifugal.subtract(oldState.speed);
 		
+		/// Scale forces to make it look nice :)
 		newUp.scale(3.0);
 		centrifugal.scale(5.0);
 		gravity.scale(3.0);
 		
+		// Make final vector
 		newUp.add(gravity);
 		newUp.add(centrifugal);
 		
