@@ -2,7 +2,7 @@ package gui;
 
 import processing.core.*;
 
-class Scroller {
+class Scroller extends Widget {
 	
 	public enum Direction {
 		Vertical,
@@ -11,7 +11,6 @@ class Scroller {
 	
 	/* Data */
 	
-	private PApplet parent;
 	private Rectangle rect;
 	private Direction dir;
 	
@@ -25,8 +24,7 @@ class Scroller {
 	
 	/* Constructor */
 	
-	public Scroller(PApplet parentApplet, Rectangle rectangle, Direction direction, int barWidth) {
-		parent = parentApplet;
+	public Scroller(Rectangle rectangle, Direction direction, int barWidth) {
 		rect = rectangle;
 		dir = direction;
 		bWidth = barWidth;

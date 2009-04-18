@@ -4,7 +4,7 @@ import processing.core.*;
 import engine.Engine;
 import engine.SimulationRules;
 
-final class ControlPane {
+final class ControlPane extends Widget {
 	
 	private static final int ITEMS = 15;
 	private static final int SPACING = 5;
@@ -12,14 +12,14 @@ final class ControlPane {
 	private float labelHeight;
 	private float controlHeight;
 	
-	private PApplet parent;
 	private Engine engine;
 	private SimulationRules rules;
-	private Rectangle togglerRect;
 	private Rectangle mainRect;
 	private PFont font;
 	
-	private boolean hidden;
+	// Toggler
+	
+	Toggler toggler;
 	
 	// Scrollers
 	
@@ -34,15 +34,13 @@ final class ControlPane {
 	private PropertyScroller minSpeedScroll;
 	private PropertyScroller maxSpeedScroll;
 	
-	public ControlPane (PApplet parentApplet,  Engine physEngine,
+	public ControlPane (Engine physEngine,
 			            Rectangle mainRectangle, Rectangle togglerRectangle) {
-		parent = parentApplet;
 		engine = physEngine;
 		rules = engine.getRules();
 		mainRect = mainRectangle;
-		togglerRect = togglerRectangle;
+		toggler = new Toggler(togglerRectangle);
 		
-		hidden = true;
 		font = parent.loadFont("CourierNew36.vlw");
 		
 		labelHeight = (mainRect.height() - ITEMS * 3 * SPACING) / (ITEMS * 2);
@@ -52,53 +50,36 @@ final class ControlPane {
 		
 		int barWidth = mainRect.width() / 10;
 		
-		perceptionRangeScroll = new PropertyScroller(parent, getControlRect(0),
+		perceptionRangeScroll = new PropertyScroller(getControlRect(0),
 				Scroller.Direction.Horizontal, barWidth, rules.perceptionRange);
-		cohesionScroll = new PropertyScroller(parent, getControlRect(1),
+		cohesionScroll = new PropertyScroller(getControlRect(1),
 				Scroller.Direction.Horizontal, barWidth, rules.cohesionFactor);
-		separationScroll = new PropertyScroller(parent, getControlRect(2),
+		separationScroll = new PropertyScroller(getControlRect(2),
 				Scroller.Direction.Horizontal, barWidth, rules.separationFactor);
-		alignmentScroll = new PropertyScroller(parent, getControlRect(3),
+		alignmentScroll = new PropertyScroller(getControlRect(3),
 				Scroller.Direction.Horizontal, barWidth, rules.alignmentFactor);
-		amountScroll = new PropertyScroller(parent, getControlRect(4),
+		amountScroll = new PropertyScroller(getControlRect(4),
 				Scroller.Direction.Horizontal, barWidth, engine.boidCount);
-		maxTurnScroll = new PropertyScroller(parent, getControlRect(5),
+		maxTurnScroll = new PropertyScroller(getControlRect(5),
 				Scroller.Direction.Horizontal, barWidth, rules.maxTurn);
-		minForceScroll = new PropertyScroller(parent, getControlRect(6),
+		minForceScroll = new PropertyScroller(getControlRect(6),
 				Scroller.Direction.Horizontal, barWidth, rules.minForce);
-		maxForceScroll = new PropertyScroller(parent, getControlRect(7),
+		maxForceScroll = new PropertyScroller(getControlRect(7),
 				Scroller.Direction.Horizontal, barWidth, rules.maxForce);
-		minSpeedScroll = new PropertyScroller(parent, getControlRect(8),
+		minSpeedScroll = new PropertyScroller(getControlRect(8),
 				Scroller.Direction.Horizontal, barWidth, rules.minSpeed);
-		maxSpeedScroll = new PropertyScroller(parent, getControlRect(9),
+		maxSpeedScroll = new PropertyScroller(getControlRect(9),
 				Scroller.Direction.Horizontal, barWidth, rules.maxSpeed);
 	}
 	
 	public void draw() {
-		drawToggler();
-		
-		if (!hidden) {	
+		toggler.draw();
+		if (toggler.selected()) {	
 			drawControls();
 		}
 	}
 	
-	public void mousePressed() {
-		if (togglerRect.isInside(parent.mouseX, parent.mouseY)) {
-			hidden = !hidden;
-		}
-    }
-	
 	/* Private stuff */
-	
-	private void drawToggler() {
-		float radius = (float) (Math.min(togglerRect.width(), togglerRect.height()) * 0.8);
-		
-		parent.stroke(0, 200, 0);
-		parent.fill(0, hidden ? 0 : 200, 0, 100);
-		
-		parent.ellipseMode(PGraphics.CENTER);
-		parent.ellipse(togglerRect.centerX(), togglerRect.centerY(), radius, radius);
-	}
 	
 	private void drawControls() {
 		
@@ -108,7 +89,7 @@ final class ControlPane {
 		parent.stroke(0, 200, 0, 100);
 		parent.rect(mainRect.left(), mainRect.top(), mainRect.width(), mainRect.height());
 		
-		/* Controls */
+		/* Direct Controls */
 		
 		parent.rectMode(PGraphics.CORNER);
 		parent.textFont(font, labelHeight);
@@ -143,6 +124,10 @@ final class ControlPane {
 		drawLabel(9, "Maximum Speed");
 		maxSpeedScroll.draw();
 		
+		/* Save/Load */
+		
+		
+		
 		commitValues();
 	}
 	
@@ -175,4 +160,16 @@ final class ControlPane {
 		maxSpeedScroll.commitValue();
 	}
 
+	private void updateValues() {
+		perceptionRangeScroll.updateValue();
+		cohesionScroll.updateValue();
+		separationScroll.updateValue();
+		alignmentScroll.updateValue();
+		amountScroll.updateValue();
+		maxTurnScroll.updateValue();
+		minForceScroll.updateValue();
+		maxForceScroll.updateValue();
+		minSpeedScroll.updateValue();
+		maxSpeedScroll.updateValue();
+	}
 }
