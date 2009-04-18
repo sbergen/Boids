@@ -1,6 +1,5 @@
 package gui;
 
-import processing.core.PApplet;
 import processing.core.PGraphics;
 
 public class Toggler extends Widget {
