@@ -17,9 +17,10 @@ final class ControlPane extends Widget {
 	private Rectangle mainRect;
 	private PFont font;
 	
-	// Toggler
+	// Toggler and fileUI
 	
 	Toggler toggler;
+	FileUI fileUI;
 	
 	// Scrollers
 	
@@ -70,8 +71,16 @@ final class ControlPane extends Widget {
 				Scroller.Direction.Horizontal, barWidth, rules.minSpeed);
 		maxSpeedScroll = new PropertyScroller(getControlRect(9),
 				Scroller.Direction.Horizontal, barWidth, rules.maxSpeed);
+		
+		// Save/Load
+		
+		Rectangle rect = getControlRect(10);
+		Rectangle fileRect = new Rectangle(rect.left(), rect.top(),
+				                           rect.width(), mainRect.bottom() - rect.top());
+		fileUI = new FileUI(fileRect);
 	}
 	
+	@Override
 	public void draw() {
 		toggler.draw();
 		if (toggler.selected()) {	
@@ -126,7 +135,8 @@ final class ControlPane extends Widget {
 		
 		/* Save/Load */
 		
-		
+		drawLabel(10, "Save/Load settings");
+		fileUI.draw();
 		
 		commitValues();
 	}

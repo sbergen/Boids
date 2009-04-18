@@ -34,4 +34,6 @@ abstract class Widget {
 	protected void mousePressed() {
 		// empty default implementation
 	}
+	
+	public abstract void draw();
 }

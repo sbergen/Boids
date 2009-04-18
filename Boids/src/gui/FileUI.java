@@ -1,23 +1,35 @@
 package gui;
 
-import processing.core.PApplet;
 import java.util.LinkedList;
 
-final class FileUI {
+final class FileUI extends Widget {
 	
-	private PApplet parent;
 	private Rectangle rect;
+	private TogglerGroup togglerGroup;
 	private LinkedList<Toggler> togglers;
 	
-	public FileUI(PApplet parentApplet, Rectangle rectangle) {
-		parent = parentApplet;
+	public FileUI(Rectangle rectangle) {
 		rect = rectangle;
 		
+		togglerGroup = new TogglerGroup();
+		togglers = new LinkedList<Toggler>();
+		Rectangle togglerRect;
 		
+		final int numTogglers = 5;
+		final int togglerWidth = rect.width() / numTogglers;
+		for(int i = 0; i < numTogglers; i++) {
+			togglerRect = new Rectangle(rect.left() + i * togglerWidth, rect.top(),
+					                    togglerWidth, togglerWidth);
+			Toggler t = new Toggler(togglerRect, togglerGroup);
+			t.setSize(0.5);
+			togglers.add(t);
+		}
 	}
 	
 	public void draw() {
-		
+		for(Toggler t : togglers) {
+			t.draw();
+		}
 	}
 	
 }
