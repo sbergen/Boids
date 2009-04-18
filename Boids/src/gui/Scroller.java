@@ -1,7 +1,5 @@
 package gui;
 
-import processing.core.*;
-
 class Scroller extends Widget {
 	
 	public enum Direction {

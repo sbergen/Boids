@@ -4,10 +4,8 @@ import java.util.ArrayList;
 
 import engine.SimulationRules;
 
-import vector.Angle;
 import vector.Vector;
 import vector.VectorBase;
-import engine.SimulationRules;
 
 final class BoidState implements ThreadSafeBoidState {
 	
