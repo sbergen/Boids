@@ -1,8 +1,6 @@
 package gui;
 
-import gui.Scroller.Direction;
-import engine.SimulationRules;
-import engine.SimulationRules.Property;
+import engine.Property;
 import processing.core.PApplet;
 
 public final class PropertyScroller extends Scroller {
@@ -14,10 +12,16 @@ public final class PropertyScroller extends Scroller {
 			Property property) {
 		super(parentApplet, rectangle, direction, barWidth);
 		this.property = property;
+		
+	}
+	
+	/// Commits value to property
+	public void commitValue() {
+		property.setValue(position * 2 * property.defaultValue());
 	}
 	
 	public void updateValue() {
-		property.setValue(getPosition() * 2 * property.defaultValue());
+		position = property.value() / (2 * property.defaultValue());
 	}
 	
 }

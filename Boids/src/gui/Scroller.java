@@ -17,7 +17,8 @@ class Scroller {
 	
 	static boolean globalActive = false;
 	private boolean active = false;
-	private double position = 0.5;
+	
+	protected double position = 0.5;
 	private int min;
 	private int max;
 	private int bWidth;

@@ -27,7 +27,7 @@ final class ControlPane {
 	private PropertyScroller cohesionScroll;
 	private PropertyScroller separationScroll;
 	private PropertyScroller alignmentScroll;
-	private Scroller amountScroll;
+	private PropertyScroller amountScroll;
 	
 	public ControlPane (PApplet parentApplet,  Engine physEngine,
 			            Rectangle mainRectangle, Rectangle togglerRectangle) {
@@ -55,7 +55,8 @@ final class ControlPane {
 				Scroller.Direction.Horizontal, barWidth, rules.separationFactor);
 		alignmentScroll = new PropertyScroller(parent, getControlRect(3),
 				Scroller.Direction.Horizontal, barWidth, rules.alignmentFactor);
-		amountScroll = new Scroller(parent, getControlRect(4), Scroller.Direction.Horizontal, barWidth);
+		amountScroll = new PropertyScroller(parent, getControlRect(4),
+				Scroller.Direction.Horizontal, barWidth, engine.boidCount);
 	}
 	
 	public void draw() {
@@ -100,27 +101,24 @@ final class ControlPane {
 		// Perception range
 		drawLabel(0, "Perception Range");
 		perceptionRangeScroll.draw();
-		perceptionRangeScroll.updateValue();
 		
 		// cohesion
 		drawLabel(1, "Cohesion");
 		cohesionScroll.draw();
-		cohesionScroll.updateValue();
 		
 		// separation
 		drawLabel(2, "Separation");
 		separationScroll.draw();
-		separationScroll.updateValue();
 		
 		// alignment
 		drawLabel(3, "Alignment");
 		alignmentScroll.draw();
-		alignmentScroll.updateValue();
 		
 		// amount
 		drawLabel(4, "Number of Boids");
 		amountScroll.draw();
-		engine.setBoidCount((int) (amountScroll.getPosition() * 2 * Engine.defaultBoidCount));
+		
+		commitValues();
 	}
 	
 	private void drawLabel (int number, final String text) {
@@ -137,6 +135,14 @@ final class ControlPane {
 	private Rectangle getControlRect(int n) {
 		int offset = (int) (2 * SPACING + labelHeight + n * (3 * SPACING + labelHeight + controlHeight));
 		return new Rectangle(mainRect.left() + SPACING, mainRect.top() + offset, mainRect.width() - 2 * SPACING, (int) controlHeight);
+	}
+	
+	private void commitValues() {
+		perceptionRangeScroll.commitValue();
+		cohesionScroll.commitValue();
+		separationScroll.commitValue();
+		alignmentScroll.commitValue();
+		amountScroll.commitValue();
 	}
 
 }
