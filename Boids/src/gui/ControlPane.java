@@ -23,10 +23,10 @@ final class ControlPane {
 	
 	// Scrollers
 	
-	private Scroller perceptionRangeScroll;
-	private Scroller cohesionScroll;
-	private Scroller separationScroll;
-	private Scroller alignmentScroll;
+	private PropertyScroller perceptionRangeScroll;
+	private PropertyScroller cohesionScroll;
+	private PropertyScroller separationScroll;
+	private PropertyScroller alignmentScroll;
 	private Scroller amountScroll;
 	
 	public ControlPane (PApplet parentApplet,  Engine physEngine,
@@ -47,10 +47,14 @@ final class ControlPane {
 		
 		int barWidth = mainRect.width() / 10;
 		
-		perceptionRangeScroll = new Scroller(parent, getControlRect(0), Scroller.Direction.Horizontal, barWidth);
-		cohesionScroll = new Scroller(parent, getControlRect(1), Scroller.Direction.Horizontal, barWidth);
-		separationScroll = new Scroller(parent, getControlRect(2), Scroller.Direction.Horizontal, barWidth);
-		alignmentScroll = new Scroller(parent, getControlRect(3), Scroller.Direction.Horizontal, barWidth);
+		perceptionRangeScroll = new PropertyScroller(parent, getControlRect(0),
+				Scroller.Direction.Horizontal, barWidth, rules.perceptionRange);
+		cohesionScroll = new PropertyScroller(parent, getControlRect(1),
+				Scroller.Direction.Horizontal, barWidth, rules.cohesionFactor);
+		separationScroll = new PropertyScroller(parent, getControlRect(2),
+				Scroller.Direction.Horizontal, barWidth, rules.separationFactor);
+		alignmentScroll = new PropertyScroller(parent, getControlRect(3),
+				Scroller.Direction.Horizontal, barWidth, rules.alignmentFactor);
 		amountScroll = new Scroller(parent, getControlRect(4), Scroller.Direction.Horizontal, barWidth);
 	}
 	
@@ -96,22 +100,22 @@ final class ControlPane {
 		// Perception range
 		drawLabel(0, "Perception Range");
 		perceptionRangeScroll.draw();
-		rules.setPerceptionRange(perceptionRangeScroll.getPosition() * 2 * SimulationRules.defaultPerceptionRange);
+		perceptionRangeScroll.updateValue();
 		
 		// cohesion
 		drawLabel(1, "Cohesion");
 		cohesionScroll.draw();
-		rules.setCohesionFactor(cohesionScroll.getPosition() * 2 * SimulationRules.defaultCohesionFactor);
+		cohesionScroll.updateValue();
 		
 		// separation
 		drawLabel(2, "Separation");
 		separationScroll.draw();
-		rules.setSeparationFactor(separationScroll.getPosition() * 2 * SimulationRules.defaultSeparationFactor);
+		separationScroll.updateValue();
 		
 		// alignment
 		drawLabel(3, "Alignment");
 		alignmentScroll.draw();
-		rules.setAlignmentFactor(alignmentScroll.getPosition() * 2 * SimulationRules.defaultAlignmentFactor);
+		alignmentScroll.updateValue();
 		
 		// amount
 		drawLabel(4, "Number of Boids");
