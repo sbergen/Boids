@@ -43,6 +43,7 @@ class Scroller extends Widget {
 	
 	/* Public stuff */
 	
+	@Override
 	public void draw() {
 		if (rect.isInside(parent.mouseX, parent.mouseY) && 
 			parent.mousePressed && !globalActive) {
