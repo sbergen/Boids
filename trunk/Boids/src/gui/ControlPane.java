@@ -77,7 +77,7 @@ final class ControlPane extends Widget {
 		Rectangle rect = getControlRect(10);
 		Rectangle fileRect = new Rectangle(rect.left(), rect.top(),
 				                           rect.width(), mainRect.bottom() - rect.top());
-		fileUI = new FileUI(fileRect);
+		fileUI = new FileUI(fileRect, rules);
 	}
 	
 	@Override
@@ -137,12 +137,16 @@ final class ControlPane extends Widget {
 		
 		drawLabel(10, "Save/Load settings");
 		fileUI.draw();
+		if (fileUI.hasLoaded()) {
+			updateValues();
+		}
 		
 		commitValues();
 	}
 	
 	private void drawLabel (int number, final String text) {
 		Rectangle rect = getLabelRect(number);
+		parent.textAlign(PGraphics.LEFT, PGraphics.BOTTOM);
 		parent.fill(255, 200);
 		parent.text(text, rect.left(), rect.bottom());
 	}

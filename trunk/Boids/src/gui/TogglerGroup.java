@@ -20,4 +20,16 @@ public final class TogglerGroup {
 		}
 	}
 	
+	// Get index of active toggler
+	public int getActive() {
+		int i = 0;
+		for(Toggler t : togglers) {
+			if(t.selected()) {
+				return i;
+			}
+			i++;
+		}
+		return -1;
+	}
+	
 }
