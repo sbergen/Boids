@@ -52,10 +52,9 @@ class Toggler extends Widget {
 			if (group != null) {
 				if (selected) {
 					return;
-				} else {
-					group.deselectAll();
-					selected = true;
 				}
+				group.deselectAll();
+				selected = true;
 			} else {
 				selected = !selected;
 			}

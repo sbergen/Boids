@@ -6,7 +6,7 @@ class Scroller extends Widget {
 	public enum Direction {
 		Vertical,
 		Horizontal
-	};
+	}
 	
 	/* Data */
 	
@@ -80,7 +80,7 @@ class Scroller extends Widget {
 	/* Private stuff */
 	
 	private int getBarStart() {
-		return (int) ((min + position * (max - min)) - bWidth / 2);
+		return (int) ((min + position * (max - min)) - (double) bWidth / 2);
 	}
 	
 	private void setPosition() {

@@ -60,6 +60,7 @@ public final class Angle extends GenericVector {
 		return false;
 	}
 	
+	@Override
 	public void reset() {
 		x = 0.0;
 		y = 0.0;
@@ -71,7 +72,7 @@ public final class Angle extends GenericVector {
 	/**
 	 * atan, that returns in the range [0, 2Pi]
 	 */
-	double atan2(double y, double x) {
+	static double atan2(double y, double x) {
 		double angle = Math.atan2(y, x);
 		if (angle < 0) {
 			angle += 2.0 * Math.PI;

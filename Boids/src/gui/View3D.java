@@ -23,9 +23,6 @@ abstract class View3D extends PApplet implements BoidList.BoidReader {
 	private static final float ZOOM_STEP = 5;
 	private static final double SPEED_STEP = 0.2;
 	
-	protected int height;
-	protected int width;
-	
 	private Engine engine;
 	private TreeSet<Integer> keysDown;
 	
@@ -206,17 +203,17 @@ abstract class View3D extends PApplet implements BoidList.BoidReader {
     
     @Override
     public void keyPressed() {
-    	keysDown.add(new Integer(keyCode));
+    	keysDown.add(Integer.valueOf(keyCode));
     }
     
     @Override
     public void keyReleased() {
-    	keysDown.remove(new Integer(keyCode));
+    	keysDown.remove(Integer.valueOf(keyCode));
     }
     
     private void handleKeys() {
-    	for (Integer keyCode : keysDown) {
-    		switch(keyCode) {
+    	for (Integer code : keysDown) {
+    		switch(code) {
     		  case KeyEvent.VK_UP:
     			cameraDistance -= ZOOM_STEP;
     			break;

@@ -47,7 +47,7 @@ public final class PropertyFile {
 	
 	/** Gets thrown if the data is invalid (contains newline or delimiter) */
 	@SuppressWarnings("serial")
-	public class InvalidDataException extends Exception {};
+	static public class InvalidDataException extends Exception { /* Nothing required */ }
 	
 	/** Add key-value-pair to data */
 	public void addData(String key, String value) throws InvalidDataException {
@@ -62,7 +62,7 @@ public final class PropertyFile {
 	
 	/** Get's thrown if the data is not found */
 	@SuppressWarnings("serial")
-	public class NotFoundException extends Exception {};
+	static public class NotFoundException extends Exception {  /* Nothing required */ }
 	
 	/** gets a data value based on key */
 	public String getData(String key) throws NotFoundException {
