@@ -20,7 +20,7 @@ public final class Engine {
 	private long lastExecTime;
 	private double speed = 8.0;
 	
-	private static final int CYCLE_LENGTH = 20; // simulation cycle length in milliseconds
+	private static final int CYCLE_LENGTH = 15; // simulation cycle minimum length in milliseconds
 	
 	/* Timer task that runs the simulation at a maximum rate */
 	private class SimulationRunner extends TimerTask {

@@ -113,6 +113,7 @@ abstract class View3D extends PApplet implements BoidList.BoidReader {
         engine.start();
     }
 
+    @Override
     public void draw() {
     	
     	//System.out.println("draw");
@@ -186,6 +187,7 @@ abstract class View3D extends PApplet implements BoidList.BoidReader {
     	zPos = Math.max(zPos, 0.0000001);
     	zenith = PI * zPos;
     	
+    	cameraDistance = Math.max(cameraDistance, 0);
     	Vector eye = new Vector(cameraDistance, new Angle(azimuth, zenith));
     	
     	camera(
@@ -252,7 +254,7 @@ abstract class View3D extends PApplet implements BoidList.BoidReader {
     
     /* Private helpers */
     
-    /** calculates the roll of a boid in radians */
+    /** calculates the roll of a boid in radians, given its vector base */
     private double calculateRoll (VectorBase base) {
     	
     	Vector up;
@@ -261,15 +263,15 @@ abstract class View3D extends PApplet implements BoidList.BoidReader {
     	
     	/* calculating roll needs some wizardry... */
     	
-    	/* Localize 3d up vector */
+    	/* Localize global up vector */
     	up = new Vector(0.0, 1.0, 0.0);
     	base.localize(up);
     	
-    	/* Cross product of up and forward is the "straight" left */
+    	/* Cross product of the global up and local forward is the vertical left */
     	left = new Vector();
     	left.crossProduct(up, base.getFwd());
     	
-    	/* project up to the "straight" left to get roll */
+    	/* project base up to the vertical left to get roll */
     	roll = left.dotProduct(base.getUp()) * HALF_PI;
     	
     	/* Translate values to the range [0, 2Pi] */
