@@ -41,7 +41,7 @@ public final class PropertyFile {
 	}
 	
 	@Override
-	public void finalize() {
+	protected void finalize() {
 		close();
 	}
 	

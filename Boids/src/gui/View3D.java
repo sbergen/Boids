@@ -45,6 +45,7 @@ abstract class View3D extends PApplet implements BoidList.BoidReader {
 		Widget.setApplet(this);
 		
 		engine = new Engine();
+		keysDown = new TreeSet<Integer>();
 		
 		width = _width;
 		height = _height;
@@ -101,8 +102,6 @@ abstract class View3D extends PApplet implements BoidList.BoidReader {
     	} else {
     		size(width, height, P3D);
     	}
-		
-		keysDown = new TreeSet<Integer>();
 		
 		// Engine 
         engine.start();
