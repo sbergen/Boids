@@ -14,7 +14,7 @@ public final class Engine {
 	private SimulationRunner runner;
 	private Timer timer;
 	private long lastExecTime;
-	private double speed;
+	private double speed = 8.0;
 	
 	private class SimulationRunner extends TimerTask {
 		public void run() { 
@@ -40,8 +40,6 @@ public final class Engine {
 		
 		boidCount = new Property("BoidCount", defaultBoidCount);
 		boidList.setBoidCount(rules, (int) boidCount.defaultValue());
-		
-		rules.loadFromFile("rules");
 	}
 	
 	public void save() {
@@ -51,7 +49,6 @@ public final class Engine {
 	public void start() {
 		lastExecTime = System.nanoTime();
 		timer.scheduleAtFixedRate(runner, 0, 30);
-		speed = 4.5;
 	}
 	
 	public void stop() {

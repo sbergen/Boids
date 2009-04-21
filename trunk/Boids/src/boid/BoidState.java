@@ -7,10 +7,17 @@ import engine.SimulationRules;
 import vector.Vector;
 import vector.VectorBase;
 
+/**
+ * BoidState is responsible for the flock behavior logic.
+ * It also owns the current and next state of a boid ("double buffering").
+ * Each boid in the simulation has one state.
+ * Implements its thread safe interface.
+ */
 final class BoidState implements ThreadSafeBoidState {
 	
-	static final double WALL_LIMITS = 250;
-	static final double WALL_DISTANCE = 40;
+	// Behavior near walls (this is hard coded into the graphics side also :/ )
+	static final double WALL_LIMITS = 250; // Coordinates of walls
+	static final double WALL_DISTANCE = 50; // How near to the wall we start to turn
 	
 	private SimulationRules rules;
 	private BoidModel boid;
@@ -18,6 +25,7 @@ final class BoidState implements ThreadSafeBoidState {
 	private PhysState nextState;
 	private static BoidList list;
 	
+	/** All boids are in the same list so this is static */
 	static void setList(BoidList newList) {
 		list = newList;
 	}
@@ -41,12 +49,18 @@ final class BoidState implements ThreadSafeBoidState {
 		return state.speed;
 	}
 	
+	/** Check to see if this boid follows a certain set of rules */
 	public boolean hasRules(SimulationRules rules) {
 		return (boid.rules == rules);
 	}
 
+	/** Calculates the next move, but does not apply it yet */
 	public void calculateNextMove() {
+		
+		// The overall force
 		Vector force = new Vector();
+		
+		// Each flocking rule has it's own vector
 		Vector separation = new Vector();
 		Vector cohesion = new Vector();
 		Vector alignment = new Vector();
@@ -54,6 +68,7 @@ final class BoidState implements ThreadSafeBoidState {
 		ArrayList<ThreadSafeBoidState> neighbours = 
 			list.getBoidsWithinRange(state.position, rules.perceptionRange.value());
 		
+		// If the boid has no neighbors (except itself, only apply wall force)
 		if (neighbours.size() <= 1) {
 			addWallForce(force);
 			boid.attemptMove(state, nextState, force);
@@ -66,53 +81,55 @@ final class BoidState implements ThreadSafeBoidState {
 				continue;
 			}
 			
-			/* Separation */
+			// Separation
+			// (difference vector divided by its length squared) 
 			
 			Vector diff = new Vector(state.position);
 			diff.subtract(neighbour.getPosition());
-			diff.normalize();
+			diff.scale(1.0 / Math.pow(diff.length(), 2));
 			separation.add(diff);
 			
-			/* Cohesion and Alignment */
+			// Cohesion and Alignment 
+			// simple vector sums (scaled later)
 			
 			cohesion.add(neighbour.getPosition());
 			alignment.add(neighbour.getSpeed());
 		}
 		
-		/* Cohesion finalization */
+		// Cohesion finalization (scaling)
 		
 		cohesion.scale(1.0 / (neighbours.size() - 1));
 		cohesion.subtract(state.position);
 		
-		/* Alignment finalization */
+		// Alignment finalization (scaling)
 		
 		alignment.scale(1.0 / (neighbours.size() - 1));
 		alignment.subtract(state.speed);
 		
-		/* Scale */
+		// Scale components 
 		separation.scale(rules.separationFactor.value());
 		cohesion.scale(rules.cohesionFactor.value());
 		alignment.scale (rules.alignmentFactor.value());
 		
-		/* Force vector */
+		// Final force vector (sum components)
 		
 		force.add(separation);
 		force.add(cohesion);
 		force.add(alignment);
 		
-		force.scale(1.0);
 		addWallForce (force);
 		
 		boid.attemptMove(state, nextState, force);
 	}
 	
+	/** Simply swap current and next state ("double buffering") */
 	void commitNextMove() {
 		PhysState tmp = state;
 		state = nextState;
 		nextState = tmp;
 	}
 	
-	/* private helpers */
+	/* private helpers */ 
 	
 	private void addWallForce (Vector force) {
 		
@@ -123,18 +140,24 @@ final class BoidState implements ThreadSafeBoidState {
 		force.add(new Vector(xForce, yForce, zForce));
 	}
 	
+	/// Calculates the force to apply to avoid walls
 	private double calculateWallForceComponent (double coord) {
 		
 		boolean negative = (coord < 0.0);
 		double distance = Math.abs(coord);
 		double force;
 		
-		if (distance < (WALL_LIMITS - WALL_DISTANCE)) {
+		final double maxForce = 50.0; // large force
+		final double baseForce = 10.0; // good force to scale for avoiding walls 
+		
+		if (distance < (WALL_LIMITS - WALL_DISTANCE)) { // well inside cube
 			force = 0.0;
-		} else if (distance >= WALL_LIMITS ) {
-			force = 1000.0;
-		} else {
-			force = 50.0 / (Math.abs(distance - WALL_LIMITS) / WALL_DISTANCE);
+		} else if (distance >= WALL_LIMITS ) { // outside walls
+			force = maxForce;
+		} else { // close to walls
+			// Apply force relative to 1/x,
+			// where x is 1 ... 0 from "at WALL_DISTANCE from wall" to "at wall"
+			force = baseForce / (Math.abs(distance - WALL_LIMITS) / WALL_DISTANCE);
 		}
 		
 		return (negative ? 1.0 : -1.0) * force;

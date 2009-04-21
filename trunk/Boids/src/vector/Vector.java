@@ -87,6 +87,16 @@ public final class Vector extends GenericVector {
 		System.out.println("X: " + x + ", Y: " + y + ", Z: " + z);
 	}
 	
+	/** Scales vector so that the length is limited on x-y-plane */
+	public boolean limitXYLength(double length) {
+		double factor = length / Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+		if(factor < 1.0) {
+			scale(factor);
+			return true;
+		}
+		return false;
+	}
+	
 	
 	public double distance (Vector other) {
 		return Math.sqrt(Math.pow(x - other.x, 2) + Math.pow(y - other.y, 2) + Math.pow(z - other.z, 2)); 
