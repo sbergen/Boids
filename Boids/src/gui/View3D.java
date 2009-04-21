@@ -16,8 +16,10 @@ import boid.*;
 /** Basic view which takes care of most of the top-level GUI stuff + boid positioning */
 @SuppressWarnings("unused") // processing.opengl is not used, but needed...
 abstract class View3D extends PApplet implements BoidList.BoidReader {
-
-	private static final float ZOOM_STEP = (float) 5.0;
+	
+	private static final boolean USE_OPENGL = false;
+	
+	private static final float ZOOM_STEP = 5;
 	private static final double SPEED_STEP = 0.2;
 	
 	protected int height;
@@ -28,10 +30,9 @@ abstract class View3D extends PApplet implements BoidList.BoidReader {
 	
 	// Camera
 	
-	private boolean followBoid;
-	private float cameraDistance;
-	private double azimuth;
-	private double zenith;
+	private float cameraDistance = (float) 1.5 * Engine.BOX_SIZE;
+	private double azimuth = PI;
+	private double zenith = HALF_PI;
 	
 	// Scrollers & controls
 	
@@ -50,18 +51,17 @@ abstract class View3D extends PApplet implements BoidList.BoidReader {
 		width = _width;
 		height = _height;
 		
-		azimuth = PI;
-		zenith = HALF_PI;
-		
 		// Scrollers
 		
 		final int scrollerWidth = (int)(0.03 * width);
 		final int scrollBarWidth = scrollerWidth * 4;
 		
-		Rectangle hScrollRect = new Rectangle(1, height - scrollerWidth, width - scrollerWidth - 2, scrollerWidth);
+		Rectangle hScrollRect = new Rectangle(1, height - scrollerWidth, 
+				width - scrollerWidth - 2, scrollerWidth);
 		hScroller = new Scroller(hScrollRect, Scroller.Direction.Horizontal, scrollBarWidth);
 		
-		Rectangle vScrollRect = new Rectangle(width - scrollerWidth, 1, scrollerWidth, height - scrollerWidth - 2);
+		Rectangle vScrollRect = new Rectangle(width - scrollerWidth, 1, 
+				scrollerWidth, height - scrollerWidth - 2);
 		vScroller = new Scroller(vScrollRect, Scroller.Direction.Vertical, scrollBarWidth);
 		
 		// Contorls
@@ -74,7 +74,8 @@ abstract class View3D extends PApplet implements BoidList.BoidReader {
 				controlsWidth, // width
 				height - scrollerWidth - 4 // height
 				);
-		Rectangle controlToggleRect = new Rectangle(width - scrollerWidth, height - scrollerWidth, scrollerWidth, scrollerWidth);
+		Rectangle controlToggleRect = new Rectangle(width - scrollerWidth,
+				height - scrollerWidth, scrollerWidth, scrollerWidth);
 		controls = new ControlPane(engine, controlMainRect, controlToggleRect);
 	}
 	
@@ -82,15 +83,10 @@ abstract class View3D extends PApplet implements BoidList.BoidReader {
 	
 	@Override
 	public void readBoid(ThreadSafeBoidState boid) {
-		if (followBoid) {
-    		setCameraFollowBoid(boid);
-    		followBoid = false;
-    	} else {
 	    	pushMatrix();
 	    	translate(boid.getPosition(), boid.getBase());
 	    	drawBoid ();
 	    	popMatrix();
-    	}
 	}
 	
 	/**
@@ -103,11 +99,13 @@ abstract class View3D extends PApplet implements BoidList.BoidReader {
     @Override
 	public void setup() {
 		
-		size(width, height, OPENGL);
-        //size(width, height, P3D);
+    	if(USE_OPENGL) {
+    		size(width, height, OPENGL);
+    	} else {
+    		size(width, height, P3D);
+    	}
 		
 		keysDown = new TreeSet<Integer>();
-		cameraDistance = 800;
 		
 		// Engine 
         engine.start();
@@ -116,30 +114,19 @@ abstract class View3D extends PApplet implements BoidList.BoidReader {
     @Override
     public void draw() {
     	
-    	//System.out.println("draw");
-    	
     	handleKeys();
-    	
     	background(0);
     	lights();
-    	
-    	// uncomment for following mode
-    	//followBoid = true;
-    	
-    	//drawIndicator();
-    	
-    	// uncomment for regular mode
     	setCamera();
     	
     	/* Draw box */
     	
     	noFill();
     	stroke(255);
-    	box(500);
+    	box(Engine.BOX_SIZE);
     	
     	/* Draw boids */
     	
-    	//fill(255);
     	noStroke();
         engine.readBoids(this);
 		
@@ -254,14 +241,18 @@ abstract class View3D extends PApplet implements BoidList.BoidReader {
     
     /* Private helpers */
     
-    /** calculates the roll of a boid in radians, given its vector base */
+    /** calculates the roll (rotation around forward axis)
+     * of a boid (in radians), given its vector base
+     */
     private double calculateRoll (VectorBase base) {
     	
     	Vector up;
     	Vector left;
     	double roll;
     	
-    	/* calculating roll needs some wizardry... */
+    	/* calculating roll needs some wizardry...
+    	 * Nothing magical here though ;)
+    	 */
     	
     	/* Localize global up vector */
     	up = new Vector(0.0, 1.0, 0.0);

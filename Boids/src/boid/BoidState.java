@@ -15,9 +15,9 @@ import vector.VectorBase;
  */
 final class BoidState implements ThreadSafeBoidState {
 	
-	// Behavior near walls (this is hard coded into the graphics side also :/ )
-	static final double WALL_LIMITS = 250; // Coordinates of walls
-	static final double WALL_DISTANCE = 50; // How near to the wall we start to turn
+	// Behavior near walls
+	static final double WALL_LIMITS = engine.Engine.BOX_SIZE / 2; // Coordinates of walls
+	static final double WALL_DISTANCE = engine.Engine.BOX_SIZE / 10; // How near to the wall we start to turn
 	
 	private SimulationRules rules;
 	private BoidModel boid;

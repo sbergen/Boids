@@ -10,6 +10,11 @@ abstract class Widget {
 	/// global list of all widgets
 	private static final LinkedList<Widget> widgets = new LinkedList<Widget>();
 	
+	protected static final int DEFAULT_OPACITY = 200;
+	protected static final int DEFAULT_GREEN = 200;
+	protected static final int DEFAULT_WHITE = 255;
+	protected static final int DEFAULT_GRAY = 100;	
+	
 	/// Parent applet common for all widgets
 	protected static PApplet parent;
 	
