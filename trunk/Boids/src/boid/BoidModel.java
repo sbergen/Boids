@@ -65,11 +65,7 @@ final class BoidModel {
 		double origLength = accel.length();
 		state.base.localize(accel);
 
-		if (accel.limitXYLength(scaleToTime(rules.maxTurn.value()))) {
-			// The force has been limited, which causes severe slowing down,
-			// scaling it up half way to original makes things more interesting
-			//accel.scale(1.0 + 0.5 * ((origLength / accel.length()) - 1.0));
-		}
+		accel.limitXYLength(rules.maxTurn.value());
 
 		state.base.globalize(accel);
 	}
