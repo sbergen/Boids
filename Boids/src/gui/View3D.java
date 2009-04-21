@@ -82,7 +82,6 @@ abstract class View3D extends PApplet implements BoidList.BoidReader {
 	
 	/* BoidReader implementation */
 	
-	@Override
 	public void readBoid(ThreadSafeBoidState boid) {
 	    	pushMatrix();
 	    	translate(boid.getPosition(), boid.getBase());
