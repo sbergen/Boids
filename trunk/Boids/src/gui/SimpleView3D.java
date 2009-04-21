@@ -9,21 +9,26 @@ final class SimpleView3D extends View3D {
 	
 	@Override
 	protected void drawBoid() {
+		
+		final int xOffset = 10;
+		final int yOffset = 5;
+		final float zOffset =(float) 0.1;
+		
+		fill(255);
 		beginShape(TRIANGLES);
-    	vertex(-10, 5);
-    	vertex(10, 0);
-    	vertex(-10, -5);
+    	vertex(-xOffset, yOffset);
+    	vertex(xOffset, 0);
+    	vertex(-xOffset, -yOffset);
     	endShape();
     	
     	pushMatrix();
-    	translate(0,0,1);
-    	fill(0,255,0);
+    	translate(0, 0, zOffset);
+    	fill(0, 255, 0);
     	beginShape(TRIANGLES);
-    	vertex(-10, 5);
-    	vertex(10, 0);
-    	vertex(-10, -5);
+    	vertex(-xOffset, yOffset);
+    	vertex(xOffset, 0);
+    	vertex(-xOffset, -yOffset);
     	endShape();
-    	fill(255);
     	popMatrix();
 	}
 	
