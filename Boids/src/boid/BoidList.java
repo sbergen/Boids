@@ -8,9 +8,20 @@ import java.util.Set;
 import vector.Vector;
 import engine.SimulationRules;
 
+/**
+ * BoidList is a container and handler of boid instances.
+ * It handles adding, removing and updating boid states.
+ * It implements the ThreadSafeBoiList interface for thread safe operations.
+ * BoidList is implemented to support many different boid models
+ * with different simulation rules and number of boids per rule set.
+ */
 public final class BoidList implements ThreadSafeBoidList {
 	
-	/* Data members */
+	/* Data members:
+	 * Boids are kept in a list and can me mapped to a model.
+	 * Actual boid counts and requested boid counts (per rule/model)
+	 * are synchronized once per simulation cycle. 
+	 */
 	
 	private ArrayList<BoidState> list;
 	private HashMap<SimulationRules, BoidModel> models;
@@ -46,7 +57,6 @@ public final class BoidList implements ThreadSafeBoidList {
 	 * interface to be used with the visitor pattern
 	 * to read Boids in the list.
 	 */
-	
 	public interface BoidReader {
 		public void readBoid(ThreadSafeBoidState boid);
 	}
@@ -88,6 +98,11 @@ public final class BoidList implements ThreadSafeBoidList {
 		}
 	}
 	
+	/**
+	 * Requests for a certain amount of boids following a certain set of rules
+	 * @param rules rules for the requested boids to follow
+	 * @param count number of boids requested
+	 */
 	public void setBoidCount(SimulationRules rules, int count) {
 		synchronized (requestedBoidCounts) {
 			if (!requestedBoidCounts.containsKey(rules)) {

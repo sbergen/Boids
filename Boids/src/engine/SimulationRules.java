@@ -7,16 +7,16 @@ public final class SimulationRules {
 	
 	private LinkedList<Property> properties;
 	
-	private static final double defaultMinSpeed = 5.0;
-	private static final double defaultMaxSpeed = 20.0;
-	private static final double defaultMinForce = 0.2;
-	private static final double defaultMaxForce = 35.0;
-	private static final double defaultMaxTurn = 13.0;
+	private static final double defaultMinSpeed = 10.0;
+	private static final double defaultMaxSpeed = 40.0;
+	private static final double defaultMinForce = 1.0;
+	private static final double defaultMaxForce = 60.0;
+	private static final double defaultMaxTurn = 8.0;
 	private static final double defaultMass = 5.0;
-	private static final double defaultSeparationFactor = 7.0;
-	private static final double defaultCohesionFactor = 3.5;
-	private static final double defaultAlignmentFactor = 0.5;
-	private static final double defaultPerceptionRange = 100.0;
+	private static final double defaultSeparationFactor = 20.0;
+	private static final double defaultCohesionFactor = 0.2;
+	private static final double defaultAlignmentFactor = 0.1;
+	private static final double defaultPerceptionRange = 150.0;
 	
 	// Maximum and minimum speed (m/s)
 	public Property minSpeed;
@@ -26,7 +26,7 @@ public final class SimulationRules {
 	public Property minForce;
 	public Property maxForce;
 	
-	// Maximum turn (radians/s)
+	// Maximum turn force (N, excluding forward/back force)
 	public Property maxTurn;
 	
 	// Mass (kg)
