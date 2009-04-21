@@ -13,18 +13,21 @@ public final class Engine {
 	
 	/* Private stuff */
 	
-	private SimulationRules rules; // Currently only one set of rules is supported
-	private BoidList boidList;
+	protected SimulationRules rules; // Currently only one set of rules is supported
+	protected BoidList boidList;
 	private SimulationRunner runner;
 	private Timer timer;
-	private long lastExecTime;
-	private double speed = 8.0;
+	protected long lastExecTime;
+	protected double speed = 8.0;
 	
 	// simulation cycle minimum length in milliseconds
 	private static final int CYCLE_LENGTH = 15;
 	
 	/* Timer task that runs the simulation at a maximum rate */
 	private class SimulationRunner extends TimerTask {
+		
+		public SimulationRunner() { /* no implementation required */ }
+		
 		@Override
 		public void run() { 
 			
