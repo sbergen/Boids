@@ -1,5 +1,6 @@
 package vector;
 
+/** A vector base (orientation) in 3D space */
 public final class VectorBase {
 	private Vector left; // x
 	private Vector up;    // y
@@ -31,6 +32,11 @@ public final class VectorBase {
 		return fwd;
 	}
 	
+	/** Sets new values for the base.
+	 *  The "left" vector is calculated automatically.
+	 * @param newFwd new forward direction
+	 * @param newUp new up direction
+	 */
 	public void set (Vector newFwd, Vector newUp) {
 		fwd.copyFrom(newFwd);
 		up.copyFrom(newUp);

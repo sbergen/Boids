@@ -1,7 +1,6 @@
 package boid;
 
 import vector.Vector;
-import vector.Angle;
 import engine.SimulationRules;
 import java.util.concurrent.TimeUnit;
 
@@ -62,11 +61,8 @@ final class BoidModel {
 	 * @param accel the angle of this vector will be limited
 	 */
 	private void limitAngle(PhysState state, Vector accel) {
-		double origLength = accel.length();
 		state.base.localize(accel);
-
 		accel.limitXYLength(rules.maxTurn.value());
-
 		state.base.globalize(accel);
 	}
 	
@@ -119,9 +115,5 @@ final class BoidModel {
 	
 	private void scaleToTime (Vector v) {
 		v.scale(SECONDS_IN_NANOSECOND * currentTimeDelta * simulationSpeed);
-	}
-	
-	private double scaleToTime (double d) {
-		return d * (SECONDS_IN_NANOSECOND * currentTimeDelta * simulationSpeed);
 	}
 }

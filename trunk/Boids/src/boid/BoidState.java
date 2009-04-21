@@ -140,7 +140,7 @@ final class BoidState implements ThreadSafeBoidState {
 		force.add(new Vector(xForce, yForce, zForce));
 	}
 	
-	/// Calculates the force to apply to avoid walls
+	/** Calculates the force to apply to avoid walls */
 	private double calculateWallForceComponent (double coord) {
 		
 		boolean negative = (coord < 0.0);

@@ -5,6 +5,7 @@ import processing.core.PGraphics;
 
 import engine.SimulationRules;
 
+/** GUI component for saving and loading settings from a file */
 final class FileUI extends Widget {
 	
 	private SimulationRules rules;

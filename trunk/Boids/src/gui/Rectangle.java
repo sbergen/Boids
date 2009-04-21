@@ -1,5 +1,6 @@
 package gui;
 
+/** A generic rectangle class for GUI purposes */
 final class Rectangle {
 	
 	// Top-left
@@ -17,6 +18,7 @@ final class Rectangle {
 		bry = y + height;
 	}
 	
+	/** Returns true if the point (x, y) is inside rectangle */
 	public boolean isInside(int x, int y) {
 		return (x >= tlx && x < brx &&
 				y >= tly && y < bry);

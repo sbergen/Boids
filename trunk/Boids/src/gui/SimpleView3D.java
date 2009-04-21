@@ -1,6 +1,7 @@
 package gui;
 
-public final class SimpleView3D extends View3D {
+/** Provides a boid drawing function to View3D */
+final class SimpleView3D extends View3D {
 
 	public SimpleView3D (int width, int height) {
 		super (width, height);

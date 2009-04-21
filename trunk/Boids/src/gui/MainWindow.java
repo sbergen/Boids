@@ -6,10 +6,7 @@ package gui;
 import javax.swing.JFrame;
 
 
-/**
- * @author sbergen
- *
- */
+/** Makes a window to contain the applet and starts it (also provides main()) */
 public class MainWindow {
 	
 	/**

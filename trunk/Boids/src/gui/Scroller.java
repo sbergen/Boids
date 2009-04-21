@@ -1,5 +1,6 @@
 package gui;
 
+/** A generic scroller. Can be horizontal or vertical */ 
 class Scroller extends Widget {
 	
 	public enum Direction {
@@ -71,6 +72,7 @@ class Scroller extends Widget {
 		}
 	}
 	
+	/** Gets position of scroller (in the range of 0.0 ... 1.0) */
 	public double getPosition() {
 		return position;
 	}

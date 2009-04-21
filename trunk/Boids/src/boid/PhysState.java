@@ -3,8 +3,10 @@ package boid;
 import vector.Vector;
 import vector.VectorBase;
 
+/** Physical state including position, speed and orientation (vector base) */
 final class PhysState {
 	
+	// Parameters for creating random states
 	private static final double RAND_MAX_POS = 300.0;
 	private static final double RAND_AVG = -150.0;
 	private static final double RAND_MAX_SPEED = 10.0;
@@ -29,6 +31,7 @@ final class PhysState {
 		speed.reset();
 	}
 	
+	/** Creates random state */
 	static PhysState random() {
 		PhysState state = new PhysState();
 		
