@@ -1,20 +1,21 @@
 package gui;
 
+// Optional OpenGL libraries, see View3D.USE_OPENGL
+//import processing.opengl.*;
+
 import java.util.TreeSet;
 import java.awt.event.KeyEvent;
 
-import processing.opengl.*;
 import processing.core.*;
 
 import engine.Engine;
-import engine.SimulationRules;
 import vector.Vector;
 import vector.VectorBase;
 import vector.Angle;
 import boid.*;
 
+
 /** Basic view which takes care of most of the top-level GUI stuff + boid positioning */
-@SuppressWarnings("unused") // processing.opengl is not used, but needed...
 abstract class View3D extends PApplet implements BoidList.BoidReader {
 	
 	private static final boolean USE_OPENGL = false;
@@ -185,7 +186,7 @@ abstract class View3D extends PApplet implements BoidList.BoidReader {
     
     /** Not used, but can be used to follow a boid with the camera.
      * Probably doesn't work correctly anymore though...
-     */
+     * 
     private void setCameraFollowBoid(ThreadSafeBoidState state) {
     	
     	Vector position = state.getPosition();
@@ -200,6 +201,7 @@ abstract class View3D extends PApplet implements BoidList.BoidReader {
     			(float)up.getX(), (float)up.getY(), (float)up.getZ());
     			//(float)0.0, (float)0.0, (float)1.0);
     }
+    */
     
     /* Key listening and repeating */
     
