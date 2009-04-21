@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 import processing.core.PApplet;
 
-// Handles stuff common for all widgets like mouse presses etc.
+/** Handles stuff common for all widgets. Currently only applet and mouse presses... */
 abstract class Widget {
 	
 	/// global list of all widgets
@@ -13,24 +13,24 @@ abstract class Widget {
 	/// Parent applet common for all widgets
 	protected static PApplet parent;
 	
-	/// Common constructor registers widget
+	/** Common constructor registers widget */
 	public Widget() {
 		widgets.add(this);
 	}
 	
-	/// Set common applet for all widgets
+	/** Sets common applet for all widgets */
 	public static void setApplet(PApplet parentApplet) {
 		parent = parentApplet;
 	}
 	
-	/// This must be called from applet!
+	/** This must be called from applet! */
 	static void globalMousePressed() {
 		for(Widget w : widgets) {
 			w.mousePressed();
 		}
 	}
 	
-	/// Override this to handle mouse presses
+	/** Override this to handle mouse presses */
 	protected void mousePressed() {
 		// empty default implementation
 	}

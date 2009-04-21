@@ -4,6 +4,7 @@ import processing.core.*;
 import engine.Engine;
 import engine.SimulationRules;
 
+/** Includes all controls for the simulation + a toggler for toggling the interface */
 final class ControlPane extends Widget {
 	
 	private static final int ITEMS = 15;

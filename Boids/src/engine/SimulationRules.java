@@ -3,6 +3,7 @@ package engine;
 import fileio.PropertyFile;
 import java.util.LinkedList;
 
+/** Simulation rules for boids to follow */
 public final class SimulationRules {
 	
 	private LinkedList<Property> properties;
@@ -41,7 +42,6 @@ public final class SimulationRules {
 	
 	public SimulationRules() {
 		properties = new LinkedList<Property>();
-		
 		properties.add(minSpeed = new Property("minSpeed", defaultMinSpeed));
 		properties.add(maxSpeed = new Property("maxSpeed", defaultMaxSpeed));
 		properties.add(minForce = new Property("minForce", defaultMinForce));

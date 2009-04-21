@@ -2,7 +2,8 @@ package gui;
 
 import processing.core.PGraphics;
 
-public class Toggler extends Widget {
+/** Provides a toggle button (radio-button style) */
+class Toggler extends Widget {
 
 	private Rectangle rect;
 	private boolean selected = false;
@@ -19,6 +20,9 @@ public class Toggler extends Widget {
 		group.addToggler(this);
 	}
 	
+	/** Sets size of button compared to rectangle it is in
+	  * in the range 0.0 (no button visible) to 1.0 (full area used) 
+	  */
 	public void setSize(double newSize) {
 		size = newSize;
 	}

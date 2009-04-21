@@ -3,12 +3,7 @@ package boid;
 import vector.Vector;
 import vector.VectorBase;
 
-/**
- * Thread safe interface for BoidState
- * @author sbergen
- *
- */
-
+/** Thread safe interface for BoidState */
 public interface ThreadSafeBoidState {
 	public Vector getPosition();
 	public VectorBase getBase();

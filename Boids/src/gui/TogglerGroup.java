@@ -2,7 +2,8 @@ package gui;
 
 import java.util.LinkedList;
 
-public final class TogglerGroup {
+/** Creates a group of togglers ("real" radio button behavior) */
+final class TogglerGroup {
 	
 	private LinkedList<Toggler> togglers;
 	

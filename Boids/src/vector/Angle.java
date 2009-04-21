@@ -1,7 +1,6 @@
 package vector;
 
-
-
+/** A class representing an angle in 3D space (polar coordinates) */
 public final class Angle extends GenericVector {
 	
 	/* Constructors */

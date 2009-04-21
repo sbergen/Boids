@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Set;
 import java.io.*;
 
+/** Class for storing key-value-pairs in a CSV format to a file */
 public final class PropertyFile {
 	
 	// File stuff
@@ -44,10 +45,11 @@ public final class PropertyFile {
 		close();
 	}
 	
-	/// Gets thrown if the data is invalid (contains newline or delimiter)
+	/** Gets thrown if the data is invalid (contains newline or delimiter) */
 	@SuppressWarnings("serial")
 	public class InvalidDataException extends Exception {};
 	
+	/** Add key-value-pair to data */
 	public void addData(String key, String value) throws InvalidDataException {
 		
 		if (key.contains(DELIMITER) || value.contains(DELIMITER) ||
@@ -58,10 +60,11 @@ public final class PropertyFile {
 		dataMap.put(key, value);
 	}
 	
-	/// Get's thrown if the data is not found
+	/** Get's thrown if the data is not found */
 	@SuppressWarnings("serial")
 	public class NotFoundException extends Exception {};
 	
+	/** gets a data value based on key */
 	public String getData(String key) throws NotFoundException {
 		if (!dataMap.containsKey(key)) {
 			throw new NotFoundException();
@@ -69,6 +72,7 @@ public final class PropertyFile {
 		return dataMap.get(key);
 	}
 	
+	/** Saves stored data to file */
 	public void save(String filename) throws IOException {
 		if(!open(Mode.Output, filename)) {
 			close();
@@ -83,6 +87,7 @@ public final class PropertyFile {
 		close();
 	}
 	
+	/** loads data in file */
 	public void load(String filename) throws IOException {
 		dataMap.clear();
 		

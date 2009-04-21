@@ -13,8 +13,9 @@ import vector.VectorBase;
 import vector.Angle;
 import boid.*;
 
+/** Basic view which takes care of most of the top-level GUI stuff + boid positioning */
 @SuppressWarnings("unused") // processing.opengl is not used, but needed...
-public abstract class View3D extends PApplet implements BoidList.BoidReader {
+abstract class View3D extends PApplet implements BoidList.BoidReader {
 
 	private static final float ZOOM_STEP = (float) 5.0;
 	private static final double SPEED_STEP = 0.2;
@@ -93,7 +94,7 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
 	}
 	
 	/**
-     * Draw boid facing right
+     * Draw boid facing right on the x-y-plane
      */
     protected abstract void drawBoid(); 
 	
@@ -159,6 +160,9 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
     	hint(ENABLE_DEPTH_TEST);
     }
     
+    /** Translates view to a position and vector base.
+     *  After this the boid can be drawn facing right on the x-y-plane.
+     */
     private void translate(Vector position, VectorBase base) {    	
     	translate(
     			(float) position.getX(),
@@ -176,6 +180,7 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
     	
     	azimuth = TWO_PI * (1.0 - hScroller.getPosition());
     	
+    	// Limit maximum and minimum angles to avoid rendering problems
     	double zPos = vScroller.getPosition();
     	zPos = Math.min(zPos, 0.9999999);
     	zPos = Math.max(zPos, 0.0000001);
@@ -189,6 +194,9 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
     			(float)0.0, (float)0.0, (float)1.0);
     }
     
+    /** Not used, but can be used to follow a boid with the camera.
+     * Probably doesn't work correctly anymore though...
+     */
     private void setCameraFollowBoid(ThreadSafeBoidState state) {
     	
     	Vector position = state.getPosition();
@@ -202,28 +210,6 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
     			(float)fwd.getX(), (float)fwd.getY(), (float)fwd.getZ(), 
     			(float)up.getX(), (float)up.getY(), (float)up.getZ());
     			//(float)0.0, (float)0.0, (float)1.0);
-    }
-    
-    private void drawIndicator() {
-    	fill(255, 0, 0);
-    	pushMatrix();
-    	rotateX(-HALF_PI);
-    	beginShape(TRIANGLES);
-    	vertex(-20, 0);
-    	vertex(0, 250);
-    	vertex(20, 0);
-    	endShape();
-    	popMatrix();
-    	
-    	fill(0, 255, 0);
-    	pushMatrix();
-    	rotateY(HALF_PI);
-    	beginShape(TRIANGLES);
-    	vertex(0, -20);
-    	vertex(250, 0);
-    	vertex(0, 20);
-    	endShape();
-    	popMatrix();
     }
     
     /* Key listening and repeating */
@@ -266,6 +252,7 @@ public abstract class View3D extends PApplet implements BoidList.BoidReader {
     
     /* Private helpers */
     
+    /** calculates the roll of a boid in radians */
     private double calculateRoll (VectorBase base) {
     	
     	Vector up;

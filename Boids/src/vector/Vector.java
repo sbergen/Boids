@@ -1,6 +1,6 @@
 package vector;
 
-
+/** A vector in 3D space */
 public final class Vector extends GenericVector {
 	
 	/* Constructors */
@@ -71,23 +71,7 @@ public final class Vector extends GenericVector {
 		}
 	}
 	
-	public void reset() {
-		x = 0.0;
-		y = 0.0;
-		z = 0.0;
-	}
-	
-	public static Vector random(double length) {
-		Vector v = new Vector(Math.random(), Math.random(), Math.random());
-		v.clamp(length, length);
-		return v;
-	}
-	
-	public void print () {
-		System.out.println("X: " + x + ", Y: " + y + ", Z: " + z);
-	}
-	
-	/** Scales vector so that the length is limited on x-y-plane */
+	/** Scales vector so that the length on the x-y-plane is limited */
 	public boolean limitXYLength(double length) {
 		double factor = length / Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
 		if(factor < 1.0) {
@@ -97,6 +81,11 @@ public final class Vector extends GenericVector {
 		return false;
 	}
 	
+	public void reset() {
+		x = 0.0;
+		y = 0.0;
+		z = 0.0;
+	}
 	
 	public double distance (Vector other) {
 		return Math.sqrt(Math.pow(x - other.x, 2) + Math.pow(y - other.y, 2) + Math.pow(z - other.z, 2)); 
@@ -110,5 +99,17 @@ public final class Vector extends GenericVector {
 		x = v1.y * v2.z - v1.z * v2.y;
 		y = v1.z * v2.x - v1.x * v2.z;
 		z = v1.x * v2.y - v1.y * v2.x;
+	}
+	
+	/** Returns a random vector with given length */
+	public static Vector random(double length) {
+		Vector v = new Vector(Math.random(), Math.random(), Math.random());
+		v.clamp(length, length);
+		return v;
+	}
+	
+	/** Prints out vector to System.out (for debugging) */
+	public void print () {
+		System.out.println("X: " + x + ", Y: " + y + ", Z: " + z);
 	}
 }

@@ -1,6 +1,6 @@
 package vector;
 
-
+/** Base class for vector type objects. Methods are self-explanitory */
 abstract class GenericVector {
 	
 	protected double x;

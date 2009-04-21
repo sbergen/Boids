@@ -4,6 +4,7 @@ package engine;
  * Class for storing properties.
  * Takes care of synchronization,
  * helps in saving and loading to files,
+ * has a default value,
  * makes it easy to use with scrollers...
  */
 public class Property {
