@@ -147,7 +147,7 @@ final class BoidState implements ThreadSafeBoidState {
 		double distance = Math.abs(coord);
 		double force;
 		
-		final double maxForce = 50.0; // large force
+		final double maxForce = 30.0; // large force
 		final double baseForce = 10.0; // good force to scale for avoiding walls 
 		
 		if (distance < (WALL_LIMITS - WALL_DISTANCE)) { // well inside cube

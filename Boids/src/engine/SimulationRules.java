@@ -11,7 +11,7 @@ public final class SimulationRules {
 	private static final double defaultMaxSpeed = 40.0;
 	private static final double defaultMinForce = 1.0;
 	private static final double defaultMaxForce = 60.0;
-	private static final double defaultMaxTurn = 8.0;
+	private static final double defaultMaxTurn = 2.0;
 	private static final double defaultMass = 5.0;
 	private static final double defaultSeparationFactor = 20.0;
 	private static final double defaultCohesionFactor = 0.2;
