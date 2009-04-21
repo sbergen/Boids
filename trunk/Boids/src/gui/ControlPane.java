@@ -45,7 +45,7 @@ final class ControlPane extends Widget {
 		
 		font = parent.loadFont("CourierNew36.vlw");
 		
-		labelHeight = (mainRect.height() - ITEMS * 3 * SPACING) / (ITEMS * 2);
+		labelHeight = (float)(mainRect.height() - ITEMS * 3 * SPACING) / (ITEMS * 2);
 		controlHeight = labelHeight;
 		
 		// SCrollers

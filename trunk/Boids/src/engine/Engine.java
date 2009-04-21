@@ -25,6 +25,7 @@ public final class Engine {
 	
 	/* Timer task that runs the simulation at a maximum rate */
 	private class SimulationRunner extends TimerTask {
+		@Override
 		public void run() { 
 			
 			long currentTime = System.nanoTime();

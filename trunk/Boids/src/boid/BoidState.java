@@ -50,8 +50,8 @@ final class BoidState implements ThreadSafeBoidState {
 	}
 	
 	/** Check to see if this boid follows a certain set of rules */
-	public boolean hasRules(SimulationRules rules) {
-		return (boid.rules == rules);
+	public boolean hasRules(SimulationRules rulesToCheck) {
+		return (boid.rules == rulesToCheck);
 	}
 
 	/** Calculates the next move, but does not apply it yet */

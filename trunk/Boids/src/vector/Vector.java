@@ -45,14 +45,17 @@ public final class Vector extends GenericVector {
 		return new Angle(this);
 	}
 	
+	@Override
 	public void scale(double factor) {
 		super.scale(factor);
 	}
 	
+	@Override
 	public void negate() {
 		super.negate();
 	}
 	
+	@Override
 	public void normalize() {
 		super.normalize();
 	}
@@ -81,6 +84,7 @@ public final class Vector extends GenericVector {
 		return false;
 	}
 	
+	@Override
 	public void reset() {
 		x = 0.0;
 		y = 0.0;
