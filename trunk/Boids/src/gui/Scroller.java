@@ -58,10 +58,10 @@ class Scroller extends Widget {
 		}
 		
 		parent.noFill();
-		parent.stroke(255, 100);
+		parent.stroke(DEFAULT_WHITE, DEFAULT_OPACITY);
 		parent.rect(rect.left(), rect.top(), rect.width() - 1, rect.height() - 1);
 		
-		parent.fill(100, 100);
+		parent.fill(DEFAULT_GRAY, DEFAULT_OPACITY);
 		switch (dir) {
 		  case Horizontal:
 			parent.rect(getBarStart(), rect.top() + 1, bWidth - 2, rect.height() - 3);

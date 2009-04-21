@@ -47,11 +47,11 @@ final class FileUI extends Widget {
 		}
 		
 		parent.noFill();
-		parent.stroke(255, 200);
+		parent.stroke(DEFAULT_WHITE, DEFAULT_OPACITY);
 		parent.rect(saveRect.left(), saveRect.top(), saveRect.width(), saveRect.height());
 		parent.rect(loadRect.left(), loadRect.top(), loadRect.width(), loadRect.height());
 		
-		parent.fill(255, 200);
+		parent.fill(DEFAULT_WHITE, DEFAULT_OPACITY);
 		parent.textAlign(PGraphics.CENTER, PGraphics.CENTER);
 		parent.text("Save", saveRect.left() + saveRect.width() / 2, saveRect.top() + saveRect.height() / 2);
 		parent.text("Load", loadRect.left() + loadRect.width() / 2, loadRect.top() + loadRect.height() / 2);

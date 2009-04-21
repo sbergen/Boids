@@ -96,7 +96,7 @@ final class ControlPane extends Widget {
 		// "Container"
 		
 		parent.fill(0,0);
-		parent.stroke(0, 200, 0, 100);
+		parent.stroke(0, DEFAULT_GREEN, 0, DEFAULT_OPACITY);
 		parent.rect(mainRect.left(), mainRect.top(), mainRect.width(), mainRect.height());
 		
 		/* Direct Controls */
@@ -148,18 +148,21 @@ final class ControlPane extends Widget {
 	private void drawLabel (int number, final String text) {
 		Rectangle rect = getLabelRect(number);
 		parent.textAlign(PGraphics.LEFT, PGraphics.BOTTOM);
-		parent.fill(255, 200);
+		parent.fill(DEFAULT_WHITE, DEFAULT_OPACITY);
 		parent.text(text, rect.left(), rect.bottom());
 	}
 	
 	private Rectangle getLabelRect(int n) {
 		int offset = (int) (SPACING + n * (3 * SPACING + labelHeight + controlHeight));
-		return new Rectangle(mainRect.left() + SPACING, mainRect.top() + offset, mainRect.width() - 2 * SPACING, (int) controlHeight);
+		return new Rectangle(mainRect.left() + SPACING, mainRect.top() + offset,
+				mainRect.width() - 2 * SPACING, (int) controlHeight);
 	}
 	
 	private Rectangle getControlRect(int n) {
-		int offset = (int) (2 * SPACING + labelHeight + n * (3 * SPACING + labelHeight + controlHeight));
-		return new Rectangle(mainRect.left() + SPACING, mainRect.top() + offset, mainRect.width() - 2 * SPACING, (int) controlHeight);
+		int offset = (int) (2 * SPACING + labelHeight +
+				n * (3 * SPACING + labelHeight + controlHeight));
+		return new Rectangle(mainRect.left() + SPACING, mainRect.top() + offset,
+				mainRect.width() - 2 * SPACING, (int) controlHeight);
 	}
 	
 	private void commitValues() {

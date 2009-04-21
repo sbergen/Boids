@@ -31,8 +31,8 @@ class Toggler extends Widget {
 	public void draw() {
 		float radius = (float) (Math.min(rect.width(), rect.height()) * size);
 		
-		parent.stroke(0, 200, 0);
-		parent.fill(0, selected ? 200 : 0, 0, 100);
+		parent.stroke(0, DEFAULT_GREEN, 0);
+		parent.fill(0, selected ? DEFAULT_GREEN : 0, 0, DEFAULT_OPACITY);
 		
 		parent.ellipseMode(PGraphics.CENTER);
 		parent.ellipse(rect.centerX(), rect.centerY(), radius, radius);
