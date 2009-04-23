@@ -35,7 +35,7 @@ public final class Engine {
 			long delta = currentTime - lastExecTime;
 			lastExecTime = currentTime;
 			
-			boidList.setBoidCount(rules, (int)boidCount.value());
+			boidList.setBoidCount(rules, boidCount.value().intValue());
 			boidList.updateBoidStates(delta, speed);
 		}
 	}
@@ -44,6 +44,7 @@ public final class Engine {
 	
 	public static final int BOX_SIZE = 650;
 	public static final int defaultBoidCount = 100;
+	public Property<Double> boidCount;
 	
 	public Engine () {
 		rules = new SimulationRules();
@@ -51,8 +52,8 @@ public final class Engine {
 		runner = new SimulationRunner();
 		timer = new Timer();
 		
-		boidCount = new Property("BoidCount", defaultBoidCount);
-		boidList.setBoidCount(rules, (int) boidCount.defaultValue());
+		boidCount = new Property<Double>("BoidCount", Double.valueOf(defaultBoidCount));
+		boidList.setBoidCount(rules, boidCount.defaultValue().intValue());
 	}
 	
 	public void start() {
@@ -73,8 +74,6 @@ public final class Engine {
 		speed += speedDelta;
 		speed = Math.max(speed, 0.0);
 	}
-	
-	public Property boidCount;
 	
 	public SimulationRules getRules() {
 		return rules;

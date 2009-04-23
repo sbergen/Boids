@@ -1,6 +1,6 @@
 package boid;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 import engine.SimulationRules;
 
@@ -65,7 +65,7 @@ final class BoidState implements ThreadSafeBoidState {
 		Vector cohesion = new Vector();
 		Vector alignment = new Vector();
 		
-		ArrayList<ThreadSafeBoidState> neighbours = 
+		LinkedList<ThreadSafeBoidState> neighbours = 
 			list.getBoidsWithinRange(state.position, rules.perceptionRange.value());
 		
 		// If the boid has no neighbors (except itself, only apply wall force)

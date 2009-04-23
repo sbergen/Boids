@@ -18,7 +18,7 @@ public final class PropertyFile {
 	
 	// Data
 	
-	private static final String DELIMITER = ";";
+	private static final String DELIMITER = ",";
 	HashMap<String, String> dataMap;
 	
 	/* Public stuff */

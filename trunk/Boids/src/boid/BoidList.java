@@ -1,6 +1,6 @@
 package boid;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Iterator;
 import java.util.HashMap;
 import java.util.Set;
@@ -23,15 +23,15 @@ public final class BoidList implements ThreadSafeBoidList {
 	 * are synchronized once per simulation cycle. 
 	 */
 	
-	private ArrayList<BoidState> list;
+	private LinkedList<BoidState> list;
 	private HashMap<SimulationRules, BoidModel> models;
 	private HashMap<SimulationRules, Integer> boidCounts;
 	private HashMap<SimulationRules, Integer> requestedBoidCounts; 
 	
 	/* Package methods (default visibility) */
 	
-	public ArrayList<ThreadSafeBoidState> getBoidsWithinRange(Vector position, double range) {
-		ArrayList<ThreadSafeBoidState> neighbours = new ArrayList<ThreadSafeBoidState>();
+	public LinkedList<ThreadSafeBoidState> getBoidsWithinRange(Vector position, double range) {
+		LinkedList<ThreadSafeBoidState> neighbours = new LinkedList<ThreadSafeBoidState>();
 		
 		for (ThreadSafeBoidState boid : list) {
 			if (position.distance(boid.getPosition()) <= range) {
@@ -45,7 +45,7 @@ public final class BoidList implements ThreadSafeBoidList {
 	/* Public methods */
 	
 	public BoidList() {
-		list = new ArrayList<BoidState>();
+		list = new LinkedList<BoidState>();
 		models = new HashMap<SimulationRules, BoidModel>();
 		boidCounts = new HashMap<SimulationRules, Integer>();
 		requestedBoidCounts = new HashMap<SimulationRules, Integer>();		
