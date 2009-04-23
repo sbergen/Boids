@@ -7,23 +7,23 @@ package engine;
  * has a default value,
  * makes it easy to use with scrollers...
  */
-public class Property {
+public class Property<T> {
 	
 	private final String identifier;
-	private final double defaultValue;
-	private double value;
+	private final T defaultValue;
+	private T value;
 	
-	public Property(String identifier, double defaultValue) {
+	public Property(String identifier, T defaultValue) {
 		this.defaultValue = defaultValue;
 		this.identifier = identifier;
 		value = defaultValue;
 	}
 	
-	public synchronized double value() {
+	public synchronized T value() {
 		return value;
 	}
 	
-	public synchronized void setValue(double value) {
+	public synchronized void setValue(T value) {
 		this.value = value;
 	}
 	
@@ -31,7 +31,7 @@ public class Property {
 		return identifier;
 	}
 	
-	public double defaultValue() {
+	public T defaultValue() {
 		return defaultValue;
 	}
 	

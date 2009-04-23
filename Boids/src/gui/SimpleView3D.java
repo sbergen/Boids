@@ -12,7 +12,7 @@ final class SimpleView3D extends View3D {
 		
 		final int xOffset = 10;
 		final int yOffset = 5;
-		final float zOffset =(float) 0.1;
+		final float zOffset =(float) -0.1;
 		
 		fill(255);
 		beginShape(TRIANGLES);

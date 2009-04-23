@@ -6,7 +6,7 @@ import java.util.LinkedList;
 /** Simulation rules for boids to follow */
 public final class SimulationRules {
 	
-	private LinkedList<Property> properties;
+	private LinkedList<Property<Double>> properties;
 	
 	private static final double defaultMinSpeed = 10.0;
 	private static final double defaultMaxSpeed = 40.0;
@@ -20,46 +20,46 @@ public final class SimulationRules {
 	private static final double defaultPerceptionRange = 150.0;
 	
 	// Maximum and minimum speed (m/s)
-	public Property minSpeed;
-	public Property maxSpeed;
+	public Property<Double> minSpeed;
+	public Property<Double> maxSpeed;
 	
 	// Maximum and minimum force (N)
-	public Property minForce;
-	public Property maxForce;
+	public Property<Double> minForce;
+	public Property<Double> maxForce;
 	
 	// Maximum turn force (N, excluding forward/back force)
-	public Property maxTurn;
+	public Property<Double> maxTurn;
 	
 	// Mass (kg)
-	public Property mass;
+	public Property<Double> mass;
 	
 	// Simulation parameters
-	public Property separationFactor;
-	public Property cohesionFactor;
-	public Property alignmentFactor;
+	public Property<Double> separationFactor;
+	public Property<Double> cohesionFactor;
+	public Property<Double> alignmentFactor;
 	
-	public Property perceptionRange;
+	public Property<Double> perceptionRange;
 	
 	public SimulationRules() {
-		properties = new LinkedList<Property>();
-		properties.add(minSpeed = new Property("minSpeed", defaultMinSpeed));
-		properties.add(maxSpeed = new Property("maxSpeed", defaultMaxSpeed));
-		properties.add(minForce = new Property("minForce", defaultMinForce));
-		properties.add(maxForce = new Property("maxForce", defaultMaxForce));
-		properties.add(maxTurn = new Property("maxTurn", defaultMaxTurn));
-		properties.add(mass = new Property("mass", defaultMass));
-		properties.add(separationFactor = new Property("separationFactor", defaultSeparationFactor));
-		properties.add(cohesionFactor = new Property("cohesionFactor", defaultCohesionFactor));
-		properties.add(alignmentFactor = new Property("alignmentFactor", defaultAlignmentFactor));
-		properties.add(perceptionRange = new Property("perceptionRange", defaultPerceptionRange));
+		properties = new LinkedList<Property<Double>>();
+		properties.add(minSpeed = new Property<Double>("minSpeed", defaultMinSpeed));
+		properties.add(maxSpeed = new Property<Double>("maxSpeed", defaultMaxSpeed));
+		properties.add(minForce = new Property<Double>("minForce", defaultMinForce));
+		properties.add(maxForce = new Property<Double>("maxForce", defaultMaxForce));
+		properties.add(maxTurn = new Property<Double>("maxTurn", defaultMaxTurn));
+		properties.add(mass = new Property<Double>("mass", defaultMass));
+		properties.add(separationFactor = new Property<Double>("separationFactor", defaultSeparationFactor));
+		properties.add(cohesionFactor = new Property<Double>("cohesionFactor", defaultCohesionFactor));
+		properties.add(alignmentFactor = new Property<Double>("alignmentFactor", defaultAlignmentFactor));
+		properties.add(perceptionRange = new Property<Double>("perceptionRange", defaultPerceptionRange));
 	}
 	
 	public boolean saveToFile(String filename) {
 		PropertyFile file = new PropertyFile();
 		
-		for (Property p : properties) {
+		for (Property<Double> p : properties) {
 			try {
-				file.addData(p.identifier(), Double.toString(p.value()));
+				file.addData(p.identifier(), p.value().toString());
 			} catch (PropertyFile.InvalidDataException e) {
 				throw new Error("Programming error: Invalid identifier in SimulationRules property");
 			}
@@ -82,7 +82,7 @@ public final class SimulationRules {
 			return false;
 		}
 		
-		for (Property p : properties) {
+		for (Property<Double> p : properties) {
 			try {
 				p.setValue(Double.parseDouble(file.getData(p.identifier())));
 			} catch (PropertyFile.NotFoundException e) {
