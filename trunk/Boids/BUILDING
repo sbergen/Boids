@@ -1,0 +1,15 @@
+To build the Boids application you need need the
+Processing (http://processing.org) 'core.jar' library
+in your classpath.
+
+You will also need to add the 'data' directory to
+your classpath (or copy the font file to your 
+build directory) to run the application.
+
+Processing is destributed under the LGPL and
+I was lazy, so I did not include the library
+(and source code) in svn.
+
+
+2009-05-16
+-Sakari Bergen-
